@@ -72,13 +72,13 @@
     "student": "Bhavin",
     "subject": "Maths",
     "status": [
-     "none",
+     "have",
      "have",
      "have",
      "need",
      "need"
     ],
-    "note": "No assessment topic list. Send the topic list or scheme of work for this term."
+    "note": "Year 8 Maths Revision List 2026-27 (topics and Sparx codes for Autumn, Spring and Summer). Autumn, Spring and Summer decks built from it. Send the answer PDF to use for mock questions."
    },
    {
     "student": "Bhavin",
@@ -295,6 +295,8 @@
    "file": "decks/bhavin-y8-spanish-aut2.json",
    "deck_id": "bhavin-y8-spanish-aut2",
    "date": "2026-11-30",
+   "n_cards": 18,
+   "level": "",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -355,6 +357,8 @@
    "file": "decks/bhavin-y8-english-aut2.json",
    "deck_id": "bhavin-y8-english-aut2",
    "date": "2026-11-30",
+   "n_cards": 18,
+   "level": "",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -412,29 +416,31 @@
    "subject": "Maths",
    "term": "Autumn 2",
    "year": "Year 8",
-   "file": "decks/bhavin-y8-maths-aut2.json",
-   "deck_id": "bhavin-y8-maths-aut2",
+   "file": "decks/bhavin-y8-maths-aut2b.json",
+   "deck_id": "bhavin-y8-maths-aut2b",
    "date": "2026-12-01",
+   "n_cards": 14,
+   "level": "",
    "pdfs": [
     {
      "label": "Long flashcards",
      "key": "flashcards",
-     "path": "files/Bhavin_Year8_Maths_Long_Flashcards.pdf",
-     "url": "https://drive.google.com/file/d/1XKYrVNAbXyzukA64VScY14CuND5FDS0y/view",
-     "about": "19 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Sheet 1 is instructions and the plan."
+     "path": "files/Bhavin_Year8_Maths_Autumn2_Long_Flashcards.pdf",
+     "url": null,
+     "about": "14 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Sheet 1 is instructions and the plan."
     },
     {
      "label": "Quick cards",
      "key": "quick",
-     "path": "files/Bhavin_Year8_Maths_Quick_Cards.pdf",
-     "url": "https://drive.google.com/file/d/1MbQPdp2EYpp83ddY2TsjMBSvW4j4I6EM/view",
-     "about": "52 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards."
+     "path": "files/Bhavin_Year8_Maths_Autumn2_Quick_Cards.pdf",
+     "url": null,
+     "about": "50 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards."
     },
     {
      "label": "Revision guide",
      "key": "guide",
-     "path": "files/Bhavin_Year8_Maths_Revision_Guide.pdf",
-     "url": "https://drive.google.com/file/d/1ehCYqelDgvldSkmC351Iyfu-FZ5cDQ0y/view",
+     "path": "files/Bhavin_Year8_Maths_Autumn2_Revision_Guide.pdf",
+     "url": null,
      "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back. Single or double-sided both work."
     }
    ]
@@ -444,28 +450,82 @@
    "subject": "Maths",
    "term": "Spring 1",
    "year": "Year 8",
-   "note": "Coming later. Ark curriculum: Unit 7 Inequalities; Unit 8 Angles in polygons."
+   "note": "Spring 1 topics (equations, straight line graphs, inequalities, shapes and angles in polygons) are in the Spring 2 deck. A Spring 1 test covers only these units."
   },
   {
    "student": "Bhavin",
    "subject": "Maths",
    "term": "Spring 2",
    "year": "Year 8",
-   "note": "Coming later. Ark curriculum: Unit 9 Proportion and real-life graphs; Unit 10 Area and perimeter."
+   "file": "decks/bhavin-y8-maths-spr.json",
+   "deck_id": "bhavin-y8-maths-spr",
+   "date": null,
+   "n_cards": 14,
+   "level": "",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Bhavin_Year8_Maths_Spring2_Long_Flashcards.pdf",
+     "url": null,
+     "about": "14 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Sheet 1 is instructions and the plan."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Bhavin_Year8_Maths_Spring2_Quick_Cards.pdf",
+     "url": null,
+     "about": "41 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Bhavin_Year8_Maths_Spring2_Revision_Guide.pdf",
+     "url": null,
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back. Single or double-sided both work."
+    }
+   ]
   },
   {
    "student": "Bhavin",
    "subject": "Maths",
    "term": "Summer 1",
    "year": "Year 8",
-   "note": "Coming later. Ark curriculum: Unit 11 Circles; Unit 12 Volume and surface area of prisms."
+   "note": "Summer topics (perimeter and area, circles, volume and surface area) are in the Summer 2 deck. A Summer 1 test covers only the units taught this half term."
   },
   {
    "student": "Bhavin",
    "subject": "Maths",
    "term": "Summer 2",
    "year": "Year 8",
-   "note": "Coming later. Ark curriculum: Unit 13 Univariate data; Unit 14 Bivariate data."
+   "file": "decks/bhavin-y8-maths-sum.json",
+   "deck_id": "bhavin-y8-maths-sum",
+   "date": null,
+   "n_cards": 13,
+   "level": "",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Bhavin_Year8_Maths_Summer2_Long_Flashcards.pdf",
+     "url": null,
+     "about": "13 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Sheet 1 is instructions and the plan."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Bhavin_Year8_Maths_Summer2_Quick_Cards.pdf",
+     "url": null,
+     "about": "33 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Bhavin_Year8_Maths_Summer2_Revision_Guide.pdf",
+     "url": null,
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back. Single or double-sided both work."
+    }
+   ]
   },
   {
    "student": "Bhavin",
@@ -475,6 +535,8 @@
    "file": "decks/bhavin-y8-science-aut2-2026.json",
    "deck_id": "bhavin-y8-science-aut2-2026",
    "date": "2026-12-03",
+   "n_cards": 60,
+   "level": "",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -535,6 +597,8 @@
    "file": "decks/bhavin-y8-re-aut2.json",
    "deck_id": "bhavin-y8-re-aut2",
    "date": "2026-11-30",
+   "n_cards": 14,
+   "level": "",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -595,6 +659,8 @@
    "file": "decks/bhavin-y8-history-aut2.json",
    "deck_id": "bhavin-y8-history-aut2",
    "date": "2026-11-30",
+   "n_cards": 16,
+   "level": "",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -655,6 +721,8 @@
    "file": "decks/bhavin-y8-geography-aut2.json",
    "deck_id": "bhavin-y8-geography-aut2",
    "date": "2026-11-30",
+   "n_cards": 15,
+   "level": "",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -715,6 +783,8 @@
    "file": "decks/bhavin-y8-cs-aut2.json",
    "deck_id": "bhavin-y8-cs-aut2",
    "date": "2026-11-30",
+   "n_cards": 13,
+   "level": "",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -775,6 +845,8 @@
    "file": "decks/bhavin-y8-music-aut2.json",
    "deck_id": "bhavin-y8-music-aut2",
    "date": "2026-11-30",
+   "n_cards": 12,
+   "level": "",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -835,6 +907,8 @@
    "file": "decks/bhavin-y8-artdt-aut2.json",
    "deck_id": "bhavin-y8-artdt-aut2",
    "date": "2026-11-30",
+   "n_cards": 15,
+   "level": "",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -895,6 +969,8 @@
    "file": "decks/bhavin-y8-vocab-aut2.json",
    "deck_id": "bhavin-y8-vocab-aut2",
    "date": null,
+   "n_cards": 48,
+   "level": "",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -927,6 +1003,8 @@
    "file": "decks/jaimin-y10-biology-aut2.json",
    "deck_id": "jaimin-y10-biology-aut2",
    "date": "2026-12-03",
+   "n_cards": 50,
+   "level": "gcse",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -959,6 +1037,8 @@
    "file": "decks/jaimin-y10-chemistry-aut2.json",
    "deck_id": "jaimin-y10-chemistry-aut2",
    "date": "2026-12-03",
+   "n_cards": 28,
+   "level": "gcse",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -991,6 +1071,8 @@
    "file": "decks/jaimin-y10-physics-aut2.json",
    "deck_id": "jaimin-y10-physics-aut2",
    "date": "2026-12-03",
+   "n_cards": 33,
+   "level": "gcse",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -1086,6 +1168,8 @@
    "file": "decks/jaimin-y10-english-aut2.json",
    "deck_id": "jaimin-y10-english-aut2",
    "date": "2026-11-30",
+   "n_cards": 22,
+   "level": "gcse",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -1139,6 +1223,8 @@
    "file": "decks/jaimin-y10-maths-aut2.json",
    "deck_id": "jaimin-y10-maths-aut2",
    "date": "2026-11-30",
+   "n_cards": 25,
+   "level": "gcse",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -1185,6 +1271,8 @@
    "file": "decks/jaimin-y10-addmaths-aut2.json",
    "deck_id": "jaimin-y10-addmaths-aut2",
    "date": null,
+   "n_cards": 16,
+   "level": "gcse",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -1217,6 +1305,8 @@
    "file": "decks/jaimin-y10-re-aut2.json",
    "deck_id": "jaimin-y10-re-aut2",
    "date": "2026-11-30",
+   "n_cards": 22,
+   "level": "gcse",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -1277,6 +1367,8 @@
    "file": "decks/jaimin-y10-spanish-aut2.json",
    "deck_id": "jaimin-y10-spanish-aut2",
    "date": "2026-11-30",
+   "n_cards": 21,
+   "level": "gcse",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -1337,6 +1429,8 @@
    "file": "decks/jaimin-y10-geography-aut2.json",
    "deck_id": "jaimin-y10-geography-aut2",
    "date": "2026-12-01",
+   "n_cards": 25,
+   "level": "gcse",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -1397,6 +1491,8 @@
    "file": "decks/jaimin-y10-dt-aut2.json",
    "deck_id": "jaimin-y10-dt-aut2",
    "date": "2026-12-02",
+   "n_cards": 23,
+   "level": "gcse",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -1443,6 +1539,8 @@
    "file": "decks/jaimin-y10-business-aut2.json",
    "deck_id": "jaimin-y10-business-aut2",
    "date": "2026-12-04",
+   "n_cards": 17,
+   "level": "gcse",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -1503,6 +1601,8 @@
    "file": "decks/jaimin-y10-vocab-aut2.json",
    "deck_id": "jaimin-y10-vocab-aut2",
    "date": null,
+   "n_cards": 48,
+   "level": "gcse",
    "pdfs": [
     {
      "label": "Long flashcards",

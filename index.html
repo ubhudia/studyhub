@@ -159,17 +159,44 @@ nav a[aria-current=page]{background:var(--board);color:#fff}
 .chk .ck-need{border-color:#d97706;background:light-dark(#fff4e0,#3a2a10)}
 .chk .ck-none{opacity:.6}
 @media(max-width:700px){nav .wrap{mask-image:linear-gradient(90deg,#000 85%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);padding-right:40px}.steps{grid-template-columns:minmax(0,1fr)}.step{flex-direction:row;flex-wrap:wrap;align-items:center}.step>div{flex:1}}
+.dashx{display:none}
+body.dash .dashx{display:block}
+body.dash header.band,body.dash nav,body.dash #work,body.dash .topbar label{display:none}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:18px;margin:18px 0}
+.dcol{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;border-top:8px solid var(--dc)}
+.dcol h2{margin:.1em 0 .3em;color:var(--dc)}
+.dtot{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin:10px 0}
+.dtot div{background:var(--bg);border-radius:10px;padding:8px 10px}
+.dtot b{display:block;font:700 22px Lexend,sans-serif}
+.dtot span{font-size:13px;color:var(--mute)}
+.dtests{margin:6px 0 10px;padding-left:18px}
+.dtbl{width:100%;border-collapse:collapse;font-size:15px}
+.dtbl th,.dtbl td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line)}
+.dtbl td.n,.dtbl th.n{text-align:right;white-space:nowrap}
+.dtbl tr.go{cursor:pointer}
+.dtbl tr.go:hover td{background:var(--bg)}
+.dtbl a{color:inherit;font-weight:700}
+.bar{height:6px;border-radius:3px;background:var(--line);margin-top:3px}
+.bar i{display:block;height:100%;border-radius:3px;background:var(--dc)}
+#homeBtn{font-weight:700}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.tbl td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
 <body>
 <div class="topbar"><div class="wrap">
+  <button type="button" id="homeBtn">Dashboard</button>
   <label>Student <select id="studentSel"></select></label>
   <label>Subject <select id="subjectSel"></select></label>
   <label>Term <select id="termSel"></select></label>
   <span class="sp"></span>
   <a href="#checklist" class="small" id="ghStatus" style="color:inherit;opacity:.85;text-decoration:none"></a>
 </div></div>
+
+<section class="dashx band" id="dash"><div class="wrap">
+  <h1 style="margin:.4em 0 0">Study Hub dashboard</h1>
+  <p class="small" id="dashMsg">Progress for both students. Tap a subject to open it.</p>
+  <div class="dgrid" id="dashArea"></div>
+</div></section>
 
 <header class="band"><div class="wrap">
   <h1 id="title">Loading</h1>
@@ -191,7 +218,7 @@ nav a[aria-current=page]{background:var(--board);color:#fff}
   <a href="#cards">Flashcards</a><a href="#quiz">Quiz</a><a href="#mock">Mock test</a><a href="#written">Written practice</a><a href="#guide">Revision guide</a><a href="#print">Print</a><a href="#progress">Progress</a><a href="#checklist">Checklist</a>
 </div></nav>
 
-<main class="band"><div class="wrap">
+<main class="band" id="work"><div class="wrap">
 <section id="v-cards"><div class="panel" id="cardArea"></div><div class="panel" id="vocabArea" hidden></div></section>
 <section id="v-quiz" hidden><div class="panel" id="quizArea"></div></section>
 <section id="v-mock" hidden><div class="panel" id="mockArea"></div></section>
@@ -341,8 +368,8 @@ function ghPanel() {
   $('#ghState').innerHTML = on && GH.bad
     ? '<p><b>The sync key was not accepted.</b> It may have expired or been replaced. Your progress is still saved on this device. Ask for a new setup link and open it here; nothing is lost.</p>'
     : on
-    ? '<p><b>Sync is on for this device.</b> Progress saves a few seconds after each answer and loads when the hub opens, so you can carry on on any synced device.</p><p><b>To add another phone, tablet or laptop:</b> tap Copy setup link, send it to that device (for example by WhatsApp) and open it there once. Keep the link private.</p>'
-    : '<p><b>Sync is off on this device.</b> To turn it on, open the setup link once on this device. Ask for it by WhatsApp. After that it works by itself.</p>';
+    ? '<p><b>Sync is on for this device.</b> Progress saves a few seconds after each answer and loads when the hub opens, so you can carry on on any synced device.</p><p><b>To add another phone, tablet or laptop:</b> tap Copy setup link, send it to that device (for example by WhatsApp) and open it there once. On Android, press and hold the link, then choose Open in Chrome. Nothing else is needed: no GitHub page or sign in. Keep the link private.</p>'
+    : '<p><b>Sync is off on this device.</b> To turn it on, open the setup link once on this device. Ask for it by WhatsApp, then press and hold the link and choose Open in Chrome. After that it works by itself.</p>';
 }
 
 
@@ -379,6 +406,7 @@ async function boot() {
   $('#subjectSel').onchange = () => { fillTerms(); pick(); };
   $('#termSel').onchange = pick;
   await pick();
+  if (!location.hash || location.hash === '#home') showDash();
   if (GH.fresh && ghOn()) { ghShow('Sync turned on'); for (const st of [...new Set(INDEX.decks.map(d => d.student))]) await ghPush(st); }
 }
 function dueFor(d) {
@@ -393,13 +421,12 @@ function subjectInfo(st) {
     const dates = live.map(d => d.date).filter(x => x && x >= t).sort();
     const counts = live.map(dueFor), started = counts.some(n => n !== null);
     return {s, live: live.length > 0, date: dates[0] || null, due: counts.reduce((a, n) => a + (n || 0), 0), started};
-  }).sort((a, b) => (b.live - a.live) || (a.date ? (b.date ? a.date.localeCompare(b.date) : -1) : (b.date ? 1 : 0)) || a.s.localeCompare(b.s));
+  }).sort((a, b) => a.s.localeCompare(b.s));
 }
 const urgent = st => { const info = subjectInfo(st).filter(x => x.live); return (info.filter(x => x.due).sort((a, b) => b.due - a.due)[0] || info[0] || {}).s; };
 function subjectLabel(x) {
   if (!x.live) return x.s + ' (coming soon)';
-  const when = x.date ? new Date(x.date + 'T09:00').toLocaleDateString('en-GB', {day: 'numeric', month: 'short'}) : '';
-  return x.s + (x.due ? ' · ' + x.due + ' due' : !x.started ? ' · new' : '') + (when ? ' · ' + when : '');
+  return x.s + (x.due ? ' · ' + x.due + ' due' : !x.started ? ' · new' : '');
 }
 function subjectLabels() {
   const st = $('#studentSel').value;
@@ -421,7 +448,7 @@ async function pick() {
   store.set('hub-last', {student: entry.student, subject: entry.subject, term: entry.term, day: today()});
   todayRun = null; document.querySelector('header').classList.remove('more');
   if (!entry.file) { comingSoon(entry); return; }
-  document.body.classList.remove('empty'); document.body.dataset.student = entry.student;
+  document.body.classList.remove('empty'); if (!document.body.classList.contains('dash')) document.body.dataset.student = entry.student;
   D = await (await fetch(entry.file)).json();
   D.entry = entry;
   D.cards.forEach((c, i) => c.id = i);
@@ -547,7 +574,7 @@ function cardIntro() {
     else startSession(shuffle(D.mcq.filter(q => u.includes(q.u))).map(q => ({quick: true, unit: q.u, q})), 'practise');
   };
 }
-const needsOpts = q => /which of these|which statement|which one|\bNOT\b|which of the following/i.test(q.q);
+const needsOpts = q => /which of these|which statement|which one|\bNOT\b|which of the following|^which (is|are)\b|which (sentence|sequence|expression|equation|number|value|word|fraction|graph|shape|line|pair|set|list|example)\b/i.test(q.q);
 function cardHTML(c, back) {
   if (c.term) {
     const v = c.v;
@@ -839,10 +866,61 @@ $('#resetYes').onclick = () => {
 
 function renderAll(keepView) { clearInterval(timerId); drawHeader(); cardIntro(); quizIntro(); mockIntro(); drawWritten(); vocabIntro(); drawGuide(); drawDownloads(); drawTopics(); drawStats(); drawPlan(); drawChecklist(); }
 
+/* ---------- dashboard (landing page, both students) */
+const COLS = {Bhavin: '#1d4ed8', Jaimin: '#15803d'};
+function deckSummary(d) {
+  const v = store.get('leitner-' + d.deck_id); const r = {total: d.n_cards || 0, learnt: 0, learning: 0, due: 0, right: 0, answered: 0};
+  if (!v || v.reset) return r;
+  const iv = INTERVALS[v.sched] || INTERVALS.short;
+  Object.entries(v.boxes || {}).forEach(([id, b]) => { if (b >= 5) r.learnt++; else if (b > 0) r.learning++; if (b > 0 && daysSince((v.seen || {})[id]) >= iv[b]) r.due++; });
+  Object.values(v.stats || {}).forEach(([a, b]) => { r.right += a; r.answered += b; });
+  return r;
+}
+const fmtDate = x => new Date(x + 'T09:00').toLocaleDateString('en-GB', {weekday: 'short', day: 'numeric', month: 'short'});
+function drawDash() {
+  const t = today(), students = [...new Set(INDEX.decks.map(d => d.student))];
+  $('#dashArea').innerHTML = students.map(st => {
+    const live = INDEX.decks.filter(d => d.student === st && d.file);
+    const subs = [...new Set(live.map(d => d.subject))].sort((a, b) => a.localeCompare(b)).map(s => {
+      const ds = live.filter(d => d.subject === s);
+      const next = ds.filter(d => d.date && d.date >= t).sort((a, b) => a.date.localeCompare(b.date))[0];
+      const cur = next || ds.find(d => store.get('leitner-' + d.deck_id)) || ds[0], x = deckSummary(cur);
+      return Object.assign({s, next, term: cur.term}, x);
+    });
+    const T = k => subs.reduce((a, x) => a + x[k], 0), pc = T('answered') ? Math.round(100 * T('right') / T('answered')) + '%' : 'none yet';
+    const tests = subs.filter(x => x.next).sort((a, b) => a.next.date.localeCompare(b.next.date)).slice(0, 5);
+    const days = x => { const n = Math.round((Date.parse(x) - Date.parse(t)) / 864e5); return n === 0 ? 'today' : n === 1 ? 'tomorrow' : 'in ' + n + ' days'; };
+    return `<div class="dcol" style="--dc:${COLS[st] || 'var(--board)'}"><h2>${esc(st)}</h2>
+      <div class="dtot"><div><b>${streakCount(st)}</b><span>day streak</span></div><div><b>${T('due')}</b><span>cards due today</span></div><div><b>${T('learnt')} / ${T('total')}</b><span>cards learnt (Box 5)</span></div><div><b>${T('right')} / ${T('answered')}</b><span>quiz answers right (${pc})</span></div></div>
+      <h3 style="margin:.6em 0 .2em">Next tests</h3>${tests.length ? `<ul class="dtests">${tests.map(x => `<li><b>${esc(x.s)}</b>: ${fmtDate(x.next.date)} (${days(x.next.date)})</li>`).join('')}</ul>` : '<p class="small">No test dates set.</p>'}
+      <table class="dtbl"><thead><tr><th>Subject</th><th>Next test</th><th class="n">Learnt</th><th class="n">Due</th><th class="n">Quiz right</th></tr></thead><tbody>${subs.map(x => `<tr class="go" data-st="${esc(st)}" data-s="${esc(x.s)}" data-t="${esc(x.term)}"><td><a href="#cards">${esc(x.s)}</a><div class="bar"><i style="width:${x.total ? Math.round(100 * x.learnt / x.total) : 0}%"></i></div></td><td>${x.next ? fmtDate(x.next.date) : ''}</td><td class="n">${x.learnt} / ${x.total}</td><td class="n">${x.due || ''}</td><td class="n">${x.answered ? Math.round(100 * x.right / x.answered) + '%' : ''}</td></tr>`).join('')}</tbody></table></div>`;
+  }).join('');
+  document.querySelectorAll('#dashArea tr.go').forEach(tr => tr.onclick = async e => {
+    e.preventDefault();
+    $('#studentSel').value = tr.dataset.st; fillSubjects(tr.dataset.s); fillTerms(tr.dataset.t);
+    location.hash = 'cards'; await pick();
+  });
+}
+async function showDash() {
+  document.body.classList.add('dash'); document.body.dataset.student = '';
+  if (!INDEX) return;
+  drawDash();
+  if (ghOn()) {
+    $('#dashMsg').textContent = 'Checking for progress from other devices...';
+    for (const st of [...new Set(INDEX.decks.map(d => d.student))]) await ghPull(st);
+    $('#dashMsg').textContent = 'Progress for both students, synced. Tap a subject to open it.';
+    drawDash();
+  } else $('#dashMsg').textContent = 'Progress saved on this device. Turn on sync (Checklist tab) to see progress from every device. Tap a subject to open it.';
+}
+$('#homeBtn').onclick = () => { location.hash = 'home'; };
+
 /* ---------- routing */
 const views = ['cards', 'quiz', 'mock', 'written', 'guide', 'print', 'progress', 'checklist'];
 function route() {
-  const v = views.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'cards';
+  const h = location.hash.slice(1);
+  if (h === '' || h === 'home') { showDash(); return; }
+  document.body.classList.remove('dash'); if (D && D.entry) document.body.dataset.student = D.entry.student;
+  const v = views.includes(h) ? h : 'cards';
   views.forEach(x => $('#v-' + x).hidden = x !== v);
   if (v === 'progress' && D) { drawStats(); drawPlan(); }
   if (v === 'checklist') drawChecklist();
