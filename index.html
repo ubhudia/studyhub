@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revision hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Lexend:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: friendly, clear, for a 12 to 16 year old revising; no clutter.
+   IDEA: a Leitner card box on a desk: five slots of cards you move forward.
+   PICTURE: the five boxes drawn as card stacks with live counts and how often each is tested.
+   COLOUR and TYPE: chalkboard green band, white cards; biology green, chemistry purple, physics blue; Lexend titles, Atkinson Hyperlegible body.
+   LAYOUT: subject and term bar, board band with boxes and the two daily steps, tabs, one column of work. */
+:root{color-scheme:light dark;--bg:light-dark(#f4f6f2,#111613);--card:light-dark(#ffffff,#1b221d);--ink:light-dark(#18201b,#e9efe9);--mute:light-dark(#5b665e,#a3ada5);--line:light-dark(#d7ddd6,#2e3a31);--board:light-dark(#1f4d3a,#163828);--B:#2e7d32;--C:#7b2fa8;--P:#1565c0;--S:#b45309;--ok:#1f8a4c;--bad:#c62828;--acc:#f5b400}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 "Atkinson Hyperlegible",system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3,h4{font-family:Lexend,system-ui,sans-serif;line-height:1.15;text-wrap:balance;margin:0 0 .4em}
+h1{font-size:clamp(28px,4.4vw,42px)}h2{font-size:24px}h3{font-size:19px}h4{font-size:17px;margin-top:1em}
+.band{padding:clamp(20px,4vw,44px) max(5vw,16px)}
+.wrap{max-width:1000px;margin:0 auto}
+.topbar{background:light-dark(#163a2b,#0d241a);color:#fff;padding:10px max(5vw,16px)}
+.topbar .wrap{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+.topbar label{font:700 14px Lexend,sans-serif;color:#cfe1d5;display:flex;gap:8px;align-items:center}
+.topbar select{font:16px "Atkinson Hyperlegible",sans-serif;min-height:40px;border-radius:8px;border:1px solid rgba(255,255,255,.35);background:#0f2d20;color:#fff;padding:4px 8px}
+.topbar .sp{flex:1}
+.topbar button{min-height:40px;padding:6px 14px;font-size:14px;background:transparent;color:#fff;border-color:rgba(255,255,255,.4)}
+.confirm{display:none;gap:8px;align-items:center;flex-wrap:wrap;font-size:14px}
+.confirm.on{display:flex}
+.confirm button.danger{background:#c62828;border-color:#c62828}
+header.band{background:var(--board);color:#fff}
+header p{margin:.2em 0;color:#d9e8de}
+.boxes{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:20px 0 4px}
+.slot{height:124px;border-radius:10px;background:rgba(0,0,0,.25);display:grid;grid-template-rows:auto 1fr auto auto;justify-items:center;padding:6px 0 8px;text-align:center}
+.slot.due{outline:3px solid var(--acc)}
+.slot .well{width:72%;display:flex;align-items:flex-end;margin-bottom:6px}
+.slot .stack{width:100%;border-radius:4px;background:#fff;box-shadow:0 -3px 0 #e6e6e6,0 -6px 0 #cfcfcf;transition:height .4s}
+.slot b{font:700 15px Lexend,sans-serif}
+.slot small{font-size:12px;color:#cfe1d5;line-height:1.2}
+.slot .n{font:700 22px Lexend,sans-serif;color:#fff;line-height:1.1}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
+.step{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.step .num{font:700 13px Lexend,sans-serif;color:var(--acc)}
+.step p{margin:0;font-size:15px;color:#e3efe7}
+.step button{margin-top:auto}
+.rule{font-size:15px;color:#e3efe7}
+body.empty .boxes,body.empty .rule,body.empty .steps,body.empty nav{display:none}
+.guide h2,.guide h3{scroll-margin-top:64px}
+.rule b{color:#fff}
+button{font:700 16px Lexend,system-ui,sans-serif;min-height:44px;padding:10px 18px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
+button:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+button.main{background:var(--acc);border-color:var(--acc);color:#1b1b1b}
+header button{border-color:rgba(255,255,255,.4);background:transparent;color:#fff}
+header button.main{background:var(--acc);color:#1b1b1b;border-color:var(--acc)}
+nav{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:2px;overflow-x:auto;padding:0 max(5vw,16px)}
+nav a{flex:none;padding:14px 12px;color:var(--mute);text-decoration:none;font:700 15px Lexend,sans-serif;border-bottom:4px solid transparent}
+nav a[aria-current=page]{color:var(--ink);border-color:var(--acc)}
+section[hidden]{display:none}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:clamp(16px,3vw,28px);margin-bottom:18px}
+.unitgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin:12px 0}
+.unitgrid label{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:15px;cursor:pointer}
+.unitgrid input{width:20px;height:20px}
+.tag{display:inline-block;font:700 13px Lexend,sans-serif;padding:2px 9px;border-radius:99px;color:#fff;white-space:nowrap}
+.fc{min-height:300px;border-radius:16px;border:1px solid var(--line);background:var(--card);padding:24px;display:flex;flex-direction:column;justify-content:center;border-top:8px solid var(--c,var(--B))}
+.fc .q{font-size:20px;font-style:italic;text-align:center}
+.fc h3{text-align:center;font-size:24px}
+.fc ul{padding-left:1.2em;margin:.4em 0}
+.ex{background:light-dark(#f4f4f4,#252b27);border-radius:8px;padding:10px 12px;margin:10px 0;font-size:16px}
+.wo{border:2px solid var(--c,var(--B));border-radius:8px;padding:10px 12px;margin-top:10px;font-size:16px}
+.small{font-size:14px;color:var(--mute)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
+.opt{display:block;width:100%;text-align:left;margin:8px 0;font:400 17px "Atkinson Hyperlegible",sans-serif}
+.opt.right{border-color:var(--ok);background:light-dark(#e6f4ea,#173222)}
+.opt.wrong{border-color:var(--bad);background:light-dark(#fdeaea,#3a1a1a)}
+.bar{height:10px;background:var(--line);border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:var(--acc)}
+table{border-collapse:collapse;width:100%}td,th{padding:8px;border-bottom:1px solid var(--line);text-align:left;font-size:15px;vertical-align:top}td.num,th.num{text-align:right;white-space:nowrap}
+tr.today td{background:light-dark(#fff6d6,#2e2a14)}
+.meter{display:inline-block;width:90px;height:8px;border-radius:99px;background:var(--line);vertical-align:middle;margin-left:6px;overflow:hidden}.meter i{display:block;height:100%}
+.timer{font:700 20px Lexend,sans-serif}
+.guide .gcard{border-left:5px solid var(--c);padding:4px 0 4px 14px;margin:14px 0}
+.guide .gcard ul{margin:.3em 0;padding-left:1.2em}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
+.toc a{font:700 13px Lexend,sans-serif;padding:4px 10px;border-radius:99px;color:#fff;text-decoration:none}
+.btnlink{display:inline-flex;align-items:center;min-height:44px;padding:10px 18px;border-radius:10px;background:var(--acc);color:#1b1b1b;font:700 16px Lexend,sans-serif;text-decoration:none}
+code{overflow-wrap:anywhere;font-size:12px}
+.dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.dl .panel{margin:0}
+.msg{font-size:14px;margin-top:8px}
+@media(max-width:700px){.steps{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.boxes{gap:6px}.slot{height:110px}.slot b{font-size:12px}.slot small{font-size:10px}.fc{padding:16px;min-height:260px}.fc .q{font-size:18px}.meter{width:44px}td,th{padding:8px 5px}
+.tbl thead{display:none}.tbl tr{display:grid;padding-block:10px;border-bottom:1px solid var(--line)}.tbl td{display:flow-root;border:0;padding:3px 0;padding-inline-start:7.5em;text-align:start}.tbl td::before{content:attr(data-l);float:inline-start;width:7em;margin-inline-start:-7.5em;color:var(--mute);font-size:13px}.tbl td:empty{display:none}}
+@media(prefers-reduced-motion:reduce){.slot .stack{transition:none}}
+.slot.ns{background:rgba(255,255,255,.07);border:1px dashed rgba(255,255,255,.35)}
+.boxes{grid-template-columns:repeat(6,minmax(0,1fr))}
+.hk{border:2px solid #0e7490;background:light-dark(#e6f6fa,#0f2a31);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:16px}
+.g9{border:2px solid #c9a000;background:light-dark(#fff8db,#2c2710);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:16px}
+.seg{display:inline-flex;border:2px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;border-radius:0;min-height:40px;padding:8px 14px;font-size:15px}
+.seg button.on{background:var(--acc);color:#1b1b1b}
+.unitgrid label.off{opacity:.5}
+.unitgrid .nsTag{font-size:12px;color:var(--mute);margin-left:auto}
+.topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px;margin-top:10px}
+.topics label{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:15px}
+.topics input{width:22px;height:22px}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-top:12px}
+.vcard{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--card)}
+.vcard h4{margin:0 0 .2em}
+.vcard .t{font-size:13px;color:var(--mute);font-style:italic}
+.vcard p{margin:.3em 0;font-size:15px}
+.vcard .known{float:right;min-height:34px;padding:4px 10px;font-size:13px}
+.vcard.k{border-color:var(--ok)}
+input[type=search]{font:16px "Atkinson Hyperlegible",sans-serif;min-height:44px;padding:8px 12px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);width:min(100%,340px)}
+.qhead{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.qhead .ctl{display:flex;gap:6px}
+.qhead .ctl button{min-height:36px;padding:4px 12px;font-size:14px}
+.skip{margin-top:6px;font:400 15px "Atkinson Hyperlegible",sans-serif;min-height:40px}
+@media(max-width:700px){.boxes{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.tbl td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+<div class="topbar"><div class="wrap">
+  <label>Student <select id="studentSel"></select></label>
+  <label>Subject <select id="subjectSel"></select></label>
+  <label>Term <select id="termSel"></select></label>
+  <span class="sp"></span>
+  <span class="small" id="ghStatus" style="color:inherit;opacity:.85"></span>
+  <button id="syncBtn">Move progress</button>
+  <button id="resetBtn">Reset progress</button>
+  <span class="confirm" id="resetConfirm">Clear all boxes and scores for this subject?
+    <button class="danger" id="resetYes">Yes, reset</button><button id="resetNo">Cancel</button></span>
+</div></div>
+
+<div id="syncPanel" class="panel" hidden style="max-width:1100px;margin:12px auto">
+  <div class="qhead"><h2 style="margin:0">Move progress to another device</h2><span class="ctl"><button id="syncClose">Close</button></span></div>
+  <p>Progress is saved in each browser. To carry on somewhere else, copy the code from this device, send it to yourself (for example by WhatsApp or email), then paste it on the other device. It moves every subject for the student picked at the top. For each subject the newest progress wins, so nothing newer is overwritten.</p>
+  <div id="ghBox" hidden>
+  <h3>Automatic sync</h3>
+  <p class="small" id="ghState"></p>
+  <div class="row"><input type="password" id="ghKey" placeholder="Paste the sync key once on this device" autocomplete="off" style="font:15px monospace;min-height:44px;padding:8px 12px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);width:min(100%,420px)"><button class="main" id="ghSave">Turn on sync</button><button id="ghOff">Turn off on this device</button></div>
+  <p class="small" id="ghMsg" role="status"></p>
+  <hr>
+  </div>
+  <h3>1. On the device you have been using</h3>
+  <div class="row"><button class="main" id="syncMake">Make my progress code</button><button id="syncCopy" hidden>Copy code</button><span class="small" id="syncMsg1"></span></div>
+  <textarea id="syncOut" readonly hidden rows="3" style="width:100%;font:13px monospace;margin-top:8px"></textarea>
+  <h3>2. On the new device</h3>
+  <textarea id="syncIn" rows="3" placeholder="Paste the progress code here" style="width:100%;font:13px monospace"></textarea>
+  <div class="row" style="margin-top:8px"><button class="main" id="syncLoad">Load progress</button><span class="small" id="syncMsg2" role="status"></span></div>
+</div>
+<header class="band"><div class="wrap">
+  <h1 id="title">Loading</h1>
+  <p id="sub"></p>
+  <div class="boxes" id="boxes" aria-label="Card boxes"></div>
+  <p class="rule"><b>How the card box works:</b> every card starts in Box 1. Get it right and it moves up one box. Get it wrong and it goes back to Box 1. Cards in low boxes come back often, so you spend time on what you do not know yet. A card in Box 5 is learnt. Topics you have not been taught yet wait in the <b>Not studied yet</b> box and are left out of quizzes and the mock.</p>
+  <div class="steps">
+    <div class="step"><span class="num">STEP 1 EACH DAY</span><h3>Review cards that are due</h3><p id="reviewInfo"></p><button class="main" id="startReview">Review due cards</button></div>
+    <div class="step"><span class="num">STEP 2 EACH DAY</span><h3>Add today's new cards</h3><p id="addInfo"></p><button id="addNew">Add new cards</button></div>
+    <div class="step"><span class="num">STEP 3</span><h3>Test yourself</h3><p id="quizInfo"></p><button id="goQuiz">Go to topic quiz</button></div>
+  </div>
+</div></header>
+
+<nav><div class="wrap">
+  <a href="#cards">Flashcards</a><a href="#quiz">Topic quiz</a><a href="#mock">Mock test</a><a href="#written">Written practice</a><a href="#vocab" id="vtab">Key terms</a><a href="#guide">Revision guide</a><a href="#print">Print</a><a href="#progress">Progress</a>
+</div></nav>
+
+<main class="band"><div class="wrap">
+<section id="v-cards"><div class="panel" id="cardArea"></div></section>
+<section id="v-quiz" hidden><div class="panel" id="quizArea"></div></section>
+<section id="v-mock" hidden><div class="panel" id="mockArea"></div></section>
+<section id="v-written" hidden>
+  <div class="panel"><h2>Written practice</h2><p>Write your answer on paper first. Then show the mark scheme and give yourself a mark for each point you made.</p><div id="writtenList"></div></div>
+</section>
+<section id="v-vocab" hidden><div class="panel" id="vocabArea"></div></section>
+<section id="v-guide" hidden><div class="panel guide" id="guideArea"></div></section>
+<section id="v-print" hidden>
+  <div class="panel"><h2>Print-ready files</h2>
+  <p>Open a PDF in Google Drive, then print it from there. Flashcards: print double-sided, <b>flip on the long edge</b>, at 100% (actual size), then cut along the dashed lines. Each answer lands behind its question.</p>
+  <div class="dl" id="dlList"></div>
+  <p class="msg small" id="dlMsg"></p></div>
+</section>
+<section id="v-progress" hidden>
+  <div class="panel"><h2>Topics I have studied</h2><p>Untick a topic you have not been taught yet. Its cards move to the <b>Not studied yet</b> box and it is left out of quizzes and the mock. Tick it when you have covered it in class.</p><div class="topics" id="topicList"></div></div>
+  <div class="panel"><h2>How you are doing by unit</h2><p class="small">From quiz and mock answers on this device.</p><div id="unitStats"></div></div>
+  <div class="panel"><h2>Plan</h2><div id="plan"></div></div>
+  <div class="panel"><h2>Settings</h2>
+    <div class="row"><label for="sched">How often boxes come back</label>
+    <select id="sched"><option value="short">Short: test within 2 weeks (Box 1 daily, Boxes 2 to 5 every 2nd day)</option><option value="long">Long: GCSE run-up (Box 1 to 5 every 1, 2, 4, 8, 16 days)</option></select></div>
+    <p class="small">Progress is saved in this browser only, separately for each student and subject. To carry on on another phone, tablet or laptop, use Move progress at the top. Use Reset progress at the top to start again.</p>
+  </div>
+</section>
+</div></main>
+
+<script>
+{
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const today = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+const daysSince = d => d ? Math.round((Date.parse(today()) - Date.parse(d)) / 864e5) : 99;
+const INTERVALS = {short:[0,1,2,2,2,2], long:[0,1,2,4,8,16]};
+const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
+const PREFIX = {B:'var(--B)', C:'var(--C)', P:'var(--P)'};
+let INDEX = null, D = null, S = null, unitName = {}, unitCol = {};
+const colourOf = u => unitCol[u] || PREFIX[String(u)[0]] || 'var(--S)';
+const blank = () => ({boxes:{}, seen:{}, intro:0, stats:{}, sched: D && D.level === 'gcse' ? 'long' : 'short', written:{}, lastAdd:null, ns:{}, known:{}});
+const save = () => { S.ts = Date.now(); store.set('leitner-' + D.deck_id, S); ghQueue(); };
+const VL = () => D && D.type === 'vocab' ? 'Word list' : 'Key terms';
+const isNS = u => !!S.ns[u];
+const studiedUnits = () => D.units.filter(u => !isNS(u.code));
+const toWork = () => document.querySelector('nav').scrollIntoView({block:'start'});
+
+
+/* ---------- move progress between devices */
+const b64e = u8 => { let t = ''; u8.forEach(x => t += String.fromCharCode(x)); return btoa(t); };
+const b64d = t => Uint8Array.from(atob(t), c => c.charCodeAt(0));
+async function packCode(obj) {
+  const raw = new TextEncoder().encode(JSON.stringify(obj));
+  if (window.CompressionStream) { try { const buf = await new Response(new Blob([raw]).stream().pipeThrough(new CompressionStream('deflate-raw'))).arrayBuffer(); return 'BRH1z' + b64e(new Uint8Array(buf)); } catch (e) {} }
+  return 'BRH1j' + b64e(raw);
+}
+async function unpackCode(code) {
+  code = code.replace(/\s+/g, '');
+  if (!/^BRH1[zj]/.test(code)) throw new Error('bad');
+  const bytes = b64d(code.slice(5));
+  if (code[4] === 'z') { const buf = await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer(); return JSON.parse(new TextDecoder().decode(buf)); }
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
+const studentDecks = st => INDEX.decks.filter(d => d.student === st && d.deck_id);
+$('#syncBtn').onclick = () => { ghPanel(); $('#ghMsg').textContent = ''; $('#syncPanel').hidden = false; $('#syncMsg1').textContent = ''; $('#syncMsg2').textContent = ''; $('#syncPanel').scrollIntoView({block:'start'}); };
+$('#syncClose').onclick = () => { $('#syncPanel').hidden = true; };
+$('#ghSave').onclick = async () => {
+  const k = $('#ghKey').value.trim();
+  if (!/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(k)) { $('#ghMsg').textContent = 'That does not look like a sync key. It starts with github_pat_.'; return; }
+  store.set('hub-gh', {token: k}); $('#ghKey').value = '';
+  try { await ghRead($('#studentSel').value); } catch (e) { store.set('hub-gh', null); $('#ghMsg').textContent = e.status === 401 || e.status === 403 || e.status === 404 ? 'The key was not accepted. Check it has access to the progress repo.' : 'Could not reach GitHub. Check the internet connection and try again.'; return; }
+  $('#ghMsg').textContent = 'Sync is on. Loading saved progress...';
+  for (const st of [...new Set(INDEX.decks.map(d => d.student))]) { await ghPull(st); await ghPush(st); }
+  $('#ghMsg').textContent = 'Sync is on for this device.'; ghPanel(); pick();
+};
+$('#ghOff').onclick = () => { store.set('hub-gh', null); ghShow(''); $('#ghMsg').textContent = 'Sync turned off on this device. Progress stays saved here.'; ghPanel(); };
+$('#syncMake').onclick = async () => {
+  const st = $('#studentSel').value, decks = {};
+  studentDecks(st).forEach(d => { const v = store.get('leitner-' + d.deck_id); if (v) decks[d.deck_id] = v; });
+  const n = Object.keys(decks).length;
+  if (!n) { $('#syncMsg1').textContent = 'No progress saved for ' + st + ' on this device yet.'; return; }
+  const code = await packCode({student: st, made: Date.now(), decks});
+  $('#syncOut').value = code; $('#syncOut').hidden = false; $('#syncCopy').hidden = false;
+  $('#syncOut').focus(); $('#syncOut').select();
+  $('#syncMsg1').textContent = 'Code for ' + st + ', ' + n + ' subject' + (n > 1 ? 's' : '') + '. Copy it and send it to yourself.';
+};
+$('#syncCopy').onclick = async () => {
+  $('#syncOut').select();
+  let ok = false;
+  try { await navigator.clipboard.writeText($('#syncOut').value); ok = true; } catch (e) { try { ok = document.execCommand('copy'); } catch (e2) {} }
+  $('#syncMsg1').textContent = ok ? 'Copied. Paste it into WhatsApp or an email to yourself.' : 'The code is selected. Press and hold (or Ctrl+C) to copy it.';
+};
+$('#syncLoad').onclick = async () => {
+  let data;
+  try { data = await unpackCode($('#syncIn').value); } catch (e) { $('#syncMsg2').textContent = 'That code does not look right. Copy the whole code and try again.'; return; }
+  const known = new Set(INDEX.decks.map(d => d.deck_id).filter(Boolean));
+  let took = 0, kept = 0;
+  Object.entries(data.decks || {}).forEach(([id, v]) => {
+    if (!known.has(id) || typeof v !== 'object' || !v) return;
+    const mine = store.get('leitner-' + id);
+    if (mine && (mine.ts || 0) > (v.ts || 0)) { kept++; return; }
+    store.set('leitner-' + id, v); took++;
+  });
+  $('#syncMsg2').textContent = 'Loaded ' + took + ' subject' + (took === 1 ? '' : 's') + ' for ' + (data.student || 'this student') + (kept ? '. Kept ' + kept + ' that were newer on this device.' : '.');
+  $('#syncIn').value = '';
+  if (data.student && data.student !== $('#studentSel').value) { $('#studentSel').value = data.student; fillSubjects(); fillTerms(); }
+  pick();
+};
+
+
+/* ---------- automatic sync through a private GitHub repo */
+const GH = { key: () => (store.get('hub-gh') || {}).token, timer: null, busy: false, last: null };
+const ghOn = () => INDEX && INDEX.sync_repo && INDEX.hosting === 'pages' && !!GH.key();
+const utf8b64 = str => b64e(new TextEncoder().encode(str));
+const b64utf8 = t => new TextDecoder().decode(b64d(t.replace(/\s+/g, '')));
+function ghShow(msg) { const t = new Date(); $('#ghStatus').textContent = msg; }
+async function ghReq(method, path, body) {
+  const r = await fetch('https://api.github.com/repos/' + INDEX.sync_repo + '/contents/' + path, {
+    method, cache: 'no-store',
+    headers: {Authorization: 'Bearer ' + GH.key(), Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'},
+    body: body ? JSON.stringify(body) : undefined });
+  if (r.status === 404 && method === 'GET') return null;
+  if (!r.ok) { const e = new Error('GitHub ' + r.status); e.status = r.status; throw e; }
+  return r.json();
+}
+async function ghRead(st) {
+  const f = await ghReq('GET', 'progress/' + encodeURIComponent(st) + '.json');
+  return f ? {sha: f.sha, data: JSON.parse(b64utf8(f.content))} : {sha: null, data: {student: st, decks: {}}};
+}
+function mergeInto(local, remote) {
+  let pulled = 0;
+  Object.entries(remote.decks || {}).forEach(([id, v]) => {
+    const mine = store.get('leitner-' + id);
+    if (v && (!mine || (v.ts || 0) > (mine.ts || 0))) { store.set('leitner-' + id, v); pulled++; }
+  });
+  return pulled;
+}
+async function ghPull(st) {
+  if (!ghOn()) return 0;
+  try { const {data} = await ghRead(st); const n = mergeInto(null, data); ghShow('Synced ' + new Date().toTimeString().slice(0, 5)); return n; }
+  catch (e) { ghShow(e.status === 401 ? 'Sync key not accepted' : 'Offline, saved on this device'); return 0; }
+}
+async function ghPush(st) {
+  if (!ghOn() || GH.busy) return;
+  GH.busy = true;
+  try {
+    for (let tries = 0; tries < 3; tries++) {
+      const {sha, data} = await ghRead(st);
+      mergeInto(null, data);
+      const decks = Object.assign({}, data.decks);
+      studentDecks(st).forEach(d => { const v = store.get('leitner-' + d.deck_id); if (v && (!decks[d.deck_id] || (v.ts || 0) >= (decks[d.deck_id].ts || 0))) decks[d.deck_id] = v; });
+      try {
+        await ghReq('PUT', 'progress/' + encodeURIComponent(st) + '.json', {message: 'Progress ' + st, content: utf8b64(JSON.stringify({student: st, saved: Date.now(), decks})), ...(sha ? {sha} : {})});
+        ghShow('Synced ' + new Date().toTimeString().slice(0, 5)); break;
+      } catch (e) { if (e.status !== 409 && e.status !== 422) throw e; }
+    }
+  } catch (e) { ghShow(e.status === 401 ? 'Sync key not accepted' : 'Offline, saved on this device'); }
+  GH.busy = false;
+}
+function ghQueue() { if (!ghOn() || !D) return; const st = D.student; clearTimeout(GH.timer); ghShow('Saving...'); GH.timer = setTimeout(() => ghPush(st), 4000); }
+window.addEventListener('pagehide', () => { if (GH.timer && D) { clearTimeout(GH.timer); ghPush(D.student); } });
+function ghPanel() {
+  const show = INDEX.sync_repo && INDEX.hosting === 'pages';
+  $('#ghBox').hidden = !show; if (!show) return;
+  $('#ghState').textContent = GH.key() ? 'Sync is on for this device. Progress saves to the family store a few seconds after each answer, and loads when the page opens.' : 'Sync is off on this device. Paste the sync key once and progress will save and load automatically from then on.';
+}
+
+/* ---------- student, subject and term pickers */
+async function boot() {
+  try { INDEX = await (await fetch('decks/index.json')).json(); }
+  catch (e) { $('#title').textContent = 'Could not load the subject list'; return; }
+  const students = [...new Set(INDEX.decks.map(d => d.student))];
+  $('#studentSel').innerHTML = students.map(s => `<option>${esc(s)}</option>`).join('');
+  const last = store.get('hub-last') || {};
+  const first = INDEX.decks.find(d => d.student === last.student && d.subject === last.subject && d.term === last.term) || INDEX.decks.find(d => d.file);
+  $('#studentSel').value = first.student; fillSubjects(first.subject); fillTerms(first.term);
+  $('#studentSel').onchange = () => { fillSubjects(); fillTerms(); pick(); };
+  $('#subjectSel').onchange = () => { fillTerms(); pick(); };
+  $('#termSel').onchange = pick;
+  pick();
+}
+function fillSubjects(want) {
+  const st = $('#studentSel').value;
+  const ds = INDEX.decks.filter(d => d.student === st);
+  const subs = [...new Set(ds.map(d => d.subject))];
+  $('#subjectSel').innerHTML = subs.map(s => `<option value="${esc(s)}">${esc(s)}${ds.some(d => d.subject === s && d.file) ? '' : ' (coming soon)'}</option>`).join('');
+  const live = ds.find(d => d.file);
+  $('#subjectSel').value = want && subs.includes(want) ? want : (live ? live.subject : subs[0]);
+}
+function fillTerms(want) {
+  const ds = INDEX.decks.filter(d => d.student === $('#studentSel').value && d.subject === $('#subjectSel').value);
+  $('#termSel').innerHTML = ds.map(d => `<option value="${esc(d.term)}">${esc(d.year + ' ' + d.term)}${d.file ? '' : ' (coming soon)'}</option>`).join('');
+  if (want && ds.some(d => d.term === want)) $('#termSel').value = want;
+}
+async function pick() {
+  const entry = INDEX.decks.find(d => d.student === $('#studentSel').value && d.subject === $('#subjectSel').value && d.term === $('#termSel').value);
+  store.set('hub-last', {student: entry.student, subject: entry.subject, term: entry.term});
+  if (!entry.file) { comingSoon(entry); return; }
+  document.body.classList.remove('empty');
+  D = await (await fetch(entry.file)).json();
+  D.entry = entry;
+  D.cards.forEach((c, i) => c.id = i);
+  unitName = Object.fromEntries(D.units.map(u => [u.code, u.name]));
+  unitCol = Object.fromEntries(D.units.map(u => [u.code, u.colour || D.colour || PREFIX[u.code[0]] || 'var(--S)']));
+  unitCol.SUMMARY = 'var(--S)';
+  if (ghOn() && GH.last !== entry.student) { GH.last = entry.student; await ghPull(entry.student); }
+  const saved = store.get('leitner-' + D.deck_id);
+  S = Object.assign(blank(), saved || {});
+  if (!saved && D.ns_default) D.ns_default.forEach(u => S.ns[u] = true);
+  renderAll();
+}
+function comingSoon(e) {
+  D = null; document.body.classList.add('empty');
+  $('#title').textContent = e.student + ': ' + e.subject + ', ' + e.year + ' ' + e.term;
+  $('#sub').textContent = 'This subject is not built yet. ' + (e.note || '');
+  $('#resetBtn').disabled = true;
+  const msg = `<h2>Coming soon</h2><p>${esc(e.subject)} for ${esc(e.student)} has not been made yet. ${esc(e.note || '')}</p>`;
+  ['#cardArea', '#quizArea', '#mockArea', '#guideArea', '#vocabArea'].forEach(s => $(s).innerHTML = msg);
+  ['#writtenList', '#dlList', '#unitStats', '#plan', '#dlMsg', '#topicList'].forEach(s => $(s).innerHTML = '');
+}
+
+/* ---------- header, boxes and the daily steps */
+const due = c => S.boxes[c.id] > 0 && daysSince(S.seen[c.id]) >= INTERVALS[S.sched][S.boxes[c.id]];
+const nextStep = () => { const i = D.plan_steps.findIndex(n => n > S.intro); return i < 0 ? -1 : i; };
+function drawHeader() {
+  ['#startReview', '#addNew', '#goQuiz', '#resetBtn'].forEach(s => $(s).disabled = false);
+  $('#title').textContent = D.student + "'s " + D.year + ' ' + D.subject + ' revision';
+  const a = D.assessment;
+  if (a.date) {
+    const exam = new Date(a.date + 'T09:00:00'), left = Math.ceil((exam - new Date()) / 864e5);
+    $('#sub').textContent = a.name + ': ' + exam.toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long'}) + (left > 0 ? ' (' + left + ' days to go). ' : '. ') + a.weighting;
+  } else $('#sub').textContent = a.name + '. ' + a.weighting;
+  const counts = [0,0,0,0,0,0], dueBy = [0,0,0,0,0,0];
+  D.cards.forEach(c => { const b = S.boxes[c.id]; if (b === 0) counts[0]++; else if (b) { counts[b]++; if (due(c)) dueBy[b]++; } });
+  const max = Math.max(4, ...counts), iv = INTERVALS[S.sched];
+  const every = n => n === 1 ? 'every day' : 'every ' + n + ' days';
+  const slot = (b, label, sub, cls) => `<div class="slot${cls}"><span class="n">${counts[b]}</span><div class="well"><div class="stack" style="height:${6 + 30 * counts[b] / max}px"></div></div><b>${label}</b><small>${sub}</small></div>`;
+  $('#boxes').innerHTML = slot(0, 'Not studied yet', 'waiting', ' ns') + [1,2,3,4,5].map(b => slot(b, 'Box ' + b + (b === 5 ? ' learnt' : ''), every(iv[b]), dueBy[b] ? ' due' : '')).join('');
+  const nDue = dueBy.reduce((x, y) => x + y, 0);
+  $('#reviewInfo').innerHTML = !S.intro ? 'Nothing to review yet. Start with Step 2 to put your first cards in Box 1.'
+    : nDue ? `<b>${nDue} cards are due</b> (${[1,2,3,4,5].filter(b => dueBy[b]).map(b => dueBy[b] + ' in Box ' + b).join(', ')}). Say each answer out loud, turn over, then mark yourself honestly.`
+    : 'All done for today. Boxes with cards due light up yellow.';
+  $('#startReview').disabled = !nDue;
+  $('#startReview').textContent = nDue ? `Review ${nDue} due cards` : 'Nothing due right now';
+  const k = nextStep();
+  if (k < 0) { $('#addInfo').textContent = 'All cards are in the boxes. Keep reviewing.'; $('#addNew').disabled = true; $('#addNew').textContent = 'All cards added'; }
+  else {
+    const batch = D.cards.slice(S.intro, D.plan_steps[k]);
+    const units = [...new Set(batch.map(c => c.unit))].map(u => u === 'SUMMARY' ? 'summary cards' : u + ' ' + unitName[u]).join(', ');
+    const nsCount = batch.filter(c => isNS(c.unit)).length;
+    $('#addInfo').innerHTML = `Next batch (${esc(D.leitner_plan[k] ? D.leitner_plan[k].day : 'step ' + (k + 1))}): <b>${esc(units)}</b>, ${batch.length} cards. They go into Box 1 and you go through them straight away.` + (nsCount ? ` ${nsCount} are from topics marked not studied, so they go to the Not studied yet box.` : '') + (S.lastAdd === today() ? ' <b>You already added cards today.</b> Adding more is fine, but the next review will be longer.' : ' Add one batch a day.');
+    $('#addNew').disabled = false; $('#addNew').textContent = `Add ${batch.length} new cards`;
+  }
+  const row = (D.leitner_plan || []).find(r => r.date === today());
+  $('#quizInfo').textContent = row ? 'Today: ' + row.quiz + '.' : 'Do a quiz on the topics you added. It shows which need more work.';
+  const nextBtn = nDue ? '#startReview' : (k >= 0 && S.lastAdd !== today()) ? '#addNew' : '#goQuiz';
+  ['#startReview', '#addNew', '#goQuiz'].forEach(s => $(s).classList.toggle('main', s === nextBtn));
+}
+
+/* ---------- flashcards: long (topic) and quick (one fact) */
+let queue = [], qi = 0, flipped = false, sessionMode = 'review', cardStyle = 'long';
+function cardIntro() {
+  const hasQuick = D.mcq.length > 0;
+  $('#cardArea').innerHTML = `<h2>Flashcards</h2>
+    <div class="row" style="margin-top:0"><span class="seg"><button id="styleLong" class="${cardStyle === 'long' ? 'on' : ''}">Long cards</button><button id="styleQuick" class="${cardStyle === 'quick' ? 'on' : ''}">Quick cards</button></span></div>
+    <p>${cardStyle === 'long' ? '<b>Long cards</b> cover a whole topic: key points, a worked example and a watch out. These are the cards in your Leitner boxes. Use Step 1 and Step 2 above each day.' : '<b>Quick cards</b> test one fact each, with the answer and a reason on the back. Use them for fast practice; they do not move cards between boxes.'}</p>
+    <p class="small">Pick units for extra practice.${Object.keys(S.ns).length ? ' Topics marked not studied are greyed out.' : ''}</p>
+    <div class="unitgrid" id="cardUnits"></div><button class="main" id="practiseUnits">Practise chosen units</button><p class="small" id="cardMsg"></p>`;
+  picker($('#cardUnits'), cardStyle === 'long');
+  $('#styleLong').onclick = () => { cardStyle = 'long'; cardIntro(); };
+  $('#styleQuick').onclick = () => { cardStyle = 'quick'; cardIntro(); };
+  if (!hasQuick) $('#styleQuick').disabled = true;
+  $('#practiseUnits').onclick = () => {
+    const u = chosen($('#cardUnits')); if (!u.length) { $('#cardMsg').textContent = 'Tick at least one unit first.'; return; }
+    if (cardStyle === 'long') startSession(D.cards.filter(c => u.includes(c.unit)), 'practise');
+    else startSession(shuffle(D.mcq.filter(q => u.includes(q.u))).map(q => ({quick: true, unit: q.u, q})), 'practise');
+  };
+}
+function cardHTML(c, back) {
+  if (c.quick) {
+    const q = c.q;
+    if (!back) return `<div class="fc" style="--c:${colourOf(q.u)}"><p class="small" style="text-align:center">${esc(q.u + ' ' + unitName[q.u])} · quick card</p><p class="q" style="font-style:normal;font-size:22px">${esc(q.q)}</p></div>`;
+    return `<div class="fc" style="--c:${colourOf(q.u)}"><h3>${esc(q.a)}</h3><p style="text-align:center">${esc(q.e)}</p></div>`;
+  }
+  const label = c.unit === 'SUMMARY' ? 'Summary' : c.unit + ' ' + unitName[c.unit];
+  if (!back) return `<div class="fc" style="--c:${colourOf(c.unit)}"><p class="small" style="text-align:center">${esc(label)}</p><h3>${esc(c.title)}</h3><p class="q">${esc(c.question)}</p></div>`;
+  let h = `<div class="fc" style="--c:${colourOf(c.unit)};justify-content:flex-start"><h3 style="text-align:left">${esc(c.title)}</h3><ul>${c.points.map(p => `<li>${esc(p)}</li>`).join('')}</ul>`;
+  if (c.example) h += `<div class="ex"><b>${esc(c.example.heading)}</b><br>${c.example.lines.map(esc).join('<br>')}</div>`;
+  if (c.watch_out) h += `<div class="wo"><b>Watch out:</b> ${esc(c.watch_out)}</div>`;
+  if (c.hook) h += `<div class="hk"><b>Memory hook:</b> ${esc(c.hook)}</div>`;
+  if (c.grade9) h += `<div class="g9"><b>Grade 9 tip:</b> ${esc(c.grade9)}</div>`;
+  return h + '</div>';
+}
+function showCard() {
+  const area = $('#cardArea');
+  if (qi >= queue.length) {
+    area.innerHTML = `<h2>Set finished</h2><p>${sessionMode === 'review' ? 'Your boxes are updated. Next, do Step 3: a quick topic quiz.' : 'Practice finished.'}</p><div class="row"><button class="main" id="toQuiz">Go to topic quiz</button><button id="backCards">Back to flashcards</button></div>`;
+    $('#toQuiz').onclick = () => { location.hash = 'quiz'; toWork(); }; $('#backCards').onclick = cardIntro;
+    drawHeader(); return;
+  }
+  const c = queue[qi], box = c.quick ? null : S.boxes[c.id];
+  const review = sessionMode === 'review';
+  area.innerHTML = `<div class="qhead"><span class="small">Card ${qi + 1} of ${queue.length}${review && box ? ' · now in Box ' + box : ' · practice only'}</span><span class="ctl"><button id="cardsQuit">Back</button></span></div><div class="bar" style="margin-top:8px"><i style="width:${100 * qi / queue.length}%"></i></div><div style="margin-top:14px">${cardHTML(c, flipped)}</div>` +
+    (flipped ? `<div class="row"><button class="main" id="gotIt">I got it right</button><button id="notYet">Not yet</button>${review ? '<button id="notStudied">Not studied this yet</button>' : ''}</div><p class="small">${review ? `Right: moves to Box ${Math.min(5, (box || 1) + 1)}. Not yet: back to Box 1, and you see it again at the end. Not studied this yet: moves to the Not studied yet box until you are taught it.` : 'Practice cards stay where they are.'}</p>`
+      : `<div class="row"><button class="main" id="flip">Turn over</button>${review ? '<button id="notStudied">Not studied this yet</button>' : ''}</div><p class="small">Say your answer out loud first, then turn over.</p>`);
+  $('#cardsQuit').onclick = () => { cardIntro(); drawHeader(); };
+  if ($('#notStudied')) $('#notStudied').onclick = () => { S.boxes[c.id] = 0; save(); qi++; flipped = false; showCard(); drawHeader(); };
+  if (!flipped) $('#flip').onclick = () => { flipped = true; showCard(); };
+  else { $('#gotIt').onclick = () => mark(true); $('#notYet').onclick = () => mark(false); }
+}
+function mark(ok) {
+  const c = queue[qi];
+  if (sessionMode === 'review') {
+    S.boxes[c.id] = ok ? Math.min(5, (S.boxes[c.id] || 1) + 1) : 1;
+    S.seen[c.id] = today(); save();
+    if (!ok) queue.push(c);
+  } else if (!ok) queue.push(c);
+  qi++; flipped = false; showCard(); drawHeader();
+}
+function startSession(cards, mode) { queue = cards; qi = 0; flipped = false; sessionMode = mode; location.hash = 'cards'; showCard(); toWork(); }
+$('#startReview').onclick = () => startSession(shuffle(D.cards.filter(due)), 'review');
+$('#addNew').onclick = () => {
+  const k = nextStep(); if (k < 0) return;
+  const added = D.cards.slice(S.intro, D.plan_steps[k]);
+  added.forEach(c => { S.boxes[c.id] = isNS(c.unit) ? 0 : 1; S.seen[c.id] = null; });
+  S.intro = D.plan_steps[k]; S.lastAdd = today(); save(); drawHeader();
+  startSession(added.filter(c => !isNS(c.unit)), 'review');
+};
+$('#goQuiz').onclick = () => { location.hash = 'quiz'; toWork(); };
+
+/* ---------- unit pickers */
+function picker(el, withSummary) {
+  const us = D.units.slice(); if (withSummary && D.cards.some(c => c.unit === 'SUMMARY')) us.push({code:'SUMMARY', name:'Summary cards'});
+  el.innerHTML = us.map(u => { const off = u.code !== 'SUMMARY' && isNS(u.code);
+    return `<label class="${off ? 'off' : ''}"><input type="checkbox" value="${esc(u.code)}" ${off ? 'disabled' : ''}><span class="tag" style="background:${colourOf(u.code)}">${u.code === 'SUMMARY' ? 'All' : esc(u.code)}</span>${esc(u.name)}${off ? '<span class="nsTag">not studied</span>' : ''}</label>`; }).join('');
+}
+const chosen = el => [...el.querySelectorAll('input:checked')].map(i => i.value);
+
+/* ---------- quiz engine (topic quiz and mock) */
+let Q = [], qn = 0, score = 0, answered = false, mode = 'quiz', timerId = null, results = [], skipped = [], endAt = 0, lastSet = null;
+function record(u, ok) { const s = S.stats[u] || [0, 0]; s[0] += ok ? 1 : 0; s[1]++; S.stats[u] = s; save(); }
+function quizIntro() {
+  $('#quizArea').innerHTML = `<h2>Topic quiz</h2><p>Pick one or more units. You get 10 questions, with the answer and a reason after each one. If a question is on something you have not been taught yet, press <b>Not studied this yet</b> and it will not count.</p><div class="unitgrid" id="quizUnits"></div><button class="main" id="startQuiz">Start quiz</button><p class="small" id="quizMsg"></p>`;
+  picker($('#quizUnits'), false);
+  $('#startQuiz').onclick = () => { const u = chosen($('#quizUnits')); if (!u.length) { $('#quizMsg').textContent = 'Tick at least one unit first.'; return; } lastSet = () => shuffle(D.mcq.filter(q => u.includes(q.u))).slice(0, 10); startQuiz(lastSet(), 'quiz'); };
+}
+const mockN = () => (D.mock && D.mock.n) || 45;
+function mockIntro() {
+  clearInterval(timerId); endAt = 0;
+  const left = studiedUnits().map(u => u.code), out = D.units.filter(u => isNS(u.code)).map(u => u.code);
+  const def = (D.mock && D.mock.minutes) || 35;
+  $('#mockArea').innerHTML = `<h2>Mock test</h2><p>${mockN()} multiple choice questions picked from the topics you have studied, weighted like the real paper. ${esc(D.assessment.weighting)} No answers are shown until the end. ${esc((D.mock && D.mock.note) || (D.exam_tips || {}).timing || '')}</p>
+    ${out.length ? `<p class="small">Left out because they are marked not studied: ${out.map(esc).join(', ')}. Change this in Progress.</p>` : ''}
+    <div class="row"><label><input type="checkbox" id="useTimer" checked> Use a timer</label><select id="mins" aria-label="Minutes">${[25, 30, 35, 45, 60].map(m => `<option value="${m}"${m === def ? ' selected' : ''}>${m} minutes</option>`).join('')}</select></div>
+    <div class="row"><button class="main" id="startMock" ${left.length ? '' : 'disabled'}>Start mock</button></div>`;
+  $('#startMock').onclick = () => { lastSet = buildMock; startMockRun(); };
+}
+function startMockRun() {
+  const useTimer = $('#useTimer') ? $('#useTimer').checked : true, mins = $('#mins') ? +$('#mins').value : (D.mock && D.mock.minutes) || 35;
+  startQuiz(buildMock(), 'mock');
+  if (useTimer) { endAt = Date.now() + mins * 60000; timerId = setInterval(() => { tick(); if (Date.now() >= endAt) finish(); }, 1000); tick(); }
+}
+function startQuiz(qs, m) { clearInterval(timerId); endAt = 0; Q = qs.map(q => Object.assign({}, q, {opts: shuffle([q.a, ...q.w])})); qn = 0; score = 0; mode = m; results = []; skipped = []; answered = false; renderQ(); }
+const area = () => mode === 'mock' ? $('#mockArea') : $('#quizArea');
+function renderQ() {
+  const el = area();
+  if (qn >= Q.length) return finish();
+  const q = Q[qn];
+  el.innerHTML = `<div class="qhead"><span class="small">Question ${qn + 1} of ${Q.length} · <span class="tag" style="background:${colourOf(q.u)}">${esc(q.u)}</span></span>${mode === 'mock' ? '<span class="timer" id="clock"></span>' : ''}<span class="ctl"><button id="qRestart">Restart</button><button id="qQuit">Quit</button><button id="qEnd">End and mark</button></span></div>
+    <div class="bar" style="margin:10px 0 16px"><i style="width:${100 * qn / Q.length}%"></i></div>
+    <h3>${esc(q.q)}</h3>${q.opts.map((o, i) => `<button class="opt" data-i="${i}">${'ABCD'[i]}. ${esc(o)}</button>`).join('')}
+    <button class="skip" id="qSkip">Not studied this yet (skip, does not count)</button><div id="fb"></div>`;
+  el.querySelectorAll('.opt').forEach(b => b.onclick = () => choose(+b.dataset.i));
+  $('#qSkip').onclick = () => { if (answered) return; skipped.push(q); next(); };
+  $('#qQuit').onclick = () => { clearInterval(timerId); endAt = 0; mode === 'mock' ? mockIntro() : quizIntro(); drawStats(); };
+  $('#qRestart').onclick = () => { if (mode === 'mock') startMockRun(); else startQuiz(lastSet(), 'quiz'); };
+  $('#qEnd').onclick = finish;
+  tick();
+}
+function choose(i) {
+  if (answered) return; answered = true;
+  const q = Q[qn], ok = q.opts[i] === q.a; if (ok) score++;
+  record(q.u, ok); results.push({q, pick: q.opts[i], ok});
+  const btns = area().querySelectorAll('.opt');
+  if (mode === 'mock') { btns[i].style.borderColor = 'var(--acc)'; setTimeout(next, 250); return; }
+  btns.forEach((b, j) => { if (q.opts[j] === q.a) b.classList.add('right'); else if (j === i) b.classList.add('wrong'); });
+  $('#qSkip').remove();
+  $('#fb').innerHTML = `<p><b>${ok ? 'Correct.' : 'Not quite. The answer is ' + esc(q.a) + '.'}</b> ${esc(q.e)}</p><button class="main" id="nextQ">${qn + 1 < Q.length ? 'Next question' : 'See my score'}</button>`;
+  $('#nextQ').onclick = next; $('#nextQ').focus();
+}
+function next() { qn++; answered = false; renderQ(); }
+function tick() { const c = $('#clock'); if (!c || !endAt) return; const s = Math.max(0, Math.round((endAt - Date.now()) / 1000)); c.textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
+function finish() {
+  clearInterval(timerId); endAt = 0; drawStats();
+  const el = area(), done = results.length, pct = Math.round(100 * score / Math.max(1, done));
+  const by = {}; results.forEach(r => { by[r.q.u] = by[r.q.u] || [0, 0]; by[r.q.u][1]++; if (r.ok) by[r.q.u][0]++; });
+  const weak = Object.entries(by).filter(([u, [a, b]]) => a / b < 0.7).sort((x, y) => x[1][0] / x[1][1] - y[1][0] / y[1][1]).map(([u]) => u).slice(0, 3);
+  const unanswered = Q.length - done - skipped.length;
+  el.innerHTML = `<h2>${score} out of ${done} (${pct}%)</h2>
+    <p>${skipped.length ? skipped.length + ' skipped as not studied yet. ' : ''}${unanswered > 0 ? unanswered + ' not answered. ' : ''}</p>
+    <p>${weak.length ? 'Your weakest units. Practise these next: <b>' + weak.map(u => esc(u + ' ' + unitName[u])).join(', ') + '</b>.' : done ? 'Great work. No unit below 70%.' : ''}</p>
+    ${done ? `<table><thead><tr><th>Unit</th><th class="num">Score</th></tr></thead><tbody>${Object.entries(by).map(([u, [a, b]]) => `<tr><td>${esc(u + ' ' + unitName[u])}</td><td class="num">${a} / ${b}</td></tr>`).join('')}</tbody></table>` : ''}
+    <h3 style="margin-top:20px">Check your wrong answers</h3>
+    ${results.filter(r => !r.ok).map(r => `<p><b>${esc(r.q.q)}</b><br>You chose: ${esc(r.pick)}<br>Answer: <b>${esc(r.q.a)}</b>. ${esc(r.q.e)}</p>`).join('') || '<p>None.</p>'}
+    <div class="row"><button class="main" id="again">Try another</button><button id="redo">Same type again</button></div>`;
+  $('#again').onclick = () => mode === 'mock' ? mockIntro() : quizIntro();
+  $('#redo').onclick = () => mode === 'mock' ? startMockRun() : startQuiz(lastSet(), 'quiz');
+}
+function buildMock() {
+  const units = studiedUnits(), N = Math.min(mockN(), D.mcq.filter(q => units.some(u => u.code === q.u)).length);
+  const tot = units.reduce((a, u) => a + u.weight, 0) || 1;
+  const per = units.map(u => ({u: u.code, n: u.weight / tot * N}));
+  const base = per.map(p => Math.floor(p.n)); const rem = N - base.reduce((a, b) => a + b, 0);
+  per.map((p, i) => [p.n - base[i], i]).sort((a, b) => b[0] - a[0]).slice(0, rem).forEach(([, i]) => base[i]++);
+  const picks = []; per.forEach((p, i) => picks.push(...shuffle(D.mcq.filter(q => q.u === p.u)).slice(0, base[i])));
+  return shuffle(picks);
+}
+
+/* ---------- written */
+function drawWritten() {
+  $('#writtenList').innerHTML = D.written.map((w, i) => `<div class="panel" style="margin:12px 0${isNS(w.u) ? ';opacity:.55' : ''}"><span class="tag" style="background:${colourOf(w.u)}">${esc(w.u)}</span> <b>${w.marks} marks</b>${isNS(w.u) ? ' <span class="small">(topic not studied yet)</span>' : ''}<p>${esc(w.q)}</p>
+  <details><summary style="cursor:pointer;font-weight:700">Show mark scheme</summary><ul>${w.model.map(m => `<li>${esc(m)}</li>`).join('')}</ul>
+  <div class="row">My mark: ${Array.from({length: w.marks + 1}, (_, k) => `<button data-w="${i}" data-k="${k}" style="min-width:44px${S.written[i] === k ? ';border-color:var(--acc)' : ''}">${k}</button>`).join('')}</div></details></div>`).join('');
+  document.querySelectorAll('[data-w]').forEach(b => b.onclick = () => { S.written[b.dataset.w] = +b.dataset.k; save(); b.parentElement.querySelectorAll('button').forEach(x => x.style.borderColor = ''); b.style.borderColor = 'var(--acc)'; });
+}
+
+/* ---------- vocabulary */
+let vfilter = '';
+function vocabIntro() {
+  const V = D.vocab || [];
+  if (!V.length) { $('#vocabArea').innerHTML = `<h2>${VL()}</h2><p>No word list for this subject yet.</p>`; return; }
+  const known = V.filter(v => S.known[v.word]).length;
+  $('#vocabArea').innerHTML = `<h2>${VL()}</h2><p>${D.type === 'vocab' ? 'Powerful words to use in your writing and spot in your reading.' : 'The key terms for this subject.'} Words to use in your answers to sound precise and earn higher marks. Each has its meaning, words that mean the same (synonyms), opposites (antonyms) and an example sentence. Tick the ones you can use confidently.</p>
+    <div class="row"><input type="search" id="vsearch" placeholder="Search words" value="${esc(vfilter)}" aria-label="Search words"><button class="main" id="vquiz">${VL()} quiz (10 questions)</button><span class="small">${known} of ${V.length} known</span></div>
+    <div class="vgrid" id="vgrid"></div>`;
+  drawVocabGrid();
+  $('#vsearch').oninput = e => { vfilter = e.target.value; drawVocabGrid(); };
+  $('#vquiz').onclick = startVocabQuiz;
+}
+function drawVocabGrid() {
+  const f = vfilter.toLowerCase();
+  $('#vgrid').innerHTML = (D.vocab || []).filter(v => !f || (v.word + ' ' + v.meaning + ' ' + v.synonyms.join(' ')).toLowerCase().includes(f)).map(v => `<div class="vcard${S.known[v.word] ? ' k' : ''}"><button class="known" data-v="${esc(v.word)}">${S.known[v.word] ? 'Known ✓' : 'Mark known'}</button><h4>${esc(v.word)}</h4><span class="t">${esc(v.type)}</span><p>${esc(v.meaning)}</p><p><b>Synonyms:</b> ${esc(v.synonyms.join(', '))}</p>${v.antonyms.length ? `<p><b>Antonyms:</b> ${esc(v.antonyms.join(', '))}</p>` : ''}<p><i>${esc(v.example)}</i></p>${v.hook ? `<p class="small"><b>Hook:</b> ${esc(v.hook)}</p>` : ''}</div>`).join('') || '<p>No matching words.</p>';
+  document.querySelectorAll('[data-v]').forEach(b => b.onclick = () => { const w = b.dataset.v; S.known[w] = !S.known[w]; save(); vocabIntro(); });
+}
+let VQ = [], vn = 0, vscore = 0;
+function startVocabQuiz() {
+  const V = D.vocab;
+  const kinds = ['meaning', 'synonym', 'antonym'];
+  VQ = shuffle(V).slice(0, 10).map(v => {
+    let kind = kinds[Math.floor(Math.random() * 3)];
+    if (kind === 'antonym' && !v.antonyms.length) kind = 'synonym';
+    const others = shuffle(V.filter(x => x.word !== v.word)).slice(0, 3);
+    if (kind === 'meaning') return {prompt: `Which word means: ${v.meaning}?`, a: v.word, w: others.map(o => o.word), v};
+    if (kind === 'synonym') return {prompt: `Which is a synonym (same meaning) of ${v.word}?`, a: v.synonyms[0], w: others.map(o => o.synonyms[0]), v};
+    return {prompt: `Which is an antonym (opposite) of ${v.word}?`, a: v.antonyms[0], w: others.map(o => o.antonyms[0] || o.synonyms[0]), v};
+  }).map(q => Object.assign(q, {opts: shuffle([q.a, ...q.w])}));
+  vn = 0; vscore = 0; renderVQ();
+}
+function renderVQ() {
+  if (vn >= VQ.length) { $('#vocabArea').innerHTML = `<h2>${vscore} out of ${VQ.length}</h2><p>Learn the words you missed, then try again.</p><div class="row"><button class="main" id="vagain">Another ${VL().toLowerCase()} quiz</button><button id="vback">Back to word list</button></div>`; $('#vagain').onclick = startVocabQuiz; $('#vback').onclick = vocabIntro; return; }
+  const q = VQ[vn];
+  $('#vocabArea').innerHTML = `<div class="qhead"><span class="small">Word ${vn + 1} of ${VQ.length}</span><span class="ctl"><button id="vrestart">Restart</button><button id="vquit">Quit</button></span></div><div class="bar" style="margin:10px 0 16px"><i style="width:${100 * vn / VQ.length}%"></i></div><h3>${esc(q.prompt)}</h3>${q.opts.map((o, i) => `<button class="opt" data-i="${i}">${'ABCD'[i]}. ${esc(o)}</button>`).join('')}<div id="vfb"></div>`;
+  $('#vquit').onclick = vocabIntro; $('#vrestart').onclick = startVocabQuiz;
+  let done = false;
+  document.querySelectorAll('#vocabArea .opt').forEach(b => b.onclick = () => {
+    if (done) return; done = true; const ok = q.opts[+b.dataset.i] === q.a; if (ok) vscore++;
+    document.querySelectorAll('#vocabArea .opt').forEach((x, j) => { if (q.opts[j] === q.a) x.classList.add('right'); else if (x === b) x.classList.add('wrong'); });
+    $('#vfb').innerHTML = `<p><b>${ok ? 'Correct.' : 'The answer is ' + esc(q.a) + '.'}</b> ${esc(q.v.word)}: ${esc(q.v.meaning)}. <i>${esc(q.v.example)}</i></p><button class="main" id="vnext">Next</button>`;
+    $('#vnext').onclick = () => { vn++; renderVQ(); };
+  });
+}
+
+/* ---------- revision guide */
+function drawGuide() {
+  const a = D.assessment, t = D.exam_tips;
+  const groups = [...new Set(D.units.map(u => u.group))];
+  const glabel = Object.assign({Y8: 'Year 8 units (60% of the test)', Y7: 'Year 7 units (40% of the test)'}, D.group_labels || {});
+  const gcard = c => `<div class="gcard" style="--c:${colourOf(c.unit)}"><h4 style="color:${colourOf(c.unit)};margin:0">${esc(c.title)}</h4><p class="small" style="margin:.2em 0"><i>${esc(c.question)}</i></p><ul>${c.points.map(p => `<li>${esc(p)}</li>`).join('')}</ul>${c.example ? `<div class="ex"><b>${esc(c.example.heading)}</b><br>${c.example.lines.map(esc).join('<br>')}</div>` : ''}${c.watch_out ? `<div class="wo" style="--c:${colourOf(c.unit)}"><b>Watch out:</b> ${esc(c.watch_out)}</div>` : ''}${c.hook ? `<div class="hk"><b>Memory hook:</b> ${esc(c.hook)}</div>` : ''}${c.grade9 ? `<div class="g9"><b>Grade 9 tip:</b> ${esc(c.grade9)}</div>` : ''}</div>`;
+  const when = a.date ? esc(new Date(a.date + 'T09:00').toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', year:'numeric'})) + ', ' : '';
+  let h = `<h2>Revision guide</h2><p>${esc(a.name)}${when ? ': ' + when : '. '}${esc(a.sections)}${a.equipment && a.equipment !== 'None' ? ' Bring: ' + esc(a.equipment) + '.' : ''}</p>${(D.how_to_use || []).length ? '<ul>' + D.how_to_use.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>' : ''}
+    <p>Read a unit, then cover it and test yourself. For a paper copy, use the <a href="#print">Print</a> tab.</p>
+    <div class="toc">${D.units.map(u => `<a href="#guide" data-jump="g-${esc(u.code)}" style="background:${colourOf(u.code)}">${esc(u.code)}</a>`).join('')}${D.cards.some(c => c.unit === 'SUMMARY') ? '<a href="#guide" data-jump="g-eq" style="background:var(--S)">Summary</a>' : ''}<a href="#guide" data-jump="g-tips" style="background:var(--S)">Exam tips</a>${(D.vocab || []).length ? '<a href="#guide" data-jump="g-vocab" style="background:var(--S)">' + VL() + '</a>' : ''}</div>`;
+  groups.forEach(g => {
+    h += `<h2 style="margin-top:28px">${esc(glabel[g] || g)}</h2>`;
+    D.units.filter(u => u.group === g).forEach(u => { h += `<h3 id="g-${esc(u.code)}" style="color:${colourOf(u.code)};margin-top:22px">${esc(u.code + ' ' + u.name)}${isNS(u.code) ? ' <span class="small">(not studied yet)</span>' : ''}</h3>` + D.cards.filter(c => c.unit === u.code).map(gcard).join(''); });
+  });
+  if (D.cards.some(c => c.unit === 'SUMMARY')) h += `<h2 id="g-eq" style="margin-top:28px">Summary cards</h2>` + D.cards.filter(c => c.unit === 'SUMMARY').map(gcard).join('');
+  if (t) h += `<h2 id="g-tips" style="margin-top:28px">Exam technique</h2><p>${esc(t.timing)}</p><h4>${D.level === 'gcse' ? 'Command words and calculations' : 'Section A: multiple choice'}</h4><ul>${t.section_a.map(x => `<li>${esc(x)}</li>`).join('')}</ul><h4>${D.level === 'gcse' ? 'Longer answers' : 'Section B: written answers'}</h4><ul>${t.section_b.map(x => `<li>${esc(x)}</li>`).join('')}</ul>${t.grade9 ? `<div class="g9"><b>How to reach grade 9</b><ul>${t.grade9.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>` : ''}`;
+  if ((D.vocab || []).length) h += `<h2 id="g-vocab" style="margin-top:28px">${VL()}</h2><table class="tbl"><thead><tr><th>Word</th><th>Meaning</th><th>Synonyms</th><th>Antonyms</th></tr></thead><tbody>${D.vocab.map(v => `<tr><td><b>${esc(v.word)}</b></td><td>${esc(v.meaning)}</td><td>${esc(v.synonyms.join(', '))}</td><td>${esc(v.antonyms.join(', '))}</td></tr>`).join('')}</tbody></table>`;
+  $('#guideArea').innerHTML = h;
+  $('#guideArea').querySelectorAll('[data-jump]').forEach(l => l.onclick = e => { e.preventDefault(); document.getElementById(l.dataset.jump).scrollIntoView({behavior:'smooth'}); });
+}
+
+/* ---------- print-ready files in Google Drive */
+function drawDownloads() {
+  const files = D.entry.pdfs || [];
+  if (INDEX.hosting === 'pages') {
+    $('#dlList').innerHTML = files.map(f => `<div class="panel"><h3>${esc(f.label)}</h3><p class="small">${esc(f.about)}</p><a class="btnlink" href="${esc(f.path)}" target="_blank" rel="noopener">Open PDF to print</a></div>`).join('');
+    $('#dlMsg').textContent = 'Each PDF opens in a new tab. Use the print button there, or download it first.';
+    return;
+  }
+  $('#dlList').innerHTML = files.map(f => `<div class="panel"><h3>${esc(f.label)}</h3><p class="small">${esc(f.about)}</p>${f.url ? `<a class="btnlink" href="${esc(f.url)}" rel="noopener">Open PDF to print</a><p class="small" style="margin-top:8px">Link not opening? Copy it into your browser:<br><code>${esc(f.url)}</code></p>` : '<p class="small">Not uploaded yet.</p>'}</div>`).join('');
+  $('#dlMsg').textContent = 'The PDFs are in Google Drive. Open them while signed in to a Google account the folder is shared with, then use the printer icon at the top right of the preview, or download and print.';
+}
+
+/* ---------- progress, topics and plan */
+function drawTopics() {
+  $('#topicList').innerHTML = D.units.map(u => `<label><input type="checkbox" data-u="${esc(u.code)}" ${isNS(u.code) ? '' : 'checked'}><span class="tag" style="background:${colourOf(u.code)}">${esc(u.code)}</span>${esc(u.name)}</label>`).join('');
+  document.querySelectorAll('[data-u]').forEach(cb => cb.onchange = () => {
+    const u = cb.dataset.u, studied = cb.checked;
+    if (studied) delete S.ns[u]; else S.ns[u] = true;
+    D.cards.forEach(c => { if (c.unit !== u || S.boxes[c.id] === undefined) return; if (!studied) S.boxes[c.id] = 0; else if (S.boxes[c.id] === 0) { S.boxes[c.id] = 1; S.seen[c.id] = null; } });
+    save(); renderAll(true);
+  });
+}
+function drawStats() {
+  $('#unitStats').innerHTML = `<table><thead><tr><th>Unit</th><th class="num">Answered</th><th>Correct</th></tr></thead><tbody>${D.units.map(u => { const [a, b] = S.stats[u.code] || [0, 0]; const p = b ? Math.round(100 * a / b) : null;
+    return `<tr><td><span class="tag" style="background:${colourOf(u.code)}">${esc(u.code)}</span> ${esc(u.name)}${isNS(u.code) ? ' <span class="small">(not studied)</span>' : ''}</td><td class="num">${b}</td><td class="num">${p === null ? 'not tried' : p + '%'}<span class="meter"><i style="width:${p || 0}%;background:${p === null ? 'transparent' : p >= 70 ? 'var(--ok)' : p >= 50 ? 'var(--acc)' : 'var(--bad)'}"></i></span></td></tr>`; }).join('')}</tbody></table>`;
+}
+function drawPlan() {
+  $('#plan').innerHTML = `<table class="tbl"><thead><tr><th>Day</th><th>New cards (Step 2)</th><th>Boxes due (Step 1)</th><th>Quiz (Step 3)</th></tr></thead><tbody>${(D.leitner_plan || []).map(r => `<tr class="${r.date === today() ? 'today' : ''}"><td>${esc(r.day)}${r.date === today() ? ' <b>(today)</b>' : ''}</td><td>${esc(r.new)}</td><td>${esc(r.boxes)}</td><td>${esc(r.quiz)}</td></tr>`).join('')}</tbody></table>`;
+  $('#sched').value = S.sched;
+}
+$('#sched').onchange = e => { S.sched = e.target.value; save(); drawHeader(); };
+
+/* ---------- reset */
+$('#resetBtn').onclick = () => { $('#resetBtn').style.display = 'none'; $('#resetConfirm').classList.add('on'); };
+$('#resetNo').onclick = () => { $('#resetConfirm').classList.remove('on'); $('#resetBtn').style.display = ''; };
+$('#resetYes').onclick = () => { const sched = S.sched; S = blank(); S.sched = sched; (D.ns_default || []).forEach(u => S.ns[u] = true); save(); $('#resetNo').onclick(); renderAll(); };
+
+function renderAll(keepView) { clearInterval(timerId); $('#vtab').textContent = VL(); drawHeader(); cardIntro(); quizIntro(); mockIntro(); drawWritten(); vocabIntro(); drawGuide(); drawDownloads(); drawTopics(); drawStats(); drawPlan(); }
+
+/* ---------- routing */
+const views = ['cards', 'quiz', 'mock', 'written', 'vocab', 'guide', 'print', 'progress'];
+function route() {
+  const v = views.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'cards';
+  views.forEach(x => $('#v-' + x).hidden = x !== v);
+  if (v === 'progress' && D) { drawStats(); drawPlan(); }
+  document.querySelectorAll('nav a').forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + v ? 'page' : 'false'));
+}
+addEventListener('hashchange', route);
+route(); boot();
+}
+</script>
+</body>
+</html>

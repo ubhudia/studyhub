@@ -1,0 +1,887 @@
+{
+ "decks": [
+  {
+   "student": "Bhavin",
+   "subject": "Spanish",
+   "term": "Autumn 2",
+   "year": "Year 8",
+   "file": "decks/bhavin-y8-spanish-aut2.json",
+   "deck_id": "bhavin-y8-spanish-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Bhavin_Year8_Spanish_Long_Flashcards.pdf",
+     "url": "https://drive.google.com/file/d/1qdBxrNgGVt1Pl0F3EgzflYG8H_CZm5DZ/view",
+     "about": "18 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Bhavin_Year8_Spanish_Quick_Cards.pdf",
+     "url": "https://drive.google.com/file/d/1WR8eI4OmLMG3_I_NM3VA-7Sw9BB7V11x/view",
+     "about": "53 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Bhavin_Year8_Spanish_Revision_Guide.pdf",
+     "url": "https://drive.google.com/file/d/1Hkcpn_cIl81pL16XReCAPBIlt_VAcskc/view",
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Spanish",
+   "term": "Spring 1",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: What I normally do on holiday; where I went last year and how I travelled."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Spanish",
+   "term": "Spring 2",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Activities I did on holiday; where I stayed; where I am going next year."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Spanish",
+   "term": "Summer 1",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Future study; future work plans."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Spanish",
+   "term": "Summer 2",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: University or work; dream job."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "English",
+   "term": "Autumn 2",
+   "year": "Year 8",
+   "file": "decks/bhavin-y8-english-aut2.json",
+   "deck_id": "bhavin-y8-english-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Bhavin_Year8_English_Long_Flashcards.pdf",
+     "url": "https://drive.google.com/file/d/1M6VGDAn3gBcMIrnwpgYMfBwaZvd_sJ9B/view",
+     "about": "18 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Bhavin_Year8_English_Quick_Cards.pdf",
+     "url": "https://drive.google.com/file/d/1Wstqhqz1rAHa_5P-Yk1G0VfqnpPxGb35/view",
+     "about": "39 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Bhavin_Year8_English_Revision_Guide.pdf",
+     "url": "https://drive.google.com/file/d/1Jj12BrJMaO9HCmkydSpuQZBs9nZXfsmm/view",
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
+  },
+  {
+   "student": "Bhavin",
+   "subject": "English",
+   "term": "Spring 1",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Creative Writing: Gothic (link to The Woman in Black)."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "English",
+   "term": "Spring 2",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Animal Farm."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "English",
+   "term": "Summer 1",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Short stories: analysis and writing."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "English",
+   "term": "Summer 2",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Revision for end of year assessments."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Maths",
+   "term": "Autumn 2",
+   "year": "Year 8",
+   "file": "decks/bhavin-y8-maths-aut2.json",
+   "deck_id": "bhavin-y8-maths-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Bhavin_Year8_Maths_Long_Flashcards.pdf",
+     "url": "https://drive.google.com/file/d/1XKYrVNAbXyzukA64VScY14CuND5FDS0y/view",
+     "about": "19 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Bhavin_Year8_Maths_Quick_Cards.pdf",
+     "url": "https://drive.google.com/file/d/1MbQPdp2EYpp83ddY2TsjMBSvW4j4I6EM/view",
+     "about": "52 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Bhavin_Year8_Maths_Revision_Guide.pdf",
+     "url": "https://drive.google.com/file/d/1ehCYqelDgvldSkmC351Iyfu-FZ5cDQ0y/view",
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Maths",
+   "term": "Spring 1",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Unit 7 Inequalities; Unit 8 Angles in polygons."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Maths",
+   "term": "Spring 2",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Unit 9 Proportion and real-life graphs; Unit 10 Area and perimeter."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Maths",
+   "term": "Summer 1",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Unit 11 Circles; Unit 12 Volume and surface area of prisms."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Maths",
+   "term": "Summer 2",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Unit 13 Univariate data; Unit 14 Bivariate data."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Science",
+   "term": "Autumn 2",
+   "year": "Year 8",
+   "file": "decks/bhavin-y8-science-aut2-2026.json",
+   "deck_id": "bhavin-y8-science-aut2-2026",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Bhavin_Year8_Science_Long_Flashcards.pdf",
+     "url": "https://drive.google.com/file/d/19IzNEE4cE34jTOQssxY0AchbWrI_Zapq/view",
+     "about": "60 topic cards, 4 per A4 sheet: key points, worked examples, watch outs. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Bhavin_Year8_Science_Quick_Cards.pdf",
+     "url": "https://drive.google.com/file/d/1qbPTIPWUBSjNC8ys7j9xZFLwWua2aAG9/view",
+     "about": "173 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Bhavin_Year8_Science_Revision_Guide.pdf",
+     "url": "https://drive.google.com/file/d/1b6yyrmn7cuEE8F55VashAbGVmojWNdw0/view",
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Science",
+   "term": "Spring 1",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: C2.2 Changing substances; P2.2 Magnetism."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Science",
+   "term": "Spring 2",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: B2.3 Life diversity; C2.3 Earth systems."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Science",
+   "term": "Summer 1",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: P2.3 Electric circuits: resistance; B2.4 Nutrition."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Science",
+   "term": "Summer 2",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: P2.4 Light."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Religious Education",
+   "term": "Autumn 2",
+   "year": "Year 8",
+   "note": "Batch 2. Assessment in RE lessons, week of 30 November. Autumn: Should we choose God over government? Mitzvot, Ten Commandments, Shariah Law, why we have laws. Materials received: rules knowledge organiser and revision sheet."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Religious Education",
+   "term": "Spring 1",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Can we ever justify the death penalty? Where does goodness come from, Utilitarianism, Situation Ethics, Kantian Ethics."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Religious Education",
+   "term": "Spring 2",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Speech preparation, forgiving criminals, capital punishment, is war justified."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Religious Education",
+   "term": "Summer 1",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Is there only one path to enlightenment? Hindu, Buddhist and Sikh principles and morals."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Religious Education",
+   "term": "Summer 2",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: New Religious Movements; end of year exams."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "History",
+   "term": "Autumn 2",
+   "year": "Year 8",
+   "note": "Batch 2. Assessment in the first History lesson, week of 30 November. Autumn: Expanding empires (Benin, Nur Jahan) and the Puritans. Materials received: booklets 1 and 2, topic list, revision questions."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "History",
+   "term": "Spring 1",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Unit 3 Destroyed communities, created communities; Unit 4 Worlds in motion."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "History",
+   "term": "Spring 2",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: What can sources reveal about how lives changed? Age of Revolutions."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "History",
+   "term": "Summer 1",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Unit 5 Revolution and rebellion, reaction and reform."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "History",
+   "term": "Summer 2",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Revision, exams and review."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Geography",
+   "term": "Autumn 2",
+   "year": "Year 8",
+   "note": "Batch 2. Assessment week of 30 November: 30 multiple choice questions plus a short written test. Units: River Rivals and Food and Famine lessons 1 to 5. Materials received: both mastery booklets, revision guidance, core knowledge list."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Geography",
+   "term": "Spring 1",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Endless Energy: are renewables a silver bullet?"
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Geography",
+   "term": "Spring 2",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Climate Change."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Geography",
+   "term": "Summer 1",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Polar Environments."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Geography",
+   "term": "Summer 2",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Revision and the Middle East."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Computer Science",
+   "term": "Autumn 2",
+   "year": "Year 8",
+   "note": "Batch 2. Assessment in the first Computer Science lesson, week of 30 November. Autumn: Digital fluency, law and ethics; Computer systems. Materials received: revision booklet."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Computer Science",
+   "term": "Spring 1",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Algorithmic thinking and Python foundations."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Computer Science",
+   "term": "Spring 2",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Python programming development."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Computer Science",
+   "term": "Summer 1",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Web development."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Computer Science",
+   "term": "Summer 2",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Programming and web development challenge."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Music",
+   "term": "Autumn 2",
+   "year": "Year 8",
+   "note": "Batch 2. Assessed in class. Autumn: Djembe drumming and singing."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Music",
+   "term": "Spring 1",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Keyboard."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Music",
+   "term": "Spring 2",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Production."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Music",
+   "term": "Summer 1",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Production (2)."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Music",
+   "term": "Summer 2",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Singing and band music."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Art, Design and Technology",
+   "term": "Autumn 2",
+   "year": "Year 8",
+   "note": "Batch 2. Assessed in class. Autumn: Sarah Graham, Alex Cruz. Materials received: D&T knowledge organiser."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Art, Design and Technology",
+   "term": "Spring 1",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Grayson Perry."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Art, Design and Technology",
+   "term": "Spring 2",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Tote."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Art, Design and Technology",
+   "term": "Summer 1",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Speaker."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Art, Design and Technology",
+   "term": "Summer 2",
+   "year": "Year 8",
+   "note": "Coming later. Ark curriculum: Isometric."
+  },
+  {
+   "student": "Bhavin",
+   "subject": "Word Power",
+   "term": "Autumn 2",
+   "year": "Year 8",
+   "file": "decks/bhavin-y8-vocab-aut2.json",
+   "deck_id": "bhavin-y8-vocab-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Bhavin_Year8_Word_Power_Long_Flashcards.pdf",
+     "url": "https://drive.google.com/file/d/121IJkTBjNS90_DqxRNXDVMFZnzg7Axzr/view",
+     "about": "48 topic cards, 4 per A4 sheet: key points, worked examples, watch outs. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Bhavin_Year8_Word_Power_Quick_Cards.pdf",
+     "url": "https://drive.google.com/file/d/1kLNngnMVv3uqDJnxKz6Gd2Twxvd-NV7q/view",
+     "about": "96 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Bhavin_Year8_Word_Power_Revision_Guide.pdf",
+     "url": "https://drive.google.com/file/d/1HTGcrDiNp4vWvyj4-MtRx8S7hAp5d6xC/view",
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Biology",
+   "term": "Autumn 2",
+   "year": "Year 10",
+   "file": "decks/jaimin-y10-biology-aut2.json",
+   "deck_id": "jaimin-y10-biology-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Jaimin_Year10_Biology_Long_Flashcards.pdf",
+     "url": "https://drive.google.com/file/d/1HMz5d6ACaIQvo4R7dzOm3P3hUJyAuUBg/view",
+     "about": "50 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Jaimin_Year10_Biology_Quick_Cards.pdf",
+     "url": "https://drive.google.com/file/d/1PwK32ph6iXRo1B7J8nK2JI4I1V5Xbmtp/view",
+     "about": "128 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Jaimin_Year10_Biology_Revision_Guide.pdf",
+     "url": "https://drive.google.com/file/d/1QXExLquaT0qGh2J-hE_-EfkLI-4lHGuE/view",
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Chemistry",
+   "term": "Autumn 2",
+   "year": "Year 10",
+   "file": "decks/jaimin-y10-chemistry-aut2.json",
+   "deck_id": "jaimin-y10-chemistry-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Jaimin_Year10_Chemistry_Long_Flashcards.pdf",
+     "url": "https://drive.google.com/file/d/1nQAs3zELBuaa0ultw1PKv-mgSC46kHuh/view",
+     "about": "28 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Jaimin_Year10_Chemistry_Quick_Cards.pdf",
+     "url": "https://drive.google.com/file/d/1KAY-guauNoedkIJCnTfQNgiffVV_ZS3_/view",
+     "about": "67 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Jaimin_Year10_Chemistry_Revision_Guide.pdf",
+     "url": "https://drive.google.com/file/d/1N3_cFHri0v6xJkz-jiFtjqViXtTEDG2k/view",
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Physics",
+   "term": "Autumn 2",
+   "year": "Year 10",
+   "file": "decks/jaimin-y10-physics-aut2.json",
+   "deck_id": "jaimin-y10-physics-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Jaimin_Year10_Physics_Long_Flashcards.pdf",
+     "url": "https://drive.google.com/file/d/1F8_koqScDkPOeM-UgRw8FVWM7MCUqBcX/view",
+     "about": "27 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Jaimin_Year10_Physics_Quick_Cards.pdf",
+     "url": "https://drive.google.com/file/d/1Xy_-8JpI7OGh4CUJr-LfLdvsi0Q77hvN/view",
+     "about": "60 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Jaimin_Year10_Physics_Revision_Guide.pdf",
+     "url": "https://drive.google.com/file/d/1l-_8r0PPIFuT0BvuVujxge-Ddau0v1wy/view",
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Biology",
+   "term": "Spring 1",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: B4.2 Circulation and respiration (taught Autumn 2), B4.3 Plants and material cycling."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Biology",
+   "term": "Summer 1",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: B4.4 Health and disease."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Biology",
+   "term": "Summer 2",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: B4.5 Ecology."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Chemistry",
+   "term": "Spring 1",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: C4.2 Extraction of metals (taught Autumn 2), C4.3 Quantitative chemistry."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Chemistry",
+   "term": "Summer 1",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: C4.4 Energy changes."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Physics",
+   "term": "Spring 1",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: P4.2 Energy conservation (taught Autumn 2)."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Physics",
+   "term": "Spring 2",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: P4.3 Movement."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Physics",
+   "term": "Summer 1",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: P4.4 Electric circuits and energy."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Physics",
+   "term": "Summer 2",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: P4.5 Radioactivity."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "English",
+   "term": "Autumn 2",
+   "year": "Year 10",
+   "note": "Batch 2. Assessment Monday 30 November, period 1: Language Paper 1 Question 5 (creative writing). Autumn: Macbeth; Language Paper 1."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "English",
+   "term": "Spring 1",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: Poetry anthology; Language Paper 2."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "English",
+   "term": "Summer 1",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: An Inspector Calls."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "English",
+   "term": "Summer 2",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: Revision for end of year assessments."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Maths",
+   "term": "Autumn 2",
+   "year": "Year 10",
+   "note": "Batch 2. Assessment Monday 30 November (online) and Tuesday 1 December (paper). Edexcel 1MA1 Higher Autumn: 01H Number, 02H Algebraic expressions, 03H Surds, 04H Equations and inequalities, 05H Percentages, 06H Ratio, 07H Proportion, 08H Sequences. Higher tier confirmed."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Maths",
+   "term": "Spring 1",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: 09H Simultaneous equations, 10H Graphs, 11H Angles, 12H Triangles, 13H Probability, 14H Area and volume, 15H Averages."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Maths",
+   "term": "Summer 1",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: 16H Data, 17H Percentages (advanced), 18H Compound measures, 19H Transformations, 20H Similar shapes, 21H Iteration, 22H Bounds."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Additional Maths",
+   "term": "Autumn 2",
+   "year": "Year 10",
+   "note": "Batch 2, built after GCSE Maths. OCR Level 3 FSMQ Additional Maths (6993), one 2 hour paper, grades A to E. Taught alongside GCSE Higher through enquiries and assessed each half term; the school decides final entry in Year 11. Pure strands with applications: algebra, coordinate geometry, trigonometry, calculus, exponentials and logarithms, numerical methods, binomial expansion."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Religious Studies",
+   "term": "Autumn 2",
+   "year": "Year 10",
+   "note": "Batch 2. Assessment Monday 30 November or Tuesday 1 December, depending on class. Autumn: Islam beliefs (Sunni and Shia, nature of Allah, prophets, angels, holy books, life after death, predestination); Theme D Peace and conflict (reasons for war, just war)."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Religious Studies",
+   "term": "Spring 1",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: Holy war, weapons of mass destruction, reconciliation, victims of war."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Religious Studies",
+   "term": "Spring 2",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: Christianity: worship, prayer, pilgrimage."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Religious Studies",
+   "term": "Summer 1",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: Sacraments, mission and evangelism, street pastors and food banks, festivals."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Religious Studies",
+   "term": "Summer 2",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: Forgiveness, crime, punishment, capital punishment."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Spanish",
+   "term": "Autumn 2",
+   "year": "Year 10",
+   "note": "Batch 2. Assessment Monday 30 November (Chromebook) and Wednesday 2 December (reading and writing). Autumn 1: Media and technology. Autumn 2: My personal world."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Spanish",
+   "term": "Spring 1",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: Lifestyle and wellbeing."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Spanish",
+   "term": "Spring 2",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: Lifestyle and wellbeing."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Spanish",
+   "term": "Summer 1",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: Studying and my future."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Spanish",
+   "term": "Summer 2",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: Revision of the year."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Geography",
+   "term": "Autumn 2",
+   "year": "Year 10",
+   "note": "Batch 2. Assessment Tuesday 1 December (written) and Wednesday 2 December (Smartgrade). Autumn: Challenges of natural hazards; The living world: hot deserts."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Geography",
+   "term": "Spring 1",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: Urban issues and challenges."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Geography",
+   "term": "Spring 2",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: Physical landscapes in the UK: rivers."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Geography",
+   "term": "Summer 1",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: Fieldwork: Epping Forest."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Geography",
+   "term": "Summer 2",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: Revision and end of year assessments."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Design and Technology",
+   "term": "Autumn 2",
+   "year": "Year 10",
+   "note": "Batch 2. Assessment Wednesday 2 December. Autumn: Core technical principles."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Design and Technology",
+   "term": "Spring 1",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: Specialist technical principles."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Design and Technology",
+   "term": "Summer 1",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: Designing and making principles; NEA."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Business Studies",
+   "term": "Autumn 2",
+   "year": "Year 10",
+   "note": "Batch 2. Assessment Friday 4 December (50 minutes). Autumn: Enterprise and entrepreneurship; Spotting a business opportunity."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Business Studies",
+   "term": "Spring 1",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: Putting a business idea into practice."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Business Studies",
+   "term": "Spring 2",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: Making the business effective."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Business Studies",
+   "term": "Summer 1",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: Understanding external influences on business."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Business Studies",
+   "term": "Summer 2",
+   "year": "Year 10",
+   "note": "Coming later. Ark curriculum: Revision."
+  },
+  {
+   "student": "Jaimin",
+   "subject": "Word Power",
+   "term": "Autumn 2",
+   "year": "Year 10",
+   "file": "decks/jaimin-y10-vocab-aut2.json",
+   "deck_id": "jaimin-y10-vocab-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Jaimin_Year10_Word_Power_Long_Flashcards.pdf",
+     "url": "https://drive.google.com/file/d/1xBqpzJFMFBEre8bxg7S2iXICMRqGRQRN/view",
+     "about": "48 topic cards, 4 per A4 sheet: key points, worked examples, watch outs. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Jaimin_Year10_Word_Power_Quick_Cards.pdf",
+     "url": "https://drive.google.com/file/d/1nc8IKr_1YWwalnbmsrDtFNbgk4WbQtXP/view",
+     "about": "96 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Jaimin_Year10_Word_Power_Revision_Guide.pdf",
+     "url": "https://drive.google.com/file/d/1EKxxmxjOZj1qJiOL5pfmYJHyqcPQ8Pxw/view",
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
+  }
+ ],
+ "hosting": "pages",
+ "sync_repo": "ubhudia/studyhubdata"
+}
