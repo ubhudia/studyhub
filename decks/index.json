@@ -66,7 +66,7 @@
      "need",
      "have"
     ],
-    "note": "Topic list (Benin, Nur Jahan, Puritans), booklets 1 and 2, revision lesson questions."
+    "note": "Topic list (Benin, Nur Jahan, Puritans), booklets 1 and 2, revision lesson questions. Deck built."
    },
    {
     "student": "Bhavin",
@@ -102,7 +102,7 @@
      "have",
      "have"
     ],
-    "note": "How do we know which rules to follow? knowledge organiser, revision sheet and revision lesson."
+    "note": "How do we know which rules to follow? knowledge organiser, revision sheet and revision lesson. Deck built."
    },
    {
     "student": "Bhavin",
@@ -528,7 +528,31 @@
    "subject": "Religious Education",
    "term": "Autumn 2",
    "year": "Year 8",
-   "note": "Batch 2. Assessment in RE lessons, week of 30 November. Autumn: Should we choose God over government? Mitzvot, Ten Commandments, Shariah Law, why we have laws. Materials received: rules knowledge organiser and revision sheet."
+   "file": "decks/bhavin-y8-re-aut2.json",
+   "deck_id": "bhavin-y8-re-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Bhavin_Year8_Religious_Education_Long_Flashcards.pdf",
+     "url": null,
+     "about": "14 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Bhavin_Year8_Religious_Education_Quick_Cards.pdf",
+     "url": null,
+     "about": "45 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Bhavin_Year8_Religious_Education_Revision_Guide.pdf",
+     "url": null,
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
   },
   {
    "student": "Bhavin",
@@ -563,7 +587,31 @@
    "subject": "History",
    "term": "Autumn 2",
    "year": "Year 8",
-   "note": "Batch 2. Assessment in the first History lesson, week of 30 November. Autumn: Expanding empires (Benin, Nur Jahan) and the Puritans. Materials received: booklets 1 and 2, topic list, revision questions."
+   "file": "decks/bhavin-y8-history-aut2.json",
+   "deck_id": "bhavin-y8-history-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Bhavin_Year8_History_Long_Flashcards.pdf",
+     "url": null,
+     "about": "16 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Bhavin_Year8_History_Quick_Cards.pdf",
+     "url": null,
+     "about": "56 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Bhavin_Year8_History_Revision_Guide.pdf",
+     "url": null,
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
   },
   {
    "student": "Bhavin",
