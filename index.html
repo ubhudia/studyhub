@@ -128,7 +128,7 @@ input[type=search]{font:16px "Atkinson Hyperlegible",sans-serif;min-height:44px;
 #subMoreBtn{display:none;background:none;border:0;color:#fff;text-decoration:underline;font:700 14px Lexend,sans-serif;min-height:32px;padding:0}
 .keys{display:none}
 @media(hover:hover) and (pointer:fine){.keys{display:block}}
-@media(max-width:700px){.topbar label{flex:1 1 100%}.topbar label select{flex:1}#subMore{display:none}#subMoreBtn{display:inline}header.more #subMore{display:inline}header.more #subMoreBtn{display:none}}
+@media(max-width:700px){.crumbs{flex:1 1 100%}.crumbs select{flex:1 1 40%;min-width:0}#subMore{display:none}#subMoreBtn{display:inline}header.more #subMore{display:inline}header.more #subMoreBtn{display:none}}
 /* themes per student */
 body{--top:#163a2b}
 body[data-student=Jaimin]{--board:#14532d;--top:#0f3a20;--acc:#facc15}
@@ -159,9 +159,16 @@ nav a[aria-current=page]{background:var(--board);color:#fff}
 .chk .ck-need{border-color:#d97706;background:light-dark(#fff4e0,#3a2a10)}
 .chk .ck-none{opacity:.6}
 @media(max-width:700px){nav .wrap{mask-image:linear-gradient(90deg,#000 85%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);padding-right:40px}.steps{grid-template-columns:minmax(0,1fr)}.step{flex-direction:row;flex-wrap:wrap;align-items:center}.step>div{flex:1}}
-.dashx{display:none}
-body.dash .dashx{display:block}
-body.dash header.band,body.dash nav,body.dash #work,body.dash .topbar label{display:none}
+#dash,#stuPage{display:none}
+body.dash #dash,body.stu #stuPage{display:block}
+body.dash header.band,body.dash nav,body.dash #work,body.stu header.band,body.stu nav,body.stu #work{display:none}
+body.dash .cr-st,body.dash .cr-sub,body.stu .cr-sub{display:none}
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;font:700 16px Lexend,sans-serif}
+.crumbs a{color:#fff;text-decoration:none;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.4);min-height:40px;box-sizing:border-box;display:inline-flex;align-items:center}
+.crumbs a:hover{background:rgba(255,255,255,.12)}
+.crumbs .cr{opacity:.7;font-size:20px}
+.crumbs select[hidden]{display:none}
+body.stu #stuCrumb,body.dash #homeBtn{background:rgba(255,255,255,.18)}
 .dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:18px;margin:18px 0}
 .dcol{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;border-top:8px solid var(--dc)}
 .dcol h2{margin:.1em 0 .3em;color:var(--dc)}
@@ -176,27 +183,30 @@ body.dash header.band,body.dash nav,body.dash #work,body.dash .topbar label{disp
 .dtbl tr.go{cursor:pointer}
 .dtbl tr.go:hover td{background:var(--bg)}
 .dtbl a{color:inherit;font-weight:700}
+@media(max-width:520px){.dtbl .nt{display:none}.dtbl{font-size:14px}.dtbl th,.dtbl td{padding:6px 4px}}
 .bar{height:6px;border-radius:3px;background:var(--line);margin-top:3px}
 .bar i{display:block;height:100%;border-radius:3px;background:var(--dc)}
 #homeBtn{font-weight:700}
-#ovArea{grid-template-columns:minmax(0,1fr)}
+#ghBox{overflow-wrap:anywhere}
 .dcol h2 a{color:inherit;text-decoration:underline;text-underline-offset:4px}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.tbl td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
 <body>
 <div class="topbar"><div class="wrap">
-  <button type="button" id="homeBtn">Dashboard</button>
-  <label>Student <select id="studentSel"></select></label>
-  <label>Subject <select id="subjectSel"></select></label>
-  <label>Term <select id="termSel"></select></label>
+  <div class="crumbs" aria-label="Where you are">
+    <a href="#home" id="homeBtn">Home</a>
+    <span class="cr cr-st" aria-hidden="true">›</span><a href="#student" id="stuCrumb" class="cr-st" title="All subjects for this student"></a>
+    <span class="cr cr-sub" aria-hidden="true">›</span><select id="subjectSel" class="cr-sub" aria-label="Subject"></select><select id="termSel" class="cr-sub" aria-label="Term"></select>
+  </div>
+  <select id="studentSel" hidden aria-hidden="true"></select>
   <span class="sp"></span>
   <a href="#home" class="small" id="ghStatus" style="color:inherit;opacity:.85;text-decoration:none"></a>
 </div></div>
 
 <section class="dashx band" id="dash"><div class="wrap">
-  <h1 style="margin:.4em 0 0">Study Hub dashboard</h1>
-  <p class="small" id="dashMsg">Progress for both students. Tap a subject to open it.</p>
+  <h1 style="margin:.4em 0 0">Study Hub</h1>
+  <p class="small" id="dashMsg">Progress for both students. Tap a name for all their subjects, or a subject to open it.</p>
   <div class="dgrid" id="dashArea"></div>
   <div class="panel" style="margin-bottom:24px" id="ghBox" hidden>
     <h2>Sync between devices</h2>
@@ -208,6 +218,13 @@ body.dash header.band,body.dash nav,body.dash #work,body.dash .topbar label{disp
     </details>
     <p class="small" id="ghMsg" role="status"></p>
   </div>
+</div></section>
+
+<section class="band" id="stuPage"><div class="wrap">
+  <div class="row" style="align-items:center"><h1 style="margin:.3em 0 0" id="stuTitle"></h1><span style="flex:1"></span><button type="button" id="stuSwitch"></button></div>
+  <p class="small">All subjects. Tap a subject to open its flashcards, quiz and mock test.</p>
+  <div class="dgrid" id="stuArea" style="grid-template-columns:minmax(0,1fr)"></div>
+  <div class="panel"><h2>What has been uploaded</h2><p>One row per subject. Change a box when you send a new document, so the next build uses it. <b>Have</b>: already used. <b>Need</b>: please find and send. <b>None</b>: the school does not give this for that subject.</p><div id="checkArea"></div></div>
 </div></section>
 
 <header class="band"><div class="wrap">
@@ -227,11 +244,10 @@ body.dash header.band,body.dash nav,body.dash #work,body.dash .topbar label{disp
 </div></header>
 
 <nav><div class="wrap">
-  <a href="#overview">Overview</a><a href="#cards">Flashcards</a><a href="#quiz">Quiz</a><a href="#mock">Mock test</a><a href="#written">Written practice</a><a href="#guide">Revision guide</a><a href="#print">Print</a><a href="#progress">Progress</a><a href="#checklist">Checklist</a>
+  <a href="#cards">Flashcards</a><a href="#quiz">Quiz</a><a href="#mock">Mock test</a><a href="#written">Written practice</a><a href="#guide">Revision guide</a><a href="#print">Print</a><a href="#progress">Progress</a>
 </div></nav>
 
 <main class="band" id="work"><div class="wrap">
-<section id="v-overview" hidden><div class="dgrid" id="ovArea" style="margin-top:0"></div></section>
 <section id="v-cards"><div class="panel" id="cardArea"></div><div class="panel" id="vocabArea" hidden></div></section>
 <section id="v-quiz" hidden><div class="panel" id="quizArea"></div></section>
 <section id="v-mock" hidden><div class="panel" id="mockArea"></div></section>
@@ -247,16 +263,6 @@ body.dash header.band,body.dash nav,body.dash #work,body.dash .topbar label{disp
   <div class="dl" id="dlList"></div>
   <p class="msg small" id="dlMsg"></p></div>
 </section>
-<section id="v-checklist" hidden>
-  <div class="panel"><h2>Sync between devices</h2><p>Sync settings and the setup steps are on the <a href="#home">Dashboard</a>.</p></div>
-  <div class="panel"><h2>What has been uploaded</h2><p>One row per subject. Change a box when you send a new document, so the next build uses it. <b>Have</b>: already used. <b>Need</b>: please find and send. <b>None</b>: the school does not give this for that subject.</p><div id="checkArea"></div></div>
-  <div class="panel">
-    <h2>Start again</h2>
-    <p class="small">Clears the card boxes, quiz scores and known words. On every synced device. This cannot be undone.</p>
-    <div class="row"><button id="resetOne">Reset this subject</button><button id="resetAll">Reset all subjects for <span id="resetWho"></span></button><span class="small" id="resetMsg" role="status"></span></div>
-    <div class="row" id="resetAsk" hidden><span id="resetQ"></span><button id="resetYes" style="background:#c62828;border-color:#c62828;color:#fff">Yes, reset</button><button id="resetNo">Cancel</button></div>
-  </div>
-</section>
 <section id="v-progress" hidden>
   <div class="panel"><h2>Topics I have studied</h2><p>Untick a topic you have not been taught yet. Its cards move to the <b>Not studied yet</b> box and it is left out of quizzes and the mock. Tick it when you have covered it in class.</p><div class="topics" id="topicList"></div></div>
   <div class="panel"><h2>How you are doing by unit</h2><p class="small">From quiz and mock answers on this device.</p><div id="unitStats"></div></div>
@@ -264,7 +270,13 @@ body.dash header.band,body.dash nav,body.dash #work,body.dash .topbar label{disp
   <div class="panel"><h2>Settings</h2>
     <div class="row"><label for="sched">How often boxes come back</label>
     <select id="sched"><option value="short">Short: test within 2 weeks (Box 1 daily, Boxes 2 to 5 every 2nd day)</option><option value="long">Long: GCSE run-up (Box 1 to 5 every 1, 2, 4, 8, 16 days)</option></select></div>
-    <p class="small">Progress is saved on this device and, when sync is on, on every synced device. Sync and Start again are on the Checklist tab.</p>
+    <p class="small">Progress is saved on this device and, when sync is on, on every synced device. Sync settings are on the Home page.</p>
+  </div>
+  <div class="panel">
+    <h2>Start again</h2>
+    <p class="small">Clears the card boxes, quiz scores and known words. On every synced device. This cannot be undone.</p>
+    <div class="row"><button id="resetOne">Reset this subject</button><button id="resetAll">Reset all subjects for <span id="resetWho"></span></button><span class="small" id="resetMsg" role="status"></span></div>
+    <div class="row" id="resetAsk" hidden><span id="resetQ"></span><button id="resetYes" style="background:#c62828;border-color:#c62828;color:#fff">Yes, reset</button><button id="resetNo">Cancel</button></div>
   </div>
 </section>
 </div></main>
@@ -373,14 +385,13 @@ function ghPanel() {
   $('#ghState').innerHTML = on && GH.bad
     ? '<p><b>The sync key was not accepted.</b> It may have expired or been replaced, or the link was cut short when it was sent. Progress is still saved on this device. Open a new setup link here; the progress merges and nothing is lost.</p>'
     : on
-    ? '<p><b>Sync is on for this device.</b> Progress saves a few seconds after each answer and loads when the hub opens. The dashboard shows both boys\' progress from every synced device.</p><p><b>To set up another phone, tablet or laptop:</b></p>' + '<ol><li>On a device where sync is on, open the Dashboard and press <b>Copy setup link</b>. Send it by WhatsApp, text or email.</li><li>On the new device, open the link in the browser you will use for the hub. Android: press and hold the link, then choose <b>Open in Chrome</b>. School or other laptop: paste the link into the address bar.</li><li>Check the top right says <b>Synced</b> and a time. That is all: the key stays saved in that browser.</li><li>Optional on a phone: Chrome menu (three dots), then <b>Add to Home screen</b>.</li></ol><p class="small">On a shared computer, press Turn off on this device when finished. If a school laptop clears its browser at log out, open the link again next time.</p>'
-    : '<p><b>Sync is off on this device.</b> Progress is only saved here. To turn it on:</p>' + '<ol><li>On a device where sync is on, open the Dashboard and press <b>Copy setup link</b>. Send it by WhatsApp, text or email.</li><li>On the new device, open the link in the browser you will use for the hub. Android: press and hold the link, then choose <b>Open in Chrome</b>. School or other laptop: paste the link into the address bar.</li><li>Check the top right says <b>Synced</b> and a time. That is all: the key stays saved in that browser.</li><li>Optional on a phone: Chrome menu (three dots), then <b>Add to Home screen</b>.</li></ol><p class="small">On a shared computer, press Turn off on this device when finished. If a school laptop clears its browser at log out, open the link again next time.</p>';
+    ? '<p><b>Sync is on for this device.</b> Progress saves a few seconds after each answer and loads when the hub opens. The Home page shows both boys\' progress from every synced device.</p><p><b>To set up another phone, tablet or laptop:</b></p>' + '<ol><li>On a device where sync is on, open Home and press <b>Copy setup link</b>. Send it by WhatsApp, text or email.</li><li>On the new device, open the link in the browser you will use for the hub. Android: press and hold the link, then choose <b>Open in Chrome</b>. School or other laptop: paste the link into the address bar.</li><li>Check the top right says <b>Synced</b> and a time. That is all: the key stays saved in that browser.</li><li>Optional on a phone: Chrome menu (three dots), then <b>Add to Home screen</b>.</li></ol><p class="small">On a shared computer, press Turn off on this device when finished. If a school laptop clears its browser at log out, open the link again next time.</p>'
+    : '<p><b>Sync is off on this device.</b> Progress is only saved here. To turn it on:</p>' + '<ol><li>On a device where sync is on, open Home and press <b>Copy setup link</b>. Send it by WhatsApp, text or email.</li><li>On the new device, open the link in the browser you will use for the hub. Android: press and hold the link, then choose <b>Open in Chrome</b>. School or other laptop: paste the link into the address bar.</li><li>Check the top right says <b>Synced</b> and a time. That is all: the key stays saved in that browser.</li><li>Optional on a phone: Chrome menu (three dots), then <b>Add to Home screen</b>.</li></ol><p class="small">On a shared computer, press Turn off on this device when finished. If a school laptop clears its browser at log out, open the link again next time.</p>';
 }
 
 /* ---------- checklist of uploaded source material */
 const CHK_LABEL = {have: 'Have', need: 'Need', none: 'None'};
 function drawChecklist() {
-  ghPanel(); $('#resetWho').textContent = $('#studentSel').value; $('#resetAsk').hidden = true;
   const C = INDEX && INDEX.checklist; if (!C) { $('#checkArea').textContent = 'No checklist yet.'; return; }
   const st = $('#studentSel').value, mine = store.get('hub-check-' + st) || {v: {}};
   const rows = C.rows.filter(r => r.student === st).sort((a, b) => a.subject.localeCompare(b.subject));
@@ -396,7 +407,7 @@ function drawChecklist() {
 
 /* ---------- student, subject and term pickers */
 async function boot() {
-  const km = location.hash.match(/^#key=((?:github_pat_|ghp_)[A-Za-z0-9_]{20,})$/);
+  const km = decodeURIComponent(location.hash).match(/((?:github_pat_|ghp_)[A-Za-z0-9_]{20,})/);
   if (km) { store.set('hub-gh', {token: km[1]}); history.replaceState(null, '', location.pathname); GH.fresh = true; }
   try { INDEX = await (await fetch('decks/index.json')).json(); }
   catch (e) { $('#title').textContent = 'Could not load the subject list'; return; }
@@ -410,7 +421,7 @@ async function boot() {
   $('#subjectSel').onchange = () => { fillTerms(); pick(); };
   $('#termSel').onchange = pick;
   await pick();
-  if (!location.hash || location.hash === '#home') showDash();
+  route();
   if (GH.fresh && ghOn()) { ghShow('Sync turned on'); for (const st of [...new Set(INDEX.decks.map(d => d.student))]) await ghPush(st); }
 }
 function dueFor(d) {
@@ -446,6 +457,7 @@ function fillTerms(want) {
   $('#termSel').innerHTML = ds.map(d => `<option value="${esc(d.term)}">${esc(d.year + ' ' + d.term)}${d.file ? '' : ' (coming soon)'}</option>`).join('');
   if (want && ds.some(d => d.term === want)) $('#termSel').value = want;
   else if (ds.some(d => d.file)) $('#termSel').value = ds.find(d => d.file).term;
+  $('#termSel').hidden = ds.length < 2;
 }
 async function pick() {
   const entry = INDEX.decks.find(d => d.student === $('#studentSel').value && d.subject === $('#subjectSel').value && d.term === $('#termSel').value);
@@ -893,10 +905,10 @@ function studentPanel(st) {
   const T = k => subs.reduce((a, x) => a + x[k], 0), pc = T('answered') ? Math.round(100 * T('right') / T('answered')) + '%' : 'none yet';
   const tests = subs.filter(x => x.next).sort((a, b) => a.next.date.localeCompare(b.next.date)).slice(0, 5);
   const days = x => { const n = Math.round((Date.parse(x) - Date.parse(t)) / 864e5); return n === 0 ? 'today' : n === 1 ? 'tomorrow' : 'in ' + n + ' days'; };
-  return `<div class="dcol" style="--dc:${COLS[st] || 'var(--board)'}"><h2><a href="#overview" class="stlink" data-st="${esc(st)}">${esc(st)}</a></h2>
+  return `<div class="dcol" style="--dc:${COLS[st] || 'var(--board)'}"><h2><a href="#student" class="stlink" data-st="${esc(st)}">${esc(st)}</a></h2>
     <div class="dtot"><div><b>${streakCount(st)}</b><span>day streak</span></div><div><b>${T('due')}</b><span>cards due today</span></div><div><b>${T('learnt')} / ${T('total')}</b><span>cards learnt (Box 5)</span></div><div><b>${T('right')} / ${T('answered')}</b><span>quiz answers right (${pc})</span></div></div>
     <h3 style="margin:.6em 0 .2em">Next tests</h3>${tests.length ? `<ul class="dtests">${tests.map(x => `<li><b>${esc(x.s)}</b>: ${fmtDate(x.next.date)} (${days(x.next.date)})</li>`).join('')}</ul>` : '<p class="small">No test dates set.</p>'}
-    <table class="dtbl"><thead><tr><th>Subject</th><th>Next test</th><th class="n">Learnt</th><th class="n">Due</th><th class="n">Quiz right</th></tr></thead><tbody>${subs.map(x => `<tr class="go" data-st="${esc(st)}" data-s="${esc(x.s)}" data-t="${esc(x.term)}"><td><a href="#cards">${esc(x.s)}</a><div class="bar"><i style="width:${x.total ? Math.round(100 * x.learnt / x.total) : 0}%"></i></div></td><td>${x.next ? fmtDate(x.next.date) : ''}</td><td class="n">${x.learnt} / ${x.total}</td><td class="n">${x.due || ''}</td><td class="n">${x.answered ? Math.round(100 * x.right / x.answered) + '%' : ''}</td></tr>`).join('')}</tbody></table></div>`;
+    <table class="dtbl"><thead><tr><th>Subject</th><th class="nt">Next test</th><th class="n">Learnt</th><th class="n">Due</th><th class="n">Quiz right</th></tr></thead><tbody>${subs.map(x => `<tr class="go" data-st="${esc(st)}" data-s="${esc(x.s)}" data-t="${esc(x.term)}"><td><a href="#cards">${esc(x.s)}</a><div class="bar"><i style="width:${x.total ? Math.round(100 * x.learnt / x.total) : 0}%"></i></div></td><td class="nt">${x.next ? fmtDate(x.next.date) : ''}</td><td class="n">${x.learnt} / ${x.total}</td><td class="n">${x.due || ''}</td><td class="n">${x.answered ? Math.round(100 * x.right / x.answered) + '%' : ''}</td></tr>`).join('')}</tbody></table></div>`;
 }
 function bindPanels(root) {
   root.querySelectorAll('tr.go').forEach(tr => tr.onclick = async e => {
@@ -906,8 +918,8 @@ function bindPanels(root) {
   });
   root.querySelectorAll('a.stlink').forEach(a => a.onclick = async e => {
     e.preventDefault();
-    if ($('#studentSel').value !== a.dataset.st) { $('#studentSel').value = a.dataset.st; fillSubjects(); fillTerms(); await pick(); }
-    location.hash = 'overview';
+    await setStudent(a.dataset.st);
+    if (location.hash === '#student') showStudent(); else location.hash = 'student';
   });
 }
 function drawDash() {
@@ -915,35 +927,44 @@ function drawDash() {
   $('#dashArea').innerHTML = students.map(studentPanel).join('');
   bindPanels($('#dashArea'));
 }
-function drawOverview() {
-  const st = $('#studentSel').value;
-  $('#ovArea').innerHTML = studentPanel(st).replace('<h2><a href="#overview" class="stlink" data-st="' + esc(st) + '">' + esc(st) + '</a></h2>', '<h2>' + esc(st) + ': all subjects</h2>');
-  bindPanels($('#ovArea'));
+async function setStudent(st) {
+  if ($('#studentSel').value === st) return;
+  $('#studentSel').value = st; fillSubjects(); fillTerms(); await pick();
 }
+function showStudent() {
+  const st = $('#studentSel').value, others = [...new Set(INDEX.decks.map(d => d.student))].filter(x => x !== st);
+  document.body.classList.remove('dash'); document.body.classList.add('stu'); document.body.dataset.student = st; crumbs();
+  $('#stuTitle').textContent = st;
+  $('#stuArea').innerHTML = studentPanel(st).replace(/<h2>.*?<\/h2>/, '');
+  bindPanels($('#stuArea')); drawChecklist();
+  $('#stuSwitch').hidden = !others.length; $('#stuSwitch').textContent = others.length ? 'Switch to ' + others[0] : '';
+  $('#stuSwitch').onclick = async () => { await setStudent(others[0]); showStudent(); };
+}
+function crumbs() { $('#stuCrumb').textContent = $('#studentSel').value; }
 async function showDash() {
-  document.body.classList.add('dash'); document.body.dataset.student = '';
+  document.body.classList.remove('stu'); document.body.classList.add('dash'); document.body.dataset.student = '';
   if (!INDEX) return;
   drawDash(); ghPanel();
   if (ghOn()) {
     $('#dashMsg').textContent = 'Checking for progress from other devices...';
     for (const st of [...new Set(INDEX.decks.map(d => d.student))]) await ghPull(st);
-    $('#dashMsg').textContent = 'Progress for both students, synced. Tap a subject to open it.';
+    $('#dashMsg').textContent = 'Progress for both students, synced. Tap a name or a subject to open it.';
     drawDash();
-  } else $('#dashMsg').textContent = 'Progress saved on this device. Turn on sync (Checklist tab) to see progress from every device. Tap a subject to open it.';
+  } else $('#dashMsg').textContent = 'Progress saved on this device. Turn on sync below to see progress from every device. Tap a name or a subject to open it.';
 }
 $('#homeBtn').onclick = () => { location.hash = 'home'; };
 
 /* ---------- routing */
-const views = ['overview', 'cards', 'quiz', 'mock', 'written', 'guide', 'print', 'progress', 'checklist'];
+const views = ['cards', 'quiz', 'mock', 'written', 'guide', 'print', 'progress'];
 function route() {
   const h = location.hash.slice(1);
   if (h === '' || h === 'home') { showDash(); return; }
-  document.body.classList.remove('dash'); if (D && D.entry) document.body.dataset.student = D.entry.student;
+  if (['student', 'overview', 'checklist'].includes(h)) { if (INDEX) showStudent(); return; }
+  document.body.classList.remove('dash', 'stu'); crumbs(); if (D && D.entry) document.body.dataset.student = D.entry.student;
   const v = views.includes(h) ? h : 'cards';
   views.forEach(x => $('#v-' + x).hidden = x !== v);
   if (v === 'progress' && D) { drawStats(); drawPlan(); }
-  if (v === 'checklist') drawChecklist();
-  if (v === 'overview' && INDEX) drawOverview();
+  if (v === 'progress') { $('#resetWho').textContent = $('#studentSel').value; $('#resetAsk').hidden = true; }
   document.querySelectorAll('nav a').forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + v ? 'page' : 'false'));
 }
 addEventListener('hashchange', route);
