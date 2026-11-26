@@ -18,7 +18,7 @@
      "have",
      "need"
     ],
-    "note": "D&T knowledge organiser (reduce, reuse, recycle). Art: no assessment topic list; send the Art knowledge organiser if there is one."
+    "note": "D&T knowledge organiser used for the deck (including the isometric drawing task). Art: no topic list or knowledge organiser; the deck has a short Sarah Graham section. Send the Art knowledge organiser if there is one."
    },
    {
     "student": "Bhavin",
@@ -90,7 +90,7 @@
      "need",
      "need"
     ],
-    "note": "Only the Ark curriculum page so far."
+    "note": "Only the Ark curriculum page so far (djembe drumming and singing). Deck built from general djembe and singing knowledge. Send any revision sheet or key word list."
    },
    {
     "student": "Bhavin",
@@ -764,7 +764,31 @@
    "subject": "Music",
    "term": "Autumn 2",
    "year": "Year 8",
-   "note": "Batch 2. Assessed in class. Autumn: Djembe drumming and singing."
+   "file": "decks/bhavin-y8-music-aut2.json",
+   "deck_id": "bhavin-y8-music-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Bhavin_Year8_Music_Long_Flashcards.pdf",
+     "url": null,
+     "about": "12 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Bhavin_Year8_Music_Quick_Cards.pdf",
+     "url": null,
+     "about": "35 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Bhavin_Year8_Music_Revision_Guide.pdf",
+     "url": null,
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
   },
   {
    "student": "Bhavin",
@@ -799,7 +823,31 @@
    "subject": "Art, Design and Technology",
    "term": "Autumn 2",
    "year": "Year 8",
-   "note": "Batch 2. Assessed in class. Autumn: Sarah Graham, Alex Cruz. Materials received: D&T knowledge organiser."
+   "file": "decks/bhavin-y8-artdt-aut2.json",
+   "deck_id": "bhavin-y8-artdt-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Bhavin_Year8_Art,_Design_and_Technology_Long_Flashcards.pdf",
+     "url": null,
+     "about": "15 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Bhavin_Year8_Art,_Design_and_Technology_Quick_Cards.pdf",
+     "url": null,
+     "about": "52 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Bhavin_Year8_Art,_Design_and_Technology_Revision_Guide.pdf",
+     "url": null,
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
   },
   {
    "student": "Bhavin",
