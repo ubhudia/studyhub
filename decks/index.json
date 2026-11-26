@@ -198,7 +198,7 @@
      "need",
      "need"
     ],
-    "note": "AQA. Assessment on core technical principles."
+    "note": "AQA. Core technical principles from the curriculum map. Deck built. Send the topic list or knowledge organiser."
    },
    {
     "student": "Jaimin",
@@ -222,7 +222,7 @@
      "need",
      "need"
     ],
-    "note": "AQA. Assessment on natural hazards and hot deserts."
+    "note": "AQA. Natural hazards and hot deserts, from the curriculum map. Case studies used: Chile 2010, Nepal 2015, Typhoon Haiyan, Somerset Levels 2014, Thar Desert. Deck built. Send the case studies the school taught if they differ."
    },
    {
     "student": "Jaimin",
@@ -1147,7 +1147,31 @@
    "subject": "Geography",
    "term": "Autumn 2",
    "year": "Year 10",
-   "note": "Batch 2. Assessment Tuesday 1 December (written) and Wednesday 2 December (Smartgrade). Autumn: Challenges of natural hazards; The living world: hot deserts."
+   "file": "decks/jaimin-y10-geography-aut2.json",
+   "deck_id": "jaimin-y10-geography-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Jaimin_Year10_Geography_Long_Flashcards.pdf",
+     "url": null,
+     "about": "25 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Jaimin_Year10_Geography_Quick_Cards.pdf",
+     "url": null,
+     "about": "60 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Jaimin_Year10_Geography_Revision_Guide.pdf",
+     "url": null,
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
   },
   {
    "student": "Jaimin",
@@ -1182,7 +1206,31 @@
    "subject": "Design and Technology",
    "term": "Autumn 2",
    "year": "Year 10",
-   "note": "Batch 2. Assessment Wednesday 2 December. Autumn: Core technical principles."
+   "file": "decks/jaimin-y10-dt-aut2.json",
+   "deck_id": "jaimin-y10-dt-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Jaimin_Year10_Design_and_Technology_Long_Flashcards.pdf",
+     "url": null,
+     "about": "23 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Jaimin_Year10_Design_and_Technology_Quick_Cards.pdf",
+     "url": null,
+     "about": "60 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Jaimin_Year10_Design_and_Technology_Revision_Guide.pdf",
+     "url": null,
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
   },
   {
    "student": "Jaimin",
