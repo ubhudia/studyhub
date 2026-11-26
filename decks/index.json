@@ -204,13 +204,13 @@
     "student": "Jaimin",
     "subject": "English",
     "status": [
-     "need",
+     "have",
      "have",
      "have",
      "need",
      "have"
     ],
-    "note": "Homework sheets and Macbeth revision notes (photos). Send the Language Paper 1 assessment details."
+    "note": "Assessment confirmed from timetable and homework: Paper 1 Question 5 (setting, character, change, outcome plan). Homework weeks 2 to 7 and Macbeth notes (photos). Deck built. Send a knowledge organiser if there is one."
    },
    {
     "student": "Jaimin",
@@ -925,7 +925,31 @@
    "subject": "English",
    "term": "Autumn 2",
    "year": "Year 10",
-   "note": "Batch 2. Assessment Monday 30 November, period 1: Language Paper 1 Question 5 (creative writing). Autumn: Macbeth; Language Paper 1."
+   "file": "decks/jaimin-y10-english-aut2.json",
+   "deck_id": "jaimin-y10-english-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Jaimin_Year10_English_Long_Flashcards.pdf",
+     "url": null,
+     "about": "22 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Jaimin_Year10_English_Quick_Cards.pdf",
+     "url": null,
+     "about": "57 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Jaimin_Year10_English_Revision_Guide.pdf",
+     "url": null,
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
   },
   {
    "student": "Jaimin",
