@@ -119,12 +119,14 @@ input[type=search]{font:16px "Atkinson Hyperlegible",sans-serif;min-height:44px;
 .qhead .ctl button{min-height:36px;padding:4px 12px;font-size:14px}
 .skip{margin-top:6px;font:400 15px "Atkinson Hyperlegible",sans-serif;min-height:40px}
 @media(max-width:700px){.boxes{grid-template-columns:repeat(3,minmax(0,1fr))}}
+[hidden]{display:none!important}
 /* themes per student */
 body{--top:#163a2b}
 body[data-student=Jaimin]{--board:#14532d;--top:#0f3a20;--acc:#facc15}
 body[data-student=Bhavin]{--board:#1e3a8a;--top:#172554;--acc:#fbbf24}
 .topbar{background:var(--top)}
-.topbar select{background:rgba(0,0,0,.25)}
+.topbar select{background:var(--board);color:#fff;border-color:rgba(255,255,255,.45)}
+.topbar select option{background:var(--top);color:#fff}
 header.band{background:var(--board);padding-bottom:22px}
 header h1{font-size:clamp(24px,3.6vw,34px)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
@@ -157,32 +159,9 @@ nav a[aria-current=page]{background:var(--board);color:#fff}
   <label>Subject <select id="subjectSel"></select></label>
   <label>Term <select id="termSel"></select></label>
   <span class="sp"></span>
-  <span class="small" id="ghStatus" style="color:inherit;opacity:.85"></span>
-  <button id="syncBtn" aria-label="Settings">Settings</button>
+  <a href="#checklist" class="small" id="ghStatus" style="color:inherit;opacity:.85;text-decoration:none"></a>
 </div></div>
 
-<div id="syncPanel" class="panel" hidden style="max-width:1000px;margin:12px auto">
-  <div class="qhead"><h2 style="margin:0">Settings</h2><span class="ctl"><button id="syncClose">Close</button></span></div>
-<div id="ghBox" hidden>
-  <h3>Sync between devices</h3>
-  <p class="small" id="ghState"></p>
-  <div class="row"><input type="password" id="ghKey" placeholder="Paste the sync key once on this device" autocomplete="off" style="font:15px monospace;min-height:44px;padding:8px 12px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);width:min(100%,420px)"><button class="main" id="ghSave">Turn on sync</button><button id="ghOff">Turn off on this device</button></div>
-  <div class="row" id="ghLinkRow" hidden><button id="ghLink">Copy setup link for another device</button></div>
-  <p class="small" id="ghMsg" role="status"></p>
-  </div>
-  <h3>Start again</h3>
-  <p class="small">Clears the card boxes, quiz scores and known words. This cannot be undone.</p>
-  <div class="row"><button id="resetOne">Reset this subject</button><button id="resetAll">Reset all subjects for <span id="resetWho"></span></button></div>
-  <div class="row" id="resetAsk" hidden><span id="resetQ"></span><button class="danger" id="resetYes" style="background:#c62828;border-color:#c62828;color:#fff">Yes, reset</button><button id="resetNo">Cancel</button></div>
-  <details style="margin-top:18px"><summary>Move progress without sync (backup)</summary>
-  <h3>1. On the device you have been using</h3>
-  <div class="row"><button class="main" id="syncMake">Make my progress code</button><button id="syncCopy" hidden>Copy code</button><span class="small" id="syncMsg1"></span></div>
-  <textarea id="syncOut" readonly hidden rows="3" style="width:100%;font:13px monospace;margin-top:8px"></textarea>
-  <h3>2. On the new device</h3>
-  <textarea id="syncIn" rows="3" placeholder="Paste the progress code here" style="width:100%;font:13px monospace"></textarea>
-  <div class="row" style="margin-top:8px"><button class="main" id="syncLoad">Load progress</button><span class="small" id="syncMsg2" role="status"></span></div>
-  </details>
-</div>
 <header class="band"><div class="wrap">
   <h1 id="title">Loading</h1>
   <p id="sub"></p>
@@ -218,6 +197,21 @@ nav a[aria-current=page]{background:var(--board);color:#fff}
 </section>
 <section id="v-checklist" hidden>
   <div class="panel"><h2>What has been uploaded</h2><p>One row per subject. Change a box when you send a new document, so the next build uses it. <b>Have</b>: already used. <b>Need</b>: please find and send. <b>None</b>: the school does not give this for that subject.</p><div id="checkArea"></div></div>
+  <div class="panel" id="ghBox" hidden>
+    <h2>Sync between devices</h2>
+    <div id="ghState"></div>
+    <div class="row" id="ghLinkRow" hidden><button class="main" id="ghLink">Copy setup link</button><button id="ghOff">Turn off on this device</button></div>
+    <details id="ghKeyBox" style="margin-top:10px"><summary>Have the key instead of the link?</summary>
+      <div class="row" style="margin-top:8px"><input type="password" id="ghKey" placeholder="Paste the sync key" autocomplete="off" style="font:15px monospace;min-height:44px;padding:8px 12px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);width:min(100%,420px)"><button class="main" id="ghSave">Turn on sync</button></div>
+    </details>
+    <p class="small" id="ghMsg" role="status"></p>
+  </div>
+  <div class="panel">
+    <h2>Start again</h2>
+    <p class="small">Clears the card boxes, quiz scores and known words. On every synced device. This cannot be undone.</p>
+    <div class="row"><button id="resetOne">Reset this subject</button><button id="resetAll">Reset all subjects for <span id="resetWho"></span></button><span class="small" id="resetMsg" role="status"></span></div>
+    <div class="row" id="resetAsk" hidden><span id="resetQ"></span><button id="resetYes" style="background:#c62828;border-color:#c62828;color:#fff">Yes, reset</button><button id="resetNo">Cancel</button></div>
+  </div>
 </section>
 <section id="v-progress" hidden>
   <div class="panel"><h2>Topics I have studied</h2><p>Untick a topic you have not been taught yet. Its cards move to the <b>Not studied yet</b> box and it is left out of quizzes and the mock. Tick it when you have covered it in class.</p><div class="topics" id="topicList"></div></div>
@@ -254,21 +248,7 @@ const toWork = () => document.querySelector('nav').scrollIntoView({block:'start'
 /* ---------- move progress between devices */
 const b64e = u8 => { let t = ''; u8.forEach(x => t += String.fromCharCode(x)); return btoa(t); };
 const b64d = t => Uint8Array.from(atob(t), c => c.charCodeAt(0));
-async function packCode(obj) {
-  const raw = new TextEncoder().encode(JSON.stringify(obj));
-  if (window.CompressionStream) { try { const buf = await new Response(new Blob([raw]).stream().pipeThrough(new CompressionStream('deflate-raw'))).arrayBuffer(); return 'BRH1z' + b64e(new Uint8Array(buf)); } catch (e) {} }
-  return 'BRH1j' + b64e(raw);
-}
-async function unpackCode(code) {
-  code = code.replace(/\s+/g, '');
-  if (!/^BRH1[zj]/.test(code)) throw new Error('bad');
-  const bytes = b64d(code.slice(5));
-  if (code[4] === 'z') { const buf = await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer(); return JSON.parse(new TextDecoder().decode(buf)); }
-  return JSON.parse(new TextDecoder().decode(bytes));
-}
 const studentDecks = st => INDEX.decks.filter(d => d.student === st && d.deck_id);
-$('#syncBtn').onclick = () => { ghPanel(); $('#resetWho').textContent = $('#studentSel').value; $('#resetAsk').hidden = true; $('#ghMsg').textContent = ''; $('#syncPanel').hidden = false; $('#syncMsg1').textContent = ''; $('#syncMsg2').textContent = ''; $('#syncPanel').scrollIntoView({block:'start'}); };
-$('#syncClose').onclick = () => { $('#syncPanel').hidden = true; };
 $('#ghSave').onclick = async () => {
   const k = $('#ghKey').value.trim();
   if (!/^(github_pat_|ghp_)[A-Za-z0-9_]{20,}$/.test(k)) { $('#ghMsg').textContent = 'That does not look like a sync key. It starts with github_pat_.'; return; }
@@ -276,7 +256,7 @@ $('#ghSave').onclick = async () => {
   try { await ghRead($('#studentSel').value); } catch (e) { store.set('hub-gh', null); $('#ghMsg').textContent = e.status === 401 || e.status === 403 || e.status === 404 ? 'The key was not accepted. Check it has access to the progress repo.' : 'Could not reach GitHub. Check the internet connection and try again.'; return; }
   $('#ghMsg').textContent = 'Sync is on. Loading saved progress...';
   for (const st of [...new Set(INDEX.decks.map(d => d.student))]) { await ghPull(st); await ghPush(st); }
-  $('#ghMsg').textContent = 'Sync is on for this device.'; ghPanel(); pick();
+  $('#ghMsg').textContent = ''; ghPanel(); pick();
 };
 $('#ghLink').onclick = async () => {
   const url = location.origin + location.pathname + '#key=' + GH.key();
@@ -284,38 +264,7 @@ $('#ghLink').onclick = async () => {
   $('#ghMsg').textContent = ok ? 'Setup link copied. Send it to the other device (for example by WhatsApp) and open it there once. Keep it private: it lets someone save progress.' : 'Could not copy. Link: ' + url;
 };
 $('#ghOff').onclick = () => { store.set('hub-gh', null); ghShow(''); $('#ghMsg').textContent = 'Sync turned off on this device. Progress stays saved here.'; ghPanel(); };
-$('#syncMake').onclick = async () => {
-  const st = $('#studentSel').value, decks = {};
-  studentDecks(st).forEach(d => { const v = store.get('leitner-' + d.deck_id); if (v) decks[d.deck_id] = v; });
-  const n = Object.keys(decks).length;
-  if (!n) { $('#syncMsg1').textContent = 'No progress saved for ' + st + ' on this device yet.'; return; }
-  const code = await packCode({student: st, made: Date.now(), decks});
-  $('#syncOut').value = code; $('#syncOut').hidden = false; $('#syncCopy').hidden = false;
-  $('#syncOut').focus(); $('#syncOut').select();
-  $('#syncMsg1').textContent = 'Code for ' + st + ', ' + n + ' subject' + (n > 1 ? 's' : '') + '. Copy it and send it to yourself.';
-};
-$('#syncCopy').onclick = async () => {
-  $('#syncOut').select();
-  let ok = false;
-  try { await navigator.clipboard.writeText($('#syncOut').value); ok = true; } catch (e) { try { ok = document.execCommand('copy'); } catch (e2) {} }
-  $('#syncMsg1').textContent = ok ? 'Copied. Paste it into WhatsApp or an email to yourself.' : 'The code is selected. Press and hold (or Ctrl+C) to copy it.';
-};
-$('#syncLoad').onclick = async () => {
-  let data;
-  try { data = await unpackCode($('#syncIn').value); } catch (e) { $('#syncMsg2').textContent = 'That code does not look right. Copy the whole code and try again.'; return; }
-  const known = new Set(INDEX.decks.map(d => d.deck_id).filter(Boolean));
-  let took = 0, kept = 0;
-  Object.entries(data.decks || {}).forEach(([id, v]) => {
-    if (!known.has(id) || typeof v !== 'object' || !v) return;
-    const mine = store.get('leitner-' + id);
-    if (mine && (mine.ts || 0) > (v.ts || 0)) { kept++; return; }
-    store.set('leitner-' + id, v); took++;
-  });
-  $('#syncMsg2').textContent = 'Loaded ' + took + ' subject' + (took === 1 ? '' : 's') + ' for ' + (data.student || 'this student') + (kept ? '. Kept ' + kept + ' that were newer on this device.' : '.');
-  $('#syncIn').value = '';
-  if (data.student && data.student !== $('#studentSel').value) { $('#studentSel').value = data.student; fillSubjects(); fillTerms(); }
-  pick();
-};
+
 
 
 /* ---------- automatic sync through a private GitHub repo */
@@ -373,14 +322,18 @@ window.addEventListener('pagehide', () => { if (GH.timer && D) { clearTimeout(GH
 function ghPanel() {
   const show = INDEX.sync_repo && INDEX.hosting === 'pages';
   $('#ghBox').hidden = !show; if (!show) return;
-  $('#ghLinkRow').hidden = !GH.key();
-  $('#ghState').textContent = GH.key() ? 'Sync is on for this device. Progress saves to the family store a few seconds after each answer, and loads when the page opens.' : 'Sync is off on this device. Open the setup link once on this device, or paste the sync key here. After that, progress saves and loads by itself.';
+  const on = !!GH.key();
+  $('#ghLinkRow').hidden = !on; $('#ghKeyBox').hidden = on;
+  $('#ghState').innerHTML = on
+    ? '<p><b>Sync is on for this device.</b> Progress saves a few seconds after each answer and loads when the hub opens, so you can carry on on any synced device.</p><p><b>To add another phone, tablet or laptop:</b> tap Copy setup link, send it to that device (for example by WhatsApp) and open it there once. Keep the link private.</p>'
+    : '<p><b>Sync is off on this device.</b> To turn it on, open the setup link once on this device. Ask for it by WhatsApp. After that it works by itself.</p>';
 }
 
 
 /* ---------- checklist of uploaded source material */
 const CHK_LABEL = {have: 'Have', need: 'Need', none: 'None'};
 function drawChecklist() {
+  ghPanel(); $('#resetWho').textContent = $('#studentSel').value; $('#resetAsk').hidden = true;
   const C = INDEX && INDEX.checklist; if (!C) { $('#checkArea').textContent = 'No checklist yet.'; return; }
   const st = $('#studentSel').value, mine = store.get('hub-check-' + st) || {v: {}};
   const rows = C.rows.filter(r => r.student === st).sort((a, b) => a.subject.localeCompare(b.subject));
@@ -777,13 +730,13 @@ $('#sched').onchange = e => { S.sched = e.target.value; save(); drawHeader(); };
 /* ---------- reset */
 let resetScope = null;
 const askReset = sc => { resetScope = sc; $('#resetAsk').hidden = false; $('#resetQ').textContent = sc === 'all' ? 'Reset every subject for ' + $('#studentSel').value + '?' : 'Reset ' + (D ? D.subject : 'this subject') + '?'; };
-$('#resetOne').onclick = () => askReset('one'); $('#resetAll').onclick = () => askReset('all');
+$('#resetOne').onclick = () => { $('#resetMsg').textContent = ''; askReset('one'); }; $('#resetAll').onclick = () => askReset('all');
 $('#resetNo').onclick = () => { $('#resetAsk').hidden = true; };
 $('#resetYes').onclick = () => {
   const st = $('#studentSel').value, now = Date.now();
   const ids = resetScope === 'all' ? studentDecks(st).map(d => d.deck_id) : D ? [D.deck_id] : [];
   ids.forEach(id => store.set('leitner-' + id, {reset: true, ts: now}));
-  $('#resetAsk').hidden = true; $('#ghMsg').textContent = ids.length + (ids.length === 1 ? ' subject' : ' subjects') + ' reset.';
+  $('#resetAsk').hidden = true; $('#resetMsg').textContent = ids.length + (ids.length === 1 ? ' subject' : ' subjects') + ' reset.';
   if (ghOn()) ghPush(st);
   if (D) pick();
 };
