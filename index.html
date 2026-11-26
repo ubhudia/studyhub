@@ -536,7 +536,7 @@ function cardHTML(c, back) {
   if (c.example) h += `<div class="ex"><b>${esc(c.example.heading)}</b><br>${c.example.lines.map(esc).join('<br>')}</div>`;
   if (c.watch_out) h += `<div class="wo"><b>Watch out:</b> ${esc(c.watch_out)}</div>`;
   if (c.hook) h += `<div class="hk"><b>Memory hook:</b> ${esc(c.hook)}</div>`;
-  if (c.grade9) h += `<div class="g9"><b>Grade 9 tip:</b> ${esc(c.grade9)}</div>`;
+  if (c.grade9) h += `<div class="g9"><b>${D.level === 'gcse' ? 'Grade 9 tip' : 'Challenge'}:</b> ${esc(c.grade9)}</div>`;
   return h + '</div>';
 }
 function showCard() {
@@ -726,7 +726,7 @@ function drawGuide() {
   const a = D.assessment, t = D.exam_tips;
   const groups = [...new Set(D.units.map(u => u.group))];
   const glabel = Object.assign({Y8: 'Year 8 units (60% of the test)', Y7: 'Year 7 units (40% of the test)'}, D.group_labels || {});
-  const gcard = c => `<div class="gcard" style="--c:${colourOf(c.unit)}"><h4 style="color:${colourOf(c.unit)};margin:0">${esc(c.title)}</h4><p class="small" style="margin:.2em 0"><i>${esc(c.question)}</i></p><ul>${c.points.map(p => `<li>${esc(p)}</li>`).join('')}</ul>${c.example ? `<div class="ex"><b>${esc(c.example.heading)}</b><br>${c.example.lines.map(esc).join('<br>')}</div>` : ''}${c.watch_out ? `<div class="wo" style="--c:${colourOf(c.unit)}"><b>Watch out:</b> ${esc(c.watch_out)}</div>` : ''}${c.hook ? `<div class="hk"><b>Memory hook:</b> ${esc(c.hook)}</div>` : ''}${c.grade9 ? `<div class="g9"><b>Grade 9 tip:</b> ${esc(c.grade9)}</div>` : ''}</div>`;
+  const gcard = c => `<div class="gcard" style="--c:${colourOf(c.unit)}"><h4 style="color:${colourOf(c.unit)};margin:0">${esc(c.title)}</h4><p class="small" style="margin:.2em 0"><i>${esc(c.question)}</i></p><ul>${c.points.map(p => `<li>${esc(p)}</li>`).join('')}</ul>${c.example ? `<div class="ex"><b>${esc(c.example.heading)}</b><br>${c.example.lines.map(esc).join('<br>')}</div>` : ''}${c.watch_out ? `<div class="wo" style="--c:${colourOf(c.unit)}"><b>Watch out:</b> ${esc(c.watch_out)}</div>` : ''}${c.hook ? `<div class="hk"><b>Memory hook:</b> ${esc(c.hook)}</div>` : ''}${c.grade9 ? `<div class="g9"><b>${D.level === 'gcse' ? 'Grade 9 tip' : 'Challenge'}:</b> ${esc(c.grade9)}</div>` : ''}</div>`;
   const when = a.date ? esc(new Date(a.date + 'T09:00').toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', year:'numeric'})) + ', ' : '';
   let h = `<h2>Revision guide</h2><p>${esc(a.name)}${when ? ': ' + when : '. '}${esc(a.sections)}${a.equipment && a.equipment !== 'None' ? ' Bring: ' + esc(a.equipment) + '.' : ''}</p>${(D.how_to_use || []).length ? '<ul>' + D.how_to_use.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>' : ''}
     <p>Read a unit, then cover it and test yourself. For a paper copy, use the <a href="#print">Print</a> tab.</p>
