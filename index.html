@@ -119,6 +119,35 @@ input[type=search]{font:16px "Atkinson Hyperlegible",sans-serif;min-height:44px;
 .qhead .ctl button{min-height:36px;padding:4px 12px;font-size:14px}
 .skip{margin-top:6px;font:400 15px "Atkinson Hyperlegible",sans-serif;min-height:40px}
 @media(max-width:700px){.boxes{grid-template-columns:repeat(3,minmax(0,1fr))}}
+/* themes per student */
+body{--top:#163a2b}
+body[data-student=Jaimin]{--board:#14532d;--top:#0f3a20;--acc:#facc15}
+body[data-student=Bhavin]{--board:#1e3a8a;--top:#172554;--acc:#fbbf24}
+.topbar{background:var(--top)}
+.topbar select{background:rgba(0,0,0,.25)}
+header.band{background:var(--board);padding-bottom:22px}
+header h1{font-size:clamp(24px,3.6vw,34px)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
+.chip{display:flex;align-items:baseline;gap:6px;background:rgba(255,255,255,.12);border-radius:99px;padding:6px 14px;color:#fff}
+.chip b{font:700 20px Lexend,sans-serif}.chip span{font-size:14px;opacity:.9}
+.chip.hot{background:var(--acc);color:#1b1b1b}.chip.ok{background:rgba(134,239,172,.25)}.chip.dim{opacity:.75}
+.steps{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
+.step{flex-direction:column;padding:12px 14px;gap:6px;background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.15)}
+.step .num{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:99px;background:rgba(255,255,255,.15);color:#fff;font-size:14px}
+.step.next{background:rgba(255,255,255,.16);border-color:var(--acc)}
+.step.next .num{background:var(--acc);color:#1b1b1b}
+.step h3{margin:0;font-size:17px}.step p{font-size:14px}
+.how{margin-top:14px;color:#e3efe7}.how summary{cursor:pointer;font:700 14px Lexend,sans-serif;color:#fff}
+.how .boxes{margin-top:10px}
+nav .wrap{gap:4px;padding-block:8px}
+nav a{padding:8px 14px;border-radius:99px;border-bottom:0}
+nav a[aria-current=page]{background:var(--board);color:#fff}
+.panel{box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.chk select{min-height:36px;border-radius:8px;border:2px solid var(--line);padding:2px 6px;font:15px "Atkinson Hyperlegible",sans-serif;background:var(--card);color:var(--ink)}
+.chk .ck-have{border-color:var(--ok);background:light-dark(#e6f4ea,#173222)}
+.chk .ck-need{border-color:#d97706;background:light-dark(#fff4e0,#3a2a10)}
+.chk .ck-none{opacity:.6}
+@media(max-width:700px){.steps{grid-template-columns:minmax(0,1fr)}.step{flex-direction:row;flex-wrap:wrap;align-items:center}.step>div{flex:1}}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.tbl td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
@@ -129,59 +158,66 @@ input[type=search]{font:16px "Atkinson Hyperlegible",sans-serif;min-height:44px;
   <label>Term <select id="termSel"></select></label>
   <span class="sp"></span>
   <span class="small" id="ghStatus" style="color:inherit;opacity:.85"></span>
-  <button id="syncBtn">Move progress</button>
-  <button id="resetBtn">Reset progress</button>
-  <span class="confirm" id="resetConfirm">Clear all boxes and scores for this subject?
-    <button class="danger" id="resetYes">Yes, reset</button><button id="resetNo">Cancel</button></span>
+  <button id="syncBtn" aria-label="Settings">Settings</button>
 </div></div>
 
-<div id="syncPanel" class="panel" hidden style="max-width:1100px;margin:12px auto">
-  <div class="qhead"><h2 style="margin:0">Move progress to another device</h2><span class="ctl"><button id="syncClose">Close</button></span></div>
-  <p>Progress is saved in each browser. To carry on somewhere else, copy the code from this device, send it to yourself (for example by WhatsApp or email), then paste it on the other device. It moves every subject for the student picked at the top. For each subject the newest progress wins, so nothing newer is overwritten.</p>
-  <div id="ghBox" hidden>
-  <h3>Automatic sync</h3>
+<div id="syncPanel" class="panel" hidden style="max-width:1000px;margin:12px auto">
+  <div class="qhead"><h2 style="margin:0">Settings</h2><span class="ctl"><button id="syncClose">Close</button></span></div>
+<div id="ghBox" hidden>
+  <h3>Sync between devices</h3>
   <p class="small" id="ghState"></p>
   <div class="row"><input type="password" id="ghKey" placeholder="Paste the sync key once on this device" autocomplete="off" style="font:15px monospace;min-height:44px;padding:8px 12px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);width:min(100%,420px)"><button class="main" id="ghSave">Turn on sync</button><button id="ghOff">Turn off on this device</button></div>
+  <div class="row" id="ghLinkRow" hidden><button id="ghLink">Copy setup link for another device</button></div>
   <p class="small" id="ghMsg" role="status"></p>
-  <hr>
   </div>
+  <h3>Start again</h3>
+  <p class="small">Clears the card boxes, quiz scores and known words. This cannot be undone.</p>
+  <div class="row"><button id="resetOne">Reset this subject</button><button id="resetAll">Reset all subjects for <span id="resetWho"></span></button></div>
+  <div class="row" id="resetAsk" hidden><span id="resetQ"></span><button class="danger" id="resetYes" style="background:#c62828;border-color:#c62828;color:#fff">Yes, reset</button><button id="resetNo">Cancel</button></div>
+  <details style="margin-top:18px"><summary>Move progress without sync (backup)</summary>
   <h3>1. On the device you have been using</h3>
   <div class="row"><button class="main" id="syncMake">Make my progress code</button><button id="syncCopy" hidden>Copy code</button><span class="small" id="syncMsg1"></span></div>
   <textarea id="syncOut" readonly hidden rows="3" style="width:100%;font:13px monospace;margin-top:8px"></textarea>
   <h3>2. On the new device</h3>
   <textarea id="syncIn" rows="3" placeholder="Paste the progress code here" style="width:100%;font:13px monospace"></textarea>
   <div class="row" style="margin-top:8px"><button class="main" id="syncLoad">Load progress</button><span class="small" id="syncMsg2" role="status"></span></div>
+  </details>
 </div>
 <header class="band"><div class="wrap">
   <h1 id="title">Loading</h1>
   <p id="sub"></p>
-  <div class="boxes" id="boxes" aria-label="Card boxes"></div>
-  <p class="rule"><b>How the card box works:</b> every card starts in Box 1. Get it right and it moves up one box. Get it wrong and it goes back to Box 1. Cards in low boxes come back often, so you spend time on what you do not know yet. A card in Box 5 is learnt. Topics you have not been taught yet wait in the <b>Not studied yet</b> box and are left out of quizzes and the mock.</p>
+  <div class="chips" id="chips" aria-label="Your cards"></div>
   <div class="steps">
-    <div class="step"><span class="num">STEP 1 EACH DAY</span><h3>Review cards that are due</h3><p id="reviewInfo"></p><button class="main" id="startReview">Review due cards</button></div>
-    <div class="step"><span class="num">STEP 2 EACH DAY</span><h3>Add today's new cards</h3><p id="addInfo"></p><button id="addNew">Add new cards</button></div>
-    <div class="step"><span class="num">STEP 3</span><h3>Test yourself</h3><p id="quizInfo"></p><button id="goQuiz">Go to topic quiz</button></div>
+    <div class="step" id="st1"><span class="num">1</span><div><h3>Review</h3><p id="reviewInfo"></p></div><button class="main" id="startReview">Review due cards</button></div>
+    <div class="step" id="st2"><span class="num">2</span><div><h3>Learn new cards</h3><p id="addInfo"></p></div><button id="addNew">Add new cards</button></div>
+    <div class="step" id="st3"><span class="num">3</span><div><h3>Quiz</h3><p id="quizInfo"></p></div><button id="goQuiz">Start a quiz</button></div>
   </div>
+  <details class="how"><summary>How the boxes work</summary>
+    <p class="rule">Right answer: the card moves up one box and comes back later. Wrong answer: it goes back to Box 1 and comes back tomorrow. Box 5 means learnt. Topics you have not been taught yet wait in <b>Not studied yet</b>.</p>
+    <div class="boxes" id="boxes"></div>
+  </details>
 </div></header>
 
 <nav><div class="wrap">
-  <a href="#cards">Flashcards</a><a href="#quiz">Topic quiz</a><a href="#mock">Mock test</a><a href="#written">Written practice</a><a href="#vocab" id="vtab">Key terms</a><a href="#guide">Revision guide</a><a href="#print">Print</a><a href="#progress">Progress</a>
+  <a href="#cards">Flashcards</a><a href="#quiz">Quiz</a><a href="#mock">Mock test</a><a href="#written">Written practice</a><a href="#guide">Revision guide</a><a href="#print">Print</a><a href="#progress">Progress</a><a href="#checklist">Checklist</a>
 </div></nav>
 
 <main class="band"><div class="wrap">
-<section id="v-cards"><div class="panel" id="cardArea"></div></section>
+<section id="v-cards"><div class="panel" id="cardArea"></div><div class="panel" id="vocabArea" hidden></div></section>
 <section id="v-quiz" hidden><div class="panel" id="quizArea"></div></section>
 <section id="v-mock" hidden><div class="panel" id="mockArea"></div></section>
 <section id="v-written" hidden>
   <div class="panel"><h2>Written practice</h2><p>Write your answer on paper first. Then show the mark scheme and give yourself a mark for each point you made.</p><div id="writtenList"></div></div>
 </section>
-<section id="v-vocab" hidden><div class="panel" id="vocabArea"></div></section>
 <section id="v-guide" hidden><div class="panel guide" id="guideArea"></div></section>
 <section id="v-print" hidden>
   <div class="panel"><h2>Print-ready files</h2>
   <p>Open a PDF in Google Drive, then print it from there. Flashcards: print double-sided, <b>flip on the long edge</b>, at 100% (actual size), then cut along the dashed lines. Each answer lands behind its question.</p>
   <div class="dl" id="dlList"></div>
   <p class="msg small" id="dlMsg"></p></div>
+</section>
+<section id="v-checklist" hidden>
+  <div class="panel"><h2>What has been uploaded</h2><p>One row per subject. Change a box when you send a new document, so the next build uses it. <b>Have</b>: already used. <b>Need</b>: please find and send. <b>None</b>: the school does not give this for that subject.</p><div id="checkArea"></div></div>
 </section>
 <section id="v-progress" hidden>
   <div class="panel"><h2>Topics I have studied</h2><p>Untick a topic you have not been taught yet. Its cards move to the <b>Not studied yet</b> box and it is left out of quizzes and the mock. Tick it when you have covered it in class.</p><div class="topics" id="topicList"></div></div>
@@ -231,7 +267,7 @@ async function unpackCode(code) {
   return JSON.parse(new TextDecoder().decode(bytes));
 }
 const studentDecks = st => INDEX.decks.filter(d => d.student === st && d.deck_id);
-$('#syncBtn').onclick = () => { ghPanel(); $('#ghMsg').textContent = ''; $('#syncPanel').hidden = false; $('#syncMsg1').textContent = ''; $('#syncMsg2').textContent = ''; $('#syncPanel').scrollIntoView({block:'start'}); };
+$('#syncBtn').onclick = () => { ghPanel(); $('#resetWho').textContent = $('#studentSel').value; $('#resetAsk').hidden = true; $('#ghMsg').textContent = ''; $('#syncPanel').hidden = false; $('#syncMsg1').textContent = ''; $('#syncMsg2').textContent = ''; $('#syncPanel').scrollIntoView({block:'start'}); };
 $('#syncClose').onclick = () => { $('#syncPanel').hidden = true; };
 $('#ghSave').onclick = async () => {
   const k = $('#ghKey').value.trim();
@@ -241,6 +277,11 @@ $('#ghSave').onclick = async () => {
   $('#ghMsg').textContent = 'Sync is on. Loading saved progress...';
   for (const st of [...new Set(INDEX.decks.map(d => d.student))]) { await ghPull(st); await ghPush(st); }
   $('#ghMsg').textContent = 'Sync is on for this device.'; ghPanel(); pick();
+};
+$('#ghLink').onclick = async () => {
+  const url = location.origin + location.pathname + '#key=' + GH.key();
+  let ok = false; try { await navigator.clipboard.writeText(url); ok = true; } catch (e) {}
+  $('#ghMsg').textContent = ok ? 'Setup link copied. Send it to the other device (for example by WhatsApp) and open it there once. Keep it private: it lets someone save progress.' : 'Could not copy. Link: ' + url;
 };
 $('#ghOff').onclick = () => { store.set('hub-gh', null); ghShow(''); $('#ghMsg').textContent = 'Sync turned off on this device. Progress stays saved here.'; ghPanel(); };
 $('#syncMake').onclick = async () => {
@@ -298,6 +339,7 @@ async function ghRead(st) {
 }
 function mergeInto(local, remote) {
   let pulled = 0;
+  if (remote.student && remote.check) { const mine = store.get('hub-check-' + remote.student); if (!mine || (remote.check.ts || 0) > (mine.ts || 0)) store.set('hub-check-' + remote.student, remote.check); }
   Object.entries(remote.decks || {}).forEach(([id, v]) => {
     const mine = store.get('leitner-' + id);
     if (v && (!mine || (v.ts || 0) > (mine.ts || 0))) { store.set('leitner-' + id, v); pulled++; }
@@ -319,7 +361,7 @@ async function ghPush(st) {
       const decks = Object.assign({}, data.decks);
       studentDecks(st).forEach(d => { const v = store.get('leitner-' + d.deck_id); if (v && (!decks[d.deck_id] || (v.ts || 0) >= (decks[d.deck_id].ts || 0))) decks[d.deck_id] = v; });
       try {
-        await ghReq('PUT', 'progress/' + encodeURIComponent(st) + '.json', {message: 'Progress ' + st, content: utf8b64(JSON.stringify({student: st, saved: Date.now(), decks})), ...(sha ? {sha} : {})});
+        await ghReq('PUT', 'progress/' + encodeURIComponent(st) + '.json', {message: 'Progress ' + st, content: utf8b64(JSON.stringify({student: st, saved: Date.now(), decks, check: store.get('hub-check-' + st) || undefined})), ...(sha ? {sha} : {})});
         ghShow('Synced ' + new Date().toTimeString().slice(0, 5)); break;
       } catch (e) { if (e.status !== 409 && e.status !== 422) throw e; }
     }
@@ -331,11 +373,31 @@ window.addEventListener('pagehide', () => { if (GH.timer && D) { clearTimeout(GH
 function ghPanel() {
   const show = INDEX.sync_repo && INDEX.hosting === 'pages';
   $('#ghBox').hidden = !show; if (!show) return;
-  $('#ghState').textContent = GH.key() ? 'Sync is on for this device. Progress saves to the family store a few seconds after each answer, and loads when the page opens.' : 'Sync is off on this device. Paste the sync key once and progress will save and load automatically from then on.';
+  $('#ghLinkRow').hidden = !GH.key();
+  $('#ghState').textContent = GH.key() ? 'Sync is on for this device. Progress saves to the family store a few seconds after each answer, and loads when the page opens.' : 'Sync is off on this device. Open the setup link once on this device, or paste the sync key here. After that, progress saves and loads by itself.';
+}
+
+
+/* ---------- checklist of uploaded source material */
+const CHK_LABEL = {have: 'Have', need: 'Need', none: 'None'};
+function drawChecklist() {
+  const C = INDEX && INDEX.checklist; if (!C) { $('#checkArea').textContent = 'No checklist yet.'; return; }
+  const st = $('#studentSel').value, mine = store.get('hub-check-' + st) || {v: {}};
+  const rows = C.rows.filter(r => r.student === st).sort((a, b) => a.subject.localeCompare(b.subject));
+  $('#checkArea').innerHTML = `<table class="tbl chk"><thead><tr><th>Subject</th>${C.items.map(i => `<th>${esc(i)}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr><td><b>${esc(r.subject)}</b><br><span class="small">${esc(r.note)}</span></td>${r.status.map((v0, i) => { const key = r.subject + '|' + i, v = mine.v[key] || v0;
+    return `<td><select class="ck ck-${v}" data-k="${esc(key)}" aria-label="${esc(r.subject + ' ' + C.items[i])}">${['have', 'need', 'none'].map(o => `<option value="${o}"${o === v ? ' selected' : ''}>${CHK_LABEL[o]}</option>`).join('')}</select></td>`; }).join('')}</tr>`).join('')}</tbody></table>
+    <p class="small">${rows.reduce((n, r) => n + r.status.filter((v, i) => (mine.v[r.subject + '|' + i] || v) === 'need').length, 0)} items still needed.</p>`;
+  document.querySelectorAll('#checkArea select').forEach(el => el.onchange = () => {
+    const m = store.get('hub-check-' + st) || {v: {}}; m.v[el.dataset.k] = el.value; m.ts = Date.now();
+    store.set('hub-check-' + st, m); drawChecklist();
+    if (ghOn()) { clearTimeout(GH.timer); ghShow('Saving...'); GH.timer = setTimeout(() => ghPush(st), 2000); }
+  });
 }
 
 /* ---------- student, subject and term pickers */
 async function boot() {
+  const km = location.hash.match(/^#key=((?:github_pat_|ghp_)[A-Za-z0-9_]{20,})$/);
+  if (km) { store.set('hub-gh', {token: km[1]}); history.replaceState(null, '', location.pathname); GH.fresh = true; }
   try { INDEX = await (await fetch('decks/index.json')).json(); }
   catch (e) { $('#title').textContent = 'Could not load the subject list'; return; }
   const students = [...new Set(INDEX.decks.map(d => d.student))];
@@ -346,12 +408,13 @@ async function boot() {
   $('#studentSel').onchange = () => { fillSubjects(); fillTerms(); pick(); };
   $('#subjectSel').onchange = () => { fillTerms(); pick(); };
   $('#termSel').onchange = pick;
-  pick();
+  await pick();
+  if (GH.fresh && ghOn()) { ghShow('Sync turned on'); for (const st of [...new Set(INDEX.decks.map(d => d.student))]) await ghPush(st); }
 }
 function fillSubjects(want) {
   const st = $('#studentSel').value;
   const ds = INDEX.decks.filter(d => d.student === st);
-  const subs = [...new Set(ds.map(d => d.subject))];
+  const subs = [...new Set(ds.map(d => d.subject))].sort((a, b) => a.localeCompare(b));
   $('#subjectSel').innerHTML = subs.map(s => `<option value="${esc(s)}">${esc(s)}${ds.some(d => d.subject === s && d.file) ? '' : ' (coming soon)'}</option>`).join('');
   const live = ds.find(d => d.file);
   $('#subjectSel').value = want && subs.includes(want) ? want : (live ? live.subject : subs[0]);
@@ -365,7 +428,7 @@ async function pick() {
   const entry = INDEX.decks.find(d => d.student === $('#studentSel').value && d.subject === $('#subjectSel').value && d.term === $('#termSel').value);
   store.set('hub-last', {student: entry.student, subject: entry.subject, term: entry.term});
   if (!entry.file) { comingSoon(entry); return; }
-  document.body.classList.remove('empty');
+  document.body.classList.remove('empty'); document.body.dataset.student = entry.student;
   D = await (await fetch(entry.file)).json();
   D.entry = entry;
   D.cards.forEach((c, i) => c.id = i);
@@ -373,18 +436,18 @@ async function pick() {
   unitCol = Object.fromEntries(D.units.map(u => [u.code, u.colour || D.colour || PREFIX[u.code[0]] || 'var(--S)']));
   unitCol.SUMMARY = 'var(--S)';
   if (ghOn() && GH.last !== entry.student) { GH.last = entry.student; await ghPull(entry.student); }
-  const saved = store.get('leitner-' + D.deck_id);
+  let saved = store.get('leitner-' + D.deck_id);
+  if (saved && saved.reset) saved = null;
   S = Object.assign(blank(), saved || {});
   if (!saved && D.ns_default) D.ns_default.forEach(u => S.ns[u] = true);
   renderAll();
 }
 function comingSoon(e) {
-  D = null; document.body.classList.add('empty');
+  D = null; document.body.classList.add('empty'); document.body.dataset.student = e.student;
   $('#title').textContent = e.student + ': ' + e.subject + ', ' + e.year + ' ' + e.term;
   $('#sub').textContent = 'This subject is not built yet. ' + (e.note || '');
-  $('#resetBtn').disabled = true;
-  const msg = `<h2>Coming soon</h2><p>${esc(e.subject)} for ${esc(e.student)} has not been made yet. ${esc(e.note || '')}</p>`;
-  ['#cardArea', '#quizArea', '#mockArea', '#guideArea', '#vocabArea'].forEach(s => $(s).innerHTML = msg);
+    const msg = `<h2>Coming soon</h2><p>${esc(e.subject)} for ${esc(e.student)} has not been made yet. ${esc(e.note || '')}</p>`;
+  ['#cardArea', '#quizArea', '#mockArea', '#guideArea'].forEach(s => $(s).innerHTML = msg); $('#vocabArea').hidden = true; drawChecklist();
   ['#writtenList', '#dlList', '#unitStats', '#plan', '#dlMsg', '#topicList'].forEach(s => $(s).innerHTML = '');
 }
 
@@ -392,7 +455,7 @@ function comingSoon(e) {
 const due = c => S.boxes[c.id] > 0 && daysSince(S.seen[c.id]) >= INTERVALS[S.sched][S.boxes[c.id]];
 const nextStep = () => { const i = D.plan_steps.findIndex(n => n > S.intro); return i < 0 ? -1 : i; };
 function drawHeader() {
-  ['#startReview', '#addNew', '#goQuiz', '#resetBtn'].forEach(s => $(s).disabled = false);
+  ['#startReview', '#addNew', '#goQuiz'].forEach(s => $(s).disabled = false);
   $('#title').textContent = D.student + "'s " + D.year + ' ' + D.subject + ' revision';
   const a = D.assessment;
   if (a.date) {
@@ -401,43 +464,53 @@ function drawHeader() {
   } else $('#sub').textContent = a.name + '. ' + a.weighting;
   const counts = [0,0,0,0,0,0], dueBy = [0,0,0,0,0,0];
   D.cards.forEach(c => { const b = S.boxes[c.id]; if (b === 0) counts[0]++; else if (b) { counts[b]++; if (due(c)) dueBy[b]++; } });
+  const nDue = dueBy.reduce((x, y) => x + y, 0), notAdded = D.cards.filter(c => S.boxes[c.id] === undefined).length;
+  const learning = counts[1] + counts[2] + counts[3] + counts[4];
+  const chip = (n, label, cls) => `<div class="chip ${cls}"><b>${n}</b><span>${label}</span></div>`;
+  $('#chips').innerHTML = chip(nDue, 'due today', nDue ? 'hot' : '') + chip(learning, 'learning', '') + chip(counts[5], 'learnt', 'ok') + chip(notAdded, 'not started', 'dim') + (counts[0] ? chip(counts[0], 'not studied yet', 'dim') : '');
   const max = Math.max(4, ...counts), iv = INTERVALS[S.sched];
   const every = n => n === 1 ? 'every day' : 'every ' + n + ' days';
   const slot = (b, label, sub, cls) => `<div class="slot${cls}"><span class="n">${counts[b]}</span><div class="well"><div class="stack" style="height:${6 + 30 * counts[b] / max}px"></div></div><b>${label}</b><small>${sub}</small></div>`;
-  $('#boxes').innerHTML = slot(0, 'Not studied yet', 'waiting', ' ns') + [1,2,3,4,5].map(b => slot(b, 'Box ' + b + (b === 5 ? ' learnt' : ''), every(iv[b]), dueBy[b] ? ' due' : '')).join('');
-  const nDue = dueBy.reduce((x, y) => x + y, 0);
-  $('#reviewInfo').innerHTML = !S.intro ? 'Nothing to review yet. Start with Step 2 to put your first cards in Box 1.'
-    : nDue ? `<b>${nDue} cards are due</b> (${[1,2,3,4,5].filter(b => dueBy[b]).map(b => dueBy[b] + ' in Box ' + b).join(', ')}). Say each answer out loud, turn over, then mark yourself honestly.`
-    : 'All done for today. Boxes with cards due light up yellow.';
+  $('#boxes').innerHTML = slot(0, 'Not studied', 'waiting', ' ns') + [1,2,3,4,5].map(b => slot(b, 'Box ' + b, every(iv[b]), dueBy[b] ? ' due' : '')).join('');
+  $('#reviewInfo').textContent = !S.intro ? 'Nothing yet. Start with step 2.' : nDue ? nDue + ' cards to go over today.' : 'All done for today.';
   $('#startReview').disabled = !nDue;
-  $('#startReview').textContent = nDue ? `Review ${nDue} due cards` : 'Nothing due right now';
+  $('#startReview').textContent = nDue ? `Review ${nDue} cards` : 'Nothing due';
   const k = nextStep();
-  if (k < 0) { $('#addInfo').textContent = 'All cards are in the boxes. Keep reviewing.'; $('#addNew').disabled = true; $('#addNew').textContent = 'All cards added'; }
+  if (k < 0) { $('#addInfo').textContent = 'Every card is in your boxes. Keep reviewing.'; $('#addNew').disabled = true; $('#addNew').textContent = 'All added'; }
   else {
     const batch = D.cards.slice(S.intro, D.plan_steps[k]);
-    const units = [...new Set(batch.map(c => c.unit))].map(u => u === 'SUMMARY' ? 'summary cards' : u + ' ' + unitName[u]).join(', ');
-    const nsCount = batch.filter(c => isNS(c.unit)).length;
-    $('#addInfo').innerHTML = `Next batch (${esc(D.leitner_plan[k] ? D.leitner_plan[k].day : 'step ' + (k + 1))}): <b>${esc(units)}</b>, ${batch.length} cards. They go into Box 1 and you go through them straight away.` + (nsCount ? ` ${nsCount} are from topics marked not studied, so they go to the Not studied yet box.` : '') + (S.lastAdd === today() ? ' <b>You already added cards today.</b> Adding more is fine, but the next review will be longer.' : ' Add one batch a day.');
-    $('#addNew').disabled = false; $('#addNew').textContent = `Add ${batch.length} new cards`;
+    const units = [...new Set(batch.map(c => c.unit))].map(u => u === 'SUMMARY' ? 'summary cards' : unitName[u]).join(', ');
+    $('#addInfo').innerHTML = `Next: <b>${esc(units)}</b>.` + (S.lastAdd === today() ? ' You already added some today; more is fine.' : ' One batch a day.');
+    $('#addNew').disabled = false; $('#addNew').textContent = `Add ${batch.length} cards`;
   }
   const row = (D.leitner_plan || []).find(r => r.date === today());
-  $('#quizInfo').textContent = row ? 'Today: ' + row.quiz + '.' : 'Do a quiz on the topics you added. It shows which need more work.';
+  $('#quizInfo').textContent = row ? 'Today: ' + row.quiz + '.' : 'Check what stuck.';
   const nextBtn = nDue ? '#startReview' : (k >= 0 && S.lastAdd !== today()) ? '#addNew' : '#goQuiz';
   ['#startReview', '#addNew', '#goQuiz'].forEach(s => $(s).classList.toggle('main', s === nextBtn));
+  ['#st1', '#st2', '#st3'].forEach((s, i) => $(s).classList.toggle('next', ['#startReview', '#addNew', '#goQuiz'][i] === nextBtn));
 }
 
 /* ---------- flashcards: long (topic) and quick (one fact) */
 let queue = [], qi = 0, flipped = false, sessionMode = 'review', cardStyle = 'long';
+function rebindStyles() {
+  $('#styleLong').onclick = () => { cardStyle = 'long'; cardIntro(); };
+  $('#styleQuick').onclick = () => { cardStyle = 'quick'; cardIntro(); };
+  if ($('#styleTerms')) $('#styleTerms').onclick = () => { cardStyle = 'terms'; cardIntro(); };
+}
 function cardIntro() {
+  if (cardStyle === 'terms' && !(D.vocab || []).length) cardStyle = 'long';
   const hasQuick = D.mcq.length > 0;
   $('#cardArea').innerHTML = `<h2>Flashcards</h2>
-    <div class="row" style="margin-top:0"><span class="seg"><button id="styleLong" class="${cardStyle === 'long' ? 'on' : ''}">Long cards</button><button id="styleQuick" class="${cardStyle === 'quick' ? 'on' : ''}">Quick cards</button></span></div>
-    <p>${cardStyle === 'long' ? '<b>Long cards</b> cover a whole topic: key points, a worked example and a watch out. These are the cards in your Leitner boxes. Use Step 1 and Step 2 above each day.' : '<b>Quick cards</b> test one fact each, with the answer and a reason on the back. Use them for fast practice; they do not move cards between boxes.'}</p>
+    <div class="row" style="margin-top:0"><span class="seg"><button id="styleLong" class="${cardStyle === 'long' ? 'on' : ''}">Long cards</button><button id="styleQuick" class="${cardStyle === 'quick' ? 'on' : ''}">Quick cards</button>${(D.vocab || []).length ? `<button id="styleTerms" class="${cardStyle === 'terms' ? 'on' : ''}">${VL()}</button>` : ''}</span></div>
+    <p>${cardStyle === 'long' ? '<b>Long cards</b> cover a whole topic. These are the cards in your boxes: use steps 1 and 2 above each day. Pick units below for extra practice.' : '<b>Quick cards</b> test one fact each. Say the answer, then turn over. Extra practice only: they do not move cards between boxes.'}</p>
     <p class="small">Pick units for extra practice.${Object.keys(S.ns).length ? ' Topics marked not studied are greyed out.' : ''}</p>
     <div class="unitgrid" id="cardUnits"></div><button class="main" id="practiseUnits">Practise chosen units</button><p class="small" id="cardMsg"></p>`;
   picker($('#cardUnits'), cardStyle === 'long');
   $('#styleLong').onclick = () => { cardStyle = 'long'; cardIntro(); };
   $('#styleQuick').onclick = () => { cardStyle = 'quick'; cardIntro(); };
+  if ($('#styleTerms')) $('#styleTerms').onclick = () => { cardStyle = 'terms'; cardIntro(); };
+  $('#vocabArea').hidden = cardStyle !== 'terms';
+  if (cardStyle === 'terms') { $('#cardArea').innerHTML = $('#cardArea').innerHTML.replace(/<p>[\s\S]*$/, ''); rebindStyles(); vocabIntro(); return; }
   if (!hasQuick) $('#styleQuick').disabled = true;
   $('#practiseUnits').onclick = () => {
     const u = chosen($('#cardUnits')); if (!u.length) { $('#cardMsg').textContent = 'Tick at least one unit first.'; return; }
@@ -445,10 +518,16 @@ function cardIntro() {
     else startSession(shuffle(D.mcq.filter(q => u.includes(q.u))).map(q => ({quick: true, unit: q.u, q})), 'practise');
   };
 }
+const needsOpts = q => /which of these|which statement|which one|\bNOT\b|which of the following/i.test(q.q);
 function cardHTML(c, back) {
+  if (c.term) {
+    const v = c.v;
+    if (!back) return `<div class="fc" style="--c:var(--board)"><p class="small" style="text-align:center">${esc(VL())}</p><h3>${esc(v.word)}</h3><p class="q">${esc(v.type || '')}</p><p class="small" style="text-align:center">What does it mean? Use it in a sentence.</p></div>`;
+    return `<div class="fc" style="--c:var(--board);justify-content:flex-start"><h3 style="text-align:left">${esc(v.word)}</h3><p>${esc(v.meaning)}</p>${v.synonyms.length ? `<p><b>Similar:</b> ${esc(v.synonyms.join(', '))}</p>` : ''}${v.antonyms.length ? `<p><b>Opposite:</b> ${esc(v.antonyms.join(', '))}</p>` : ''}<div class="ex"><i>${esc(v.example)}</i></div></div>`;
+  }
   if (c.quick) {
     const q = c.q;
-    if (!back) return `<div class="fc" style="--c:${colourOf(q.u)}"><p class="small" style="text-align:center">${esc(q.u + ' ' + unitName[q.u])} · quick card</p><p class="q" style="font-style:normal;font-size:22px">${esc(q.q)}</p></div>`;
+    if (!back) return `<div class="fc" style="--c:${colourOf(q.u)}"><p class="small" style="text-align:center">${esc(unitName[q.u])} · quick card</p><p class="q" style="font-style:normal;font-size:22px">${esc(q.q)}</p>${needsOpts(q) ? `<p style="text-align:center">${shuffle([q.a, ...q.w]).map(esc).join(' &nbsp;·&nbsp; ')}</p>` : ''}</div>`;
     return `<div class="fc" style="--c:${colourOf(q.u)}"><h3>${esc(q.a)}</h3><p style="text-align:center">${esc(q.e)}</p></div>`;
   }
   const label = c.unit === 'SUMMARY' ? 'Summary' : c.unit + ' ' + unitName[c.unit];
@@ -467,7 +546,7 @@ function showCard() {
     $('#toQuiz').onclick = () => { location.hash = 'quiz'; toWork(); }; $('#backCards').onclick = cardIntro;
     drawHeader(); return;
   }
-  const c = queue[qi], box = c.quick ? null : S.boxes[c.id];
+  const c = queue[qi], box = c.quick || c.term ? null : S.boxes[c.id];
   const review = sessionMode === 'review';
   area.innerHTML = `<div class="qhead"><span class="small">Card ${qi + 1} of ${queue.length}${review && box ? ' · now in Box ' + box : ' · practice only'}</span><span class="ctl"><button id="cardsQuit">Back</button></span></div><div class="bar" style="margin-top:8px"><i style="width:${100 * qi / queue.length}%"></i></div><div style="margin-top:14px">${cardHTML(c, flipped)}</div>` +
     (flipped ? `<div class="row"><button class="main" id="gotIt">I got it right</button><button id="notYet">Not yet</button>${review ? '<button id="notStudied">Not studied this yet</button>' : ''}</div><p class="small">${review ? `Right: moves to Box ${Math.min(5, (box || 1) + 1)}. Not yet: back to Box 1, and you see it again at the end. Not studied this yet: moves to the Not studied yet box until you are taught it.` : 'Practice cards stay where they are.'}</p>`
@@ -484,6 +563,7 @@ function mark(ok) {
     S.seen[c.id] = today(); save();
     if (!ok) queue.push(c);
   } else if (!ok) queue.push(c);
+  if (c.term) { S.known[c.v.word] = ok || undefined; save(); }
   qi++; flipped = false; showCard(); drawHeader();
 }
 function startSession(cards, mode) { queue = cards; qi = 0; flipped = false; sessionMode = mode; location.hash = 'cards'; showCard(); toWork(); }
@@ -509,7 +589,8 @@ const chosen = el => [...el.querySelectorAll('input:checked')].map(i => i.value)
 let Q = [], qn = 0, score = 0, answered = false, mode = 'quiz', timerId = null, results = [], skipped = [], endAt = 0, lastSet = null;
 function record(u, ok) { const s = S.stats[u] || [0, 0]; s[0] += ok ? 1 : 0; s[1]++; S.stats[u] = s; save(); }
 function quizIntro() {
-  $('#quizArea').innerHTML = `<h2>Topic quiz</h2><p>Pick one or more units. You get 10 questions, with the answer and a reason after each one. If a question is on something you have not been taught yet, press <b>Not studied this yet</b> and it will not count.</p><div class="unitgrid" id="quizUnits"></div><button class="main" id="startQuiz">Start quiz</button><p class="small" id="quizMsg"></p>`;
+  $('#quizArea').innerHTML = `<h2>Topic quiz</h2><p>Pick one or more units. You get 10 questions, with the answer and a reason after each one. If a question is on something you have not been taught yet, press <b>Not studied this yet</b> and it will not count.</p><div class="unitgrid" id="quizUnits"></div><div class="row"><button class="main" id="startQuiz">Start topic quiz</button>${(D.vocab || []).length ? `<button id="termQuiz">${VL()} quiz</button>` : ''}</div><p class="small" id="quizMsg"></p>`;
+  if ($('#termQuiz')) $('#termQuiz').onclick = startVocabQuiz;
   picker($('#quizUnits'), false);
   $('#startQuiz').onclick = () => { const u = chosen($('#quizUnits')); if (!u.length) { $('#quizMsg').textContent = 'Tick at least one unit first.'; return; } lastSet = () => shuffle(D.mcq.filter(q => u.includes(q.u))).slice(0, 10); startQuiz(lastSet(), 'quiz'); };
 }
@@ -600,11 +681,12 @@ function vocabIntro() {
   if (!V.length) { $('#vocabArea').innerHTML = `<h2>${VL()}</h2><p>No word list for this subject yet.</p>`; return; }
   const known = V.filter(v => S.known[v.word]).length;
   $('#vocabArea').innerHTML = `<h2>${VL()}</h2><p>${D.type === 'vocab' ? 'Powerful words to use in your writing and spot in your reading.' : 'The key terms for this subject.'} Words to use in your answers to sound precise and earn higher marks. Each has its meaning, words that mean the same (synonyms), opposites (antonyms) and an example sentence. Tick the ones you can use confidently.</p>
-    <div class="row"><input type="search" id="vsearch" placeholder="Search words" value="${esc(vfilter)}" aria-label="Search words"><button class="main" id="vquiz">${VL()} quiz (10 questions)</button><span class="small">${known} of ${V.length} known</span></div>
+    <div class="row"><input type="search" id="vsearch" placeholder="Search words" value="${esc(vfilter)}" aria-label="Search words"><button class="main" id="vcards">${VL()} flashcards</button><button id="vquiz">${VL()} quiz</button><span class="small">${known} of ${V.length} known</span></div>
     <div class="vgrid" id="vgrid"></div>`;
   drawVocabGrid();
   $('#vsearch').oninput = e => { vfilter = e.target.value; drawVocabGrid(); };
-  $('#vquiz').onclick = startVocabQuiz;
+  $('#vquiz').onclick = () => { location.hash = 'quiz'; startVocabQuiz(); toWork(); };
+  $('#vcards').onclick = () => startSession(shuffle(V.filter(v => !S.known[v.word]).concat(V.filter(v => S.known[v.word]))).map(v => ({term: true, v, unit: 'TERM'})), 'practise');
 }
 function drawVocabGrid() {
   const f = vfilter.toLowerCase();
@@ -626,14 +708,14 @@ function startVocabQuiz() {
   vn = 0; vscore = 0; renderVQ();
 }
 function renderVQ() {
-  if (vn >= VQ.length) { $('#vocabArea').innerHTML = `<h2>${vscore} out of ${VQ.length}</h2><p>Learn the words you missed, then try again.</p><div class="row"><button class="main" id="vagain">Another ${VL().toLowerCase()} quiz</button><button id="vback">Back to word list</button></div>`; $('#vagain').onclick = startVocabQuiz; $('#vback').onclick = vocabIntro; return; }
+  if (vn >= VQ.length) { $('#quizArea').innerHTML = `<h2>${vscore} out of ${VQ.length}</h2><p>Learn the words you missed with the ${VL().toLowerCase()} flashcards, then try again.</p><div class="row"><button class="main" id="vagain">Another ${VL().toLowerCase()} quiz</button><button id="vback">Back to quizzes</button></div>`; $('#vagain').onclick = startVocabQuiz; $('#vback').onclick = quizIntro; return; }
   const q = VQ[vn];
-  $('#vocabArea').innerHTML = `<div class="qhead"><span class="small">Word ${vn + 1} of ${VQ.length}</span><span class="ctl"><button id="vrestart">Restart</button><button id="vquit">Quit</button></span></div><div class="bar" style="margin:10px 0 16px"><i style="width:${100 * vn / VQ.length}%"></i></div><h3>${esc(q.prompt)}</h3>${q.opts.map((o, i) => `<button class="opt" data-i="${i}">${'ABCD'[i]}. ${esc(o)}</button>`).join('')}<div id="vfb"></div>`;
-  $('#vquit').onclick = vocabIntro; $('#vrestart').onclick = startVocabQuiz;
+  $('#quizArea').innerHTML = `<div class="qhead"><span class="small">Word ${vn + 1} of ${VQ.length}</span><span class="ctl"><button id="vrestart">Restart</button><button id="vquit">Quit</button></span></div><div class="bar" style="margin:10px 0 16px"><i style="width:${100 * vn / VQ.length}%"></i></div><h3>${esc(q.prompt)}</h3>${q.opts.map((o, i) => `<button class="opt" data-i="${i}">${'ABCD'[i]}. ${esc(o)}</button>`).join('')}<div id="vfb"></div>`;
+  $('#vquit').onclick = quizIntro; $('#vrestart').onclick = startVocabQuiz;
   let done = false;
-  document.querySelectorAll('#vocabArea .opt').forEach(b => b.onclick = () => {
+  document.querySelectorAll('#quizArea .opt').forEach(b => b.onclick = () => {
     if (done) return; done = true; const ok = q.opts[+b.dataset.i] === q.a; if (ok) vscore++;
-    document.querySelectorAll('#vocabArea .opt').forEach((x, j) => { if (q.opts[j] === q.a) x.classList.add('right'); else if (x === b) x.classList.add('wrong'); });
+    document.querySelectorAll('#quizArea .opt').forEach((x, j) => { if (q.opts[j] === q.a) x.classList.add('right'); else if (x === b) x.classList.add('wrong'); });
     $('#vfb').innerHTML = `<p><b>${ok ? 'Correct.' : 'The answer is ' + esc(q.a) + '.'}</b> ${esc(q.v.word)}: ${esc(q.v.meaning)}. <i>${esc(q.v.example)}</i></p><button class="main" id="vnext">Next</button>`;
     $('#vnext').onclick = () => { vn++; renderVQ(); };
   });
@@ -648,7 +730,7 @@ function drawGuide() {
   const when = a.date ? esc(new Date(a.date + 'T09:00').toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', year:'numeric'})) + ', ' : '';
   let h = `<h2>Revision guide</h2><p>${esc(a.name)}${when ? ': ' + when : '. '}${esc(a.sections)}${a.equipment && a.equipment !== 'None' ? ' Bring: ' + esc(a.equipment) + '.' : ''}</p>${(D.how_to_use || []).length ? '<ul>' + D.how_to_use.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>' : ''}
     <p>Read a unit, then cover it and test yourself. For a paper copy, use the <a href="#print">Print</a> tab.</p>
-    <div class="toc">${D.units.map(u => `<a href="#guide" data-jump="g-${esc(u.code)}" style="background:${colourOf(u.code)}">${esc(u.code)}</a>`).join('')}${D.cards.some(c => c.unit === 'SUMMARY') ? '<a href="#guide" data-jump="g-eq" style="background:var(--S)">Summary</a>' : ''}<a href="#guide" data-jump="g-tips" style="background:var(--S)">Exam tips</a>${(D.vocab || []).length ? '<a href="#guide" data-jump="g-vocab" style="background:var(--S)">' + VL() + '</a>' : ''}</div>`;
+    <div class="toc">${D.units.map(u => `<a href="#guide" data-jump="g-${esc(u.code)}" style="background:${colourOf(u.code)}">${esc(u.name)}</a>`).join('')}${D.cards.some(c => c.unit === 'SUMMARY') ? '<a href="#guide" data-jump="g-eq" style="background:var(--S)">Summary</a>' : ''}<a href="#guide" data-jump="g-tips" style="background:var(--S)">Exam tips</a>${(D.vocab || []).length ? '<a href="#guide" data-jump="g-vocab" style="background:var(--S)">' + VL() + '</a>' : ''}</div>`;
   groups.forEach(g => {
     h += `<h2 style="margin-top:28px">${esc(glabel[g] || g)}</h2>`;
     D.units.filter(u => u.group === g).forEach(u => { h += `<h3 id="g-${esc(u.code)}" style="color:${colourOf(u.code)};margin-top:22px">${esc(u.code + ' ' + u.name)}${isNS(u.code) ? ' <span class="small">(not studied yet)</span>' : ''}</h3>` + D.cards.filter(c => c.unit === u.code).map(gcard).join(''); });
@@ -693,18 +775,28 @@ function drawPlan() {
 $('#sched').onchange = e => { S.sched = e.target.value; save(); drawHeader(); };
 
 /* ---------- reset */
-$('#resetBtn').onclick = () => { $('#resetBtn').style.display = 'none'; $('#resetConfirm').classList.add('on'); };
-$('#resetNo').onclick = () => { $('#resetConfirm').classList.remove('on'); $('#resetBtn').style.display = ''; };
-$('#resetYes').onclick = () => { const sched = S.sched; S = blank(); S.sched = sched; (D.ns_default || []).forEach(u => S.ns[u] = true); save(); $('#resetNo').onclick(); renderAll(); };
+let resetScope = null;
+const askReset = sc => { resetScope = sc; $('#resetAsk').hidden = false; $('#resetQ').textContent = sc === 'all' ? 'Reset every subject for ' + $('#studentSel').value + '?' : 'Reset ' + (D ? D.subject : 'this subject') + '?'; };
+$('#resetOne').onclick = () => askReset('one'); $('#resetAll').onclick = () => askReset('all');
+$('#resetNo').onclick = () => { $('#resetAsk').hidden = true; };
+$('#resetYes').onclick = () => {
+  const st = $('#studentSel').value, now = Date.now();
+  const ids = resetScope === 'all' ? studentDecks(st).map(d => d.deck_id) : D ? [D.deck_id] : [];
+  ids.forEach(id => store.set('leitner-' + id, {reset: true, ts: now}));
+  $('#resetAsk').hidden = true; $('#ghMsg').textContent = ids.length + (ids.length === 1 ? ' subject' : ' subjects') + ' reset.';
+  if (ghOn()) ghPush(st);
+  if (D) pick();
+};
 
-function renderAll(keepView) { clearInterval(timerId); $('#vtab').textContent = VL(); drawHeader(); cardIntro(); quizIntro(); mockIntro(); drawWritten(); vocabIntro(); drawGuide(); drawDownloads(); drawTopics(); drawStats(); drawPlan(); }
+function renderAll(keepView) { clearInterval(timerId); drawHeader(); cardIntro(); quizIntro(); mockIntro(); drawWritten(); vocabIntro(); drawGuide(); drawDownloads(); drawTopics(); drawStats(); drawPlan(); drawChecklist(); }
 
 /* ---------- routing */
-const views = ['cards', 'quiz', 'mock', 'written', 'vocab', 'guide', 'print', 'progress'];
+const views = ['cards', 'quiz', 'mock', 'written', 'guide', 'print', 'progress', 'checklist'];
 function route() {
   const v = views.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'cards';
   views.forEach(x => $('#v-' + x).hidden = x !== v);
   if (v === 'progress' && D) { drawStats(); drawPlan(); }
+  if (v === 'checklist') drawChecklist();
   document.querySelectorAll('nav a').forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + v ? 'page' : 'false'));
 }
 addEventListener('hashchange', route);

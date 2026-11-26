@@ -1,4 +1,291 @@
 {
+ "checklist": {
+  "items": [
+   "Assessment topics",
+   "Curriculum",
+   "Reading canon",
+   "Knowledge organiser",
+   "Booklets or homework"
+  ],
+  "rows": [
+   {
+    "student": "Bhavin",
+    "subject": "Art, Design and Technology",
+    "status": [
+     "none",
+     "have",
+     "have",
+     "have",
+     "need"
+    ],
+    "note": "D&T knowledge organiser (reduce, reuse, recycle). Art: no assessment topic list; send the Art knowledge organiser if there is one."
+   },
+   {
+    "student": "Bhavin",
+    "subject": "Computer Science",
+    "status": [
+     "have",
+     "have",
+     "none",
+     "have",
+     "have"
+    ],
+    "note": "Autumn 2 computing revision booklet (digital fluency, computer systems, networks)."
+   },
+   {
+    "student": "Bhavin",
+    "subject": "English",
+    "status": [
+     "none",
+     "have",
+     "have",
+     "need",
+     "need"
+    ],
+    "note": "No assessment topic list. Send the class text, quote lists or knowledge organiser."
+   },
+   {
+    "student": "Bhavin",
+    "subject": "Geography",
+    "status": [
+     "have",
+     "have",
+     "have",
+     "have",
+     "have"
+    ],
+    "note": "Core knowledge list (River Rivals) and mastery booklets 1 and 2 (River Rivals, Food and Famine)."
+   },
+   {
+    "student": "Bhavin",
+    "subject": "History",
+    "status": [
+     "have",
+     "have",
+     "have",
+     "need",
+     "have"
+    ],
+    "note": "Topic list (Benin, Nur Jahan, Puritans), booklets 1 and 2, revision lesson questions."
+   },
+   {
+    "student": "Bhavin",
+    "subject": "Maths",
+    "status": [
+     "none",
+     "have",
+     "have",
+     "need",
+     "need"
+    ],
+    "note": "No assessment topic list. Send the topic list or scheme of work for this term."
+   },
+   {
+    "student": "Bhavin",
+    "subject": "Music",
+    "status": [
+     "need",
+     "have",
+     "have",
+     "need",
+     "need"
+    ],
+    "note": "Only the Ark curriculum page so far."
+   },
+   {
+    "student": "Bhavin",
+    "subject": "Religious Education",
+    "status": [
+     "have",
+     "have",
+     "have",
+     "have",
+     "have"
+    ],
+    "note": "How do we know which rules to follow? knowledge organiser, revision sheet and revision lesson."
+   },
+   {
+    "student": "Bhavin",
+    "subject": "Science",
+    "status": [
+     "have",
+     "have",
+     "have",
+     "have",
+     "none"
+    ],
+    "note": "Autumn assessment topic list and revision sheet."
+   },
+   {
+    "student": "Bhavin",
+    "subject": "Spanish",
+    "status": [
+     "have",
+     "have",
+     "have",
+     "have",
+     "none"
+    ],
+    "note": "Autumn 2 revision sheet with vocabulary and grammar."
+   },
+   {
+    "student": "Bhavin",
+    "subject": "Word Power",
+    "status": [
+     "none",
+     "none",
+     "have",
+     "none",
+     "none"
+    ],
+    "note": "Built from the reading canon and his subjects."
+   },
+   {
+    "student": "Jaimin",
+    "subject": "Additional Maths",
+    "status": [
+     "need",
+     "have",
+     "none",
+     "need",
+     "need"
+    ],
+    "note": "OCR FSMQ 6993 confirmed in the KS4 pathways booklet. Send the enquiry tasks or class notes."
+   },
+   {
+    "student": "Jaimin",
+    "subject": "Biology",
+    "status": [
+     "have",
+     "have",
+     "have",
+     "need",
+     "have"
+    ],
+    "note": "Science assessment list, Autumn 1 and 2 homework booklets (filled)."
+   },
+   {
+    "student": "Jaimin",
+    "subject": "Business Studies",
+    "status": [
+     "need",
+     "have",
+     "none",
+     "need",
+     "need"
+    ],
+    "note": "Exam board not stated in the pathways booklet."
+   },
+   {
+    "student": "Jaimin",
+    "subject": "Chemistry",
+    "status": [
+     "have",
+     "have",
+     "have",
+     "need",
+     "have"
+    ],
+    "note": "Science assessment list, Autumn 1 and 2 homework booklets (filled)."
+   },
+   {
+    "student": "Jaimin",
+    "subject": "Design and Technology",
+    "status": [
+     "need",
+     "have",
+     "have",
+     "need",
+     "need"
+    ],
+    "note": "AQA. Assessment on core technical principles."
+   },
+   {
+    "student": "Jaimin",
+    "subject": "English",
+    "status": [
+     "need",
+     "have",
+     "have",
+     "need",
+     "have"
+    ],
+    "note": "Homework sheets and Macbeth revision notes (photos). Send the Language Paper 1 assessment details."
+   },
+   {
+    "student": "Jaimin",
+    "subject": "Geography",
+    "status": [
+     "need",
+     "have",
+     "have",
+     "need",
+     "need"
+    ],
+    "note": "AQA. Assessment on natural hazards and hot deserts."
+   },
+   {
+    "student": "Jaimin",
+    "subject": "Maths",
+    "status": [
+     "need",
+     "have",
+     "have",
+     "need",
+     "need"
+    ],
+    "note": "Edexcel 1MA1 Higher."
+   },
+   {
+    "student": "Jaimin",
+    "subject": "Physics",
+    "status": [
+     "have",
+     "have",
+     "have",
+     "need",
+     "have"
+    ],
+    "note": "Science assessment list, Autumn 1 and 2 homework booklets (filled)."
+   },
+   {
+    "student": "Jaimin",
+    "subject": "Religious Studies",
+    "status": [
+     "need",
+     "have",
+     "have",
+     "need",
+     "need"
+    ],
+    "note": "AQA. Islam and Theme D (peace and conflict)."
+   },
+   {
+    "student": "Jaimin",
+    "subject": "Spanish",
+    "status": [
+     "need",
+     "have",
+     "have",
+     "need",
+     "need"
+    ],
+    "note": "Edexcel."
+   },
+   {
+    "student": "Jaimin",
+    "subject": "Word Power",
+    "status": [
+     "none",
+     "none",
+     "have",
+     "none",
+     "none"
+    ],
+    "note": "Built from the reading canon and his subjects."
+   }
+  ]
+ },
  "decks": [
   {
    "student": "Bhavin",
