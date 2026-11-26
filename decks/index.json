@@ -30,7 +30,7 @@
      "have",
      "have"
     ],
-    "note": "Autumn 2 computing revision booklet (digital fluency, computer systems, networks)."
+    "note": "Autumn 2 computing revision booklet (digital fluency, computer systems, networks). Deck built."
    },
    {
     "student": "Bhavin",
@@ -54,7 +54,7 @@
      "have",
      "have"
     ],
-    "note": "Core knowledge list (River Rivals) and mastery booklets 1 and 2 (River Rivals, Food and Famine)."
+    "note": "Core knowledge list (River Rivals) and mastery booklets 1 and 2 (River Rivals, Food and Famine). Deck built."
    },
    {
     "student": "Bhavin",
@@ -646,7 +646,31 @@
    "subject": "Geography",
    "term": "Autumn 2",
    "year": "Year 8",
-   "note": "Batch 2. Assessment week of 30 November: 30 multiple choice questions plus a short written test. Units: River Rivals and Food and Famine lessons 1 to 5. Materials received: both mastery booklets, revision guidance, core knowledge list."
+   "file": "decks/bhavin-y8-geography-aut2.json",
+   "deck_id": "bhavin-y8-geography-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Bhavin_Year8_Geography_Long_Flashcards.pdf",
+     "url": null,
+     "about": "15 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Bhavin_Year8_Geography_Quick_Cards.pdf",
+     "url": null,
+     "about": "58 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Bhavin_Year8_Geography_Revision_Guide.pdf",
+     "url": null,
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
   },
   {
    "student": "Bhavin",
@@ -681,7 +705,31 @@
    "subject": "Computer Science",
    "term": "Autumn 2",
    "year": "Year 8",
-   "note": "Batch 2. Assessment in the first Computer Science lesson, week of 30 November. Autumn: Digital fluency, law and ethics; Computer systems. Materials received: revision booklet."
+   "file": "decks/bhavin-y8-cs-aut2.json",
+   "deck_id": "bhavin-y8-cs-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Bhavin_Year8_Computer_Science_Long_Flashcards.pdf",
+     "url": null,
+     "about": "13 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Bhavin_Year8_Computer_Science_Quick_Cards.pdf",
+     "url": null,
+     "about": "52 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Bhavin_Year8_Computer_Science_Revision_Guide.pdf",
+     "url": null,
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
   },
   {
    "student": "Bhavin",
