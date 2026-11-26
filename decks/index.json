@@ -294,6 +294,7 @@
    "year": "Year 8",
    "file": "decks/bhavin-y8-spanish-aut2.json",
    "deck_id": "bhavin-y8-spanish-aut2",
+   "date": "2026-11-30",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -353,6 +354,7 @@
    "year": "Year 8",
    "file": "decks/bhavin-y8-english-aut2.json",
    "deck_id": "bhavin-y8-english-aut2",
+   "date": "2026-11-30",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -412,6 +414,7 @@
    "year": "Year 8",
    "file": "decks/bhavin-y8-maths-aut2.json",
    "deck_id": "bhavin-y8-maths-aut2",
+   "date": "2026-12-01",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -471,6 +474,7 @@
    "year": "Year 8",
    "file": "decks/bhavin-y8-science-aut2-2026.json",
    "deck_id": "bhavin-y8-science-aut2-2026",
+   "date": "2026-12-03",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -530,6 +534,7 @@
    "year": "Year 8",
    "file": "decks/bhavin-y8-re-aut2.json",
    "deck_id": "bhavin-y8-re-aut2",
+   "date": "2026-11-30",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -589,6 +594,7 @@
    "year": "Year 8",
    "file": "decks/bhavin-y8-history-aut2.json",
    "deck_id": "bhavin-y8-history-aut2",
+   "date": "2026-11-30",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -648,6 +654,7 @@
    "year": "Year 8",
    "file": "decks/bhavin-y8-geography-aut2.json",
    "deck_id": "bhavin-y8-geography-aut2",
+   "date": "2026-11-30",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -707,6 +714,7 @@
    "year": "Year 8",
    "file": "decks/bhavin-y8-cs-aut2.json",
    "deck_id": "bhavin-y8-cs-aut2",
+   "date": "2026-11-30",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -766,6 +774,7 @@
    "year": "Year 8",
    "file": "decks/bhavin-y8-music-aut2.json",
    "deck_id": "bhavin-y8-music-aut2",
+   "date": "2026-11-30",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -825,6 +834,7 @@
    "year": "Year 8",
    "file": "decks/bhavin-y8-artdt-aut2.json",
    "deck_id": "bhavin-y8-artdt-aut2",
+   "date": "2026-11-30",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -884,6 +894,7 @@
    "year": "Year 8",
    "file": "decks/bhavin-y8-vocab-aut2.json",
    "deck_id": "bhavin-y8-vocab-aut2",
+   "date": null,
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -915,6 +926,7 @@
    "year": "Year 10",
    "file": "decks/jaimin-y10-biology-aut2.json",
    "deck_id": "jaimin-y10-biology-aut2",
+   "date": "2026-12-03",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -946,6 +958,7 @@
    "year": "Year 10",
    "file": "decks/jaimin-y10-chemistry-aut2.json",
    "deck_id": "jaimin-y10-chemistry-aut2",
+   "date": "2026-12-03",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -977,6 +990,7 @@
    "year": "Year 10",
    "file": "decks/jaimin-y10-physics-aut2.json",
    "deck_id": "jaimin-y10-physics-aut2",
+   "date": "2026-12-03",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -1071,6 +1085,7 @@
    "year": "Year 10",
    "file": "decks/jaimin-y10-english-aut2.json",
    "deck_id": "jaimin-y10-english-aut2",
+   "date": "2026-11-30",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -1123,6 +1138,7 @@
    "year": "Year 10",
    "file": "decks/jaimin-y10-maths-aut2.json",
    "deck_id": "jaimin-y10-maths-aut2",
+   "date": "2026-11-30",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -1168,6 +1184,7 @@
    "year": "Year 10",
    "file": "decks/jaimin-y10-addmaths-aut2.json",
    "deck_id": "jaimin-y10-addmaths-aut2",
+   "date": null,
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -1199,6 +1216,7 @@
    "year": "Year 10",
    "file": "decks/jaimin-y10-re-aut2.json",
    "deck_id": "jaimin-y10-re-aut2",
+   "date": "2026-11-30",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -1258,6 +1276,7 @@
    "year": "Year 10",
    "file": "decks/jaimin-y10-spanish-aut2.json",
    "deck_id": "jaimin-y10-spanish-aut2",
+   "date": "2026-11-30",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -1317,6 +1336,7 @@
    "year": "Year 10",
    "file": "decks/jaimin-y10-geography-aut2.json",
    "deck_id": "jaimin-y10-geography-aut2",
+   "date": "2026-12-01",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -1376,6 +1396,7 @@
    "year": "Year 10",
    "file": "decks/jaimin-y10-dt-aut2.json",
    "deck_id": "jaimin-y10-dt-aut2",
+   "date": "2026-12-02",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -1421,6 +1442,7 @@
    "year": "Year 10",
    "file": "decks/jaimin-y10-business-aut2.json",
    "deck_id": "jaimin-y10-business-aut2",
+   "date": "2026-12-04",
    "pdfs": [
     {
      "label": "Long flashcards",
@@ -1480,6 +1502,7 @@
    "year": "Year 10",
    "file": "decks/jaimin-y10-vocab-aut2.json",
    "deck_id": "jaimin-y10-vocab-aut2",
+   "date": null,
    "pdfs": [
     {
      "label": "Long flashcards",

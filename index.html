@@ -46,7 +46,7 @@ header p{margin:.2em 0;color:#d9e8de}
 .step p{margin:0;font-size:15px;color:#e3efe7}
 .step button{margin-top:auto}
 .rule{font-size:15px;color:#e3efe7}
-body.empty .boxes,body.empty .rule,body.empty .steps,body.empty nav{display:none}
+body.empty .boxes,body.empty .rule,body.empty .steps,body.empty nav,body.empty .today,body.empty #subMoreBtn{display:none}
 .guide h2,.guide h3{scroll-margin-top:64px}
 .rule b{color:#fff}
 button{font:700 16px Lexend,system-ui,sans-serif;min-height:44px;padding:10px 18px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
@@ -120,6 +120,15 @@ input[type=search]{font:16px "Atkinson Hyperlegible",sans-serif;min-height:44px;
 .skip{margin-top:6px;font:400 15px "Atkinson Hyperlegible",sans-serif;min-height:40px}
 @media(max-width:700px){.boxes{grid-template-columns:repeat(3,minmax(0,1fr))}}
 [hidden]{display:none!important}
+.today{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin-top:14px}
+.today button.big{font-size:19px;min-height:54px;padding:12px 26px}
+.today .msg{margin:0;color:#e3efe7;font-size:15px}
+.done{background:rgba(134,239,172,.22);border:1px solid rgba(134,239,172,.6);border-radius:12px;padding:10px 14px;color:#fff;font-size:15px}
+.done b{font-family:Lexend,sans-serif}
+#subMoreBtn{display:none;background:none;border:0;color:#fff;text-decoration:underline;font:700 14px Lexend,sans-serif;min-height:32px;padding:0}
+.keys{display:none}
+@media(hover:hover) and (pointer:fine){.keys{display:block}}
+@media(max-width:700px){.topbar label{flex:1 1 100%}.topbar label select{flex:1}#subMore{display:none}#subMoreBtn{display:inline}header.more #subMore{display:inline}header.more #subMoreBtn{display:none}}
 /* themes per student */
 body{--top:#163a2b}
 body[data-student=Jaimin]{--board:#14532d;--top:#0f3a20;--acc:#facc15}
@@ -164,8 +173,9 @@ nav a[aria-current=page]{background:var(--board);color:#fff}
 
 <header class="band"><div class="wrap">
   <h1 id="title">Loading</h1>
-  <p id="sub"></p>
+  <p id="sub"><span id="subMain"></span> <span id="subMore"></span> <button id="subMoreBtn" type="button">About this test</button></p>
   <div class="chips" id="chips" aria-label="Your cards"></div>
+  <div class="today" id="todayRow"><button class="main big" id="startToday">Start today</button><p class="msg" id="todayMsg"></p></div>
   <div class="steps">
     <div class="step" id="st1"><span class="num">1</span><div><h3>Review</h3><p id="reviewInfo"></p></div><button class="main" id="startReview">Review due cards</button></div>
     <div class="step" id="st2"><span class="num">2</span><div><h3>Learn new cards</h3><p id="addInfo"></p></div><button id="addNew">Add new cards</button></div>
@@ -289,6 +299,7 @@ async function ghRead(st) {
 }
 function mergeInto(local, remote) {
   let pulled = 0;
+  if (remote.student && remote.streak) { const mine = store.get(streakKey(remote.student)); store.set(streakKey(remote.student), {days: [...new Set([...(mine ? mine.days : []), ...remote.streak.days])].sort().slice(-60), ts: Math.max(remote.streak.ts || 0, mine ? mine.ts || 0 : 0)}); }
   if (remote.student && remote.check) { const mine = store.get('hub-check-' + remote.student); if (!mine || (remote.check.ts || 0) > (mine.ts || 0)) store.set('hub-check-' + remote.student, remote.check); }
   Object.entries(remote.decks || {}).forEach(([id, v]) => {
     const mine = store.get('leitner-' + id);
@@ -311,7 +322,7 @@ async function ghPush(st) {
       const decks = Object.assign({}, data.decks);
       studentDecks(st).forEach(d => { const v = store.get('leitner-' + d.deck_id); if (v && (!decks[d.deck_id] || (v.ts || 0) >= (decks[d.deck_id].ts || 0))) decks[d.deck_id] = v; });
       try {
-        await ghReq('PUT', 'progress/' + encodeURIComponent(st) + '.json', {message: 'Progress ' + st, content: utf8b64(JSON.stringify({student: st, saved: Date.now(), decks, check: store.get('hub-check-' + st) || undefined})), ...(sha ? {sha} : {})});
+        await ghReq('PUT', 'progress/' + encodeURIComponent(st) + '.json', {message: 'Progress ' + st, content: utf8b64(JSON.stringify({student: st, saved: Date.now(), decks, check: store.get('hub-check-' + st) || undefined, streak: store.get(streakKey(st)) || undefined})), ...(sha ? {sha} : {})});
         ghShow('Synced ' + new Date().toTimeString().slice(0, 5)); break;
       } catch (e) { if (e.status !== 409 && e.status !== 422) throw e; }
     }
@@ -359,30 +370,54 @@ async function boot() {
   const students = [...new Set(INDEX.decks.map(d => d.student))];
   $('#studentSel').innerHTML = students.map(s => `<option>${esc(s)}</option>`).join('');
   const last = store.get('hub-last') || {};
-  const first = INDEX.decks.find(d => d.student === last.student && d.subject === last.subject && d.term === last.term) || INDEX.decks.find(d => d.file);
-  $('#studentSel').value = first.student; fillSubjects(first.subject); fillTerms(first.term);
+  const resume = last.day === today() && INDEX.decks.find(d => d.student === last.student && d.subject === last.subject && d.term === last.term);
+  const st0 = resume ? resume.student : students.includes(last.student) ? last.student : INDEX.decks.find(d => d.file).student;
+  $('#studentSel').value = st0; fillSubjects(resume ? resume.subject : null); fillTerms(resume ? resume.term : null);
   $('#studentSel').onchange = () => { fillSubjects(); fillTerms(); pick(); };
   $('#subjectSel').onchange = () => { fillTerms(); pick(); };
   $('#termSel').onchange = pick;
   await pick();
   if (GH.fresh && ghOn()) { ghShow('Sync turned on'); for (const st of [...new Set(INDEX.decks.map(d => d.student))]) await ghPush(st); }
 }
-function fillSubjects(want) {
+function dueFor(d) {
+  const v = store.get('leitner-' + d.deck_id); if (!v || v.reset || !v.boxes) return null;
+  const iv = INTERVALS[v.sched] || INTERVALS.short;
+  return Object.entries(v.boxes).filter(([id, b]) => b > 0 && daysSince((v.seen || {})[id]) >= iv[b]).length;
+}
+function subjectInfo(st) {
+  const ds = INDEX.decks.filter(d => d.student === st), t = today();
+  return [...new Set(ds.map(d => d.subject))].map(s => {
+    const live = ds.filter(d => d.subject === s && d.file);
+    const dates = live.map(d => d.date).filter(x => x && x >= t).sort();
+    const counts = live.map(dueFor), started = counts.some(n => n !== null);
+    return {s, live: live.length > 0, date: dates[0] || null, due: counts.reduce((a, n) => a + (n || 0), 0), started};
+  }).sort((a, b) => (b.live - a.live) || (a.date ? (b.date ? a.date.localeCompare(b.date) : -1) : (b.date ? 1 : 0)) || a.s.localeCompare(b.s));
+}
+const urgent = st => { const info = subjectInfo(st).filter(x => x.live); return (info.filter(x => x.due).sort((a, b) => b.due - a.due)[0] || info[0] || {}).s; };
+function subjectLabel(x) {
+  if (!x.live) return x.s + ' (coming soon)';
+  const when = x.date ? new Date(x.date + 'T09:00').toLocaleDateString('en-GB', {day: 'numeric', month: 'short'}) : '';
+  return x.s + (x.due ? ' · ' + x.due + ' due' : !x.started ? ' · new' : '') + (when ? ' · ' + when : '');
+}
+function subjectLabels() {
   const st = $('#studentSel').value;
-  const ds = INDEX.decks.filter(d => d.student === st);
-  const subs = [...new Set(ds.map(d => d.subject))].sort((a, b) => a.localeCompare(b));
-  $('#subjectSel').innerHTML = subs.map(s => `<option value="${esc(s)}">${esc(s)}${ds.some(d => d.subject === s && d.file) ? '' : ' (coming soon)'}</option>`).join('');
-  const live = ds.find(d => d.file);
-  $('#subjectSel').value = want && subs.includes(want) ? want : (live ? live.subject : subs[0]);
+  subjectInfo(st).forEach(x => { const o = [...$('#subjectSel').options].find(o => o.value === x.s); if (o) o.textContent = subjectLabel(x); });
+}
+function fillSubjects(want) {
+  const st = $('#studentSel').value, info = subjectInfo(st);
+  $('#subjectSel').innerHTML = info.map(x => `<option value="${esc(x.s)}">${esc(subjectLabel(x))}</option>`).join('');
+  $('#subjectSel').value = want && info.some(x => x.s === want) ? want : urgent(st) || info[0].s;
 }
 function fillTerms(want) {
   const ds = INDEX.decks.filter(d => d.student === $('#studentSel').value && d.subject === $('#subjectSel').value);
   $('#termSel').innerHTML = ds.map(d => `<option value="${esc(d.term)}">${esc(d.year + ' ' + d.term)}${d.file ? '' : ' (coming soon)'}</option>`).join('');
   if (want && ds.some(d => d.term === want)) $('#termSel').value = want;
+  else if (ds.some(d => d.file)) $('#termSel').value = ds.find(d => d.file).term;
 }
 async function pick() {
   const entry = INDEX.decks.find(d => d.student === $('#studentSel').value && d.subject === $('#subjectSel').value && d.term === $('#termSel').value);
-  store.set('hub-last', {student: entry.student, subject: entry.subject, term: entry.term});
+  store.set('hub-last', {student: entry.student, subject: entry.subject, term: entry.term, day: today()});
+  todayRun = null; document.querySelector('header').classList.remove('more');
   if (!entry.file) { comingSoon(entry); return; }
   document.body.classList.remove('empty'); document.body.dataset.student = entry.student;
   D = await (await fetch(entry.file)).json();
@@ -401,11 +436,38 @@ async function pick() {
 function comingSoon(e) {
   D = null; document.body.classList.add('empty'); document.body.dataset.student = e.student;
   $('#title').textContent = e.student + ': ' + e.subject + ', ' + e.year + ' ' + e.term;
-  $('#sub').textContent = 'This subject is not built yet. ' + (e.note || '');
+  $('#subMain').textContent = 'This subject is not built yet. ' + (e.note || ''); $('#subMore').textContent = '';
     const msg = `<h2>Coming soon</h2><p>${esc(e.subject)} for ${esc(e.student)} has not been made yet. ${esc(e.note || '')}</p>`;
   ['#cardArea', '#quizArea', '#mockArea', '#guideArea'].forEach(s => $(s).innerHTML = msg); $('#vocabArea').hidden = true; drawChecklist();
   ['#writtenList', '#dlList', '#unitStats', '#plan', '#dlMsg', '#topicList'].forEach(s => $(s).innerHTML = '');
 }
+
+/* ---------- day streak (per student, synced) and the Start today run */
+const streakKey = st => 'hub-streak-' + st;
+const streakDays = st => (store.get(streakKey(st)) || {days: []}).days;
+function markDayDone(st) { const s = store.get(streakKey(st)) || {days: []}; if (s.days.includes(today())) return; s.days = s.days.concat(today()).slice(-60); s.ts = Date.now(); store.set(streakKey(st), s); }
+function streakCount(st) {
+  const set = new Set(streakDays(st)); let n = 0, d = new Date();
+  const key = x => x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0');
+  if (!set.has(key(d))) d.setDate(d.getDate() - 1);
+  while (set.has(key(d))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+let todayRun = null;
+function quizUnitsFrom(units) { const u = [...new Set(units)].filter(x => x !== 'SUMMARY' && !isNS(x) && D.mcq.some(q => q.u === x)); return u.length ? u : studiedUnits().map(x => x.code).filter(x => D.mcq.some(q => q.u === x)); }
+function startUnitQuiz(units) {
+  const u = quizUnitsFrom(units); location.hash = 'quiz';
+  if (!u.length) { quizIntro(); toWork(); return; }
+  lastSet = () => shuffle(D.mcq.filter(q => u.includes(q.u))).slice(0, 10); startQuiz(lastSet(), 'quiz'); toWork();
+}
+function todayNext() {
+  const dueCards = D.cards.filter(due), k = nextStep();
+  if (dueCards.length) { todayRun.units.push(...dueCards.map(c => c.unit)); return startSession(shuffle(dueCards), 'review'); }
+  if ((todayRun.stage === 'review' || todayRun.stage === 'reviewed') && k >= 0 && S.lastAdd !== today()) { todayRun.stage = 'new'; const added = addBatch(); todayRun.units.push(...added.map(c => c.unit)); if (added.some(c => !isNS(c.unit))) return startSession(added.filter(c => !isNS(c.unit)), 'review'); }
+  todayRun.stage = 'quiz'; startUnitQuiz(todayRun.units);
+}
+$('#startToday').onclick = () => { todayRun = {stage: 'review', units: []}; todayNext(); };
+$('#subMoreBtn').onclick = () => document.querySelector('header').classList.add('more');
 
 /* ---------- header, boxes and the daily steps */
 const due = c => S.boxes[c.id] > 0 && daysSince(S.seen[c.id]) >= INTERVALS[S.sched][S.boxes[c.id]];
@@ -416,8 +478,9 @@ function drawHeader() {
   const a = D.assessment;
   if (a.date) {
     const exam = new Date(a.date + 'T09:00:00'), left = Math.ceil((exam - new Date()) / 864e5);
-    $('#sub').textContent = a.name + ': ' + exam.toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long'}) + (left > 0 ? ' (' + left + ' days to go). ' : '. ') + a.weighting;
-  } else $('#sub').textContent = a.name + '. ' + a.weighting;
+    $('#subMain').textContent = a.name + ': ' + exam.toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long'}) + (left > 1 ? ' (' + left + ' days to go).' : left === 1 ? ' (tomorrow).' : '.');
+  } else $('#subMain').textContent = a.name + '.';
+  $('#subMore').textContent = a.weighting || ''; $('#subMoreBtn').hidden = !a.weighting;
   const counts = [0,0,0,0,0,0], dueBy = [0,0,0,0,0,0];
   D.cards.forEach(c => { const b = S.boxes[c.id]; if (b === 0) counts[0]++; else if (b) { counts[b]++; if (due(c)) dueBy[b]++; } });
   const nDue = dueBy.reduce((x, y) => x + y, 0), notAdded = D.cards.filter(c => S.boxes[c.id] === undefined).length;
@@ -442,7 +505,15 @@ function drawHeader() {
   const row = (D.leitner_plan || []).find(r => r.date === today());
   $('#quizInfo').textContent = row ? 'Today: ' + row.quiz + '.' : 'Check what stuck.';
   const nextBtn = nDue ? '#startReview' : (k >= 0 && S.lastAdd !== today()) ? '#addNew' : '#goQuiz';
-  ['#startReview', '#addNew', '#goQuiz'].forEach(s => $(s).classList.toggle('main', s === nextBtn));
+  const doneToday = S.intro > 0 && !nDue && (k < 0 || S.lastAdd === today()) && S.quizDay === today();
+  if (doneToday) markDayDone(D.student);
+  const streak = streakCount(D.student);
+  $('#startToday').textContent = doneToday ? 'Practise more' : S.lastAdd === today() || S.quizDay === today() ? 'Carry on with today' : 'Start today';
+  $('#startToday').classList.toggle('main', !doneToday);
+  $('#todayMsg').innerHTML = doneToday ? `<span class="done"><b>Done for today in ${esc(D.subject)}.</b>${streak > 1 ? ' Revision streak: ' + streak + ' days.' : ''} Pick another subject or come back tomorrow.</span>`
+    : 'One tap does all three steps: review, new cards, then a 10 question quiz.' + (streak > 1 ? ' Revision streak: ' + streak + ' days.' : '');
+  subjectLabels();
+  ['#startReview', '#addNew', '#goQuiz'].forEach(s => $(s).classList.remove('main'));
   ['#st1', '#st2', '#st3'].forEach((s, i) => $(s).classList.toggle('next', ['#startReview', '#addNew', '#goQuiz'][i] === nextBtn));
 }
 
@@ -498,15 +569,23 @@ function cardHTML(c, back) {
 function showCard() {
   const area = $('#cardArea');
   if (qi >= queue.length) {
-    area.innerHTML = `<h2>Set finished</h2><p>${sessionMode === 'review' ? 'Your boxes are updated. Next, do Step 3: a quick topic quiz.' : 'Practice finished.'}</p><div class="row"><button class="main" id="toQuiz">Go to topic quiz</button><button id="backCards">Back to flashcards</button></div>`;
-    $('#toQuiz').onclick = () => { location.hash = 'quiz'; toWork(); }; $('#backCards').onclick = cardIntro;
+    const setUnits = queue.map(c => c.quick ? c.q.u : c.unit).filter(u => u && u !== 'TERM');
+    if (todayRun && sessionMode === 'review') {
+      const nextLabel = D.cards.some(due) ? 'More cards to review' : nextStep() >= 0 && S.lastAdd !== today() && todayRun.stage === 'review' ? 'Next: learn new cards' : 'Next: a 10 question quiz on these topics';
+      if (todayRun.stage === 'review') todayRun.stage = 'reviewed';
+      area.innerHTML = `<h2>Set finished</h2><p>Your boxes are updated.</p><div class="row"><button class="main" id="todayGo">${nextLabel}</button><button id="backCards">Stop for now</button></div>`;
+      $('#todayGo').onclick = todayNext; $('#todayGo').focus(); $('#backCards').onclick = () => { todayRun = null; cardIntro(); };
+      drawHeader(); return;
+    }
+    area.innerHTML = `<h2>Set finished</h2><p>${sessionMode === 'review' ? 'Your boxes are updated. Next: a 10 question quiz on the topics you just did.' : 'Practice finished.'}</p><div class="row"><button class="main" id="toQuiz">Quiz on these topics</button><button id="backCards">Back to flashcards</button></div>`;
+    $('#toQuiz').onclick = () => startUnitQuiz(setUnits); $('#backCards').onclick = cardIntro;
     drawHeader(); return;
   }
   const c = queue[qi], box = c.quick || c.term ? null : S.boxes[c.id];
   const review = sessionMode === 'review';
   area.innerHTML = `<div class="qhead"><span class="small">Card ${qi + 1} of ${queue.length}${review && box ? ' · now in Box ' + box : ' · practice only'}</span><span class="ctl"><button id="cardsQuit">Back</button></span></div><div class="bar" style="margin-top:8px"><i style="width:${100 * qi / queue.length}%"></i></div><div style="margin-top:14px">${cardHTML(c, flipped)}</div>` +
     (flipped ? `<div class="row"><button class="main" id="gotIt">I got it right</button><button id="notYet">Not yet</button>${review ? '<button id="notStudied">Not studied this yet</button>' : ''}</div><p class="small">${review ? `Right: moves to Box ${Math.min(5, (box || 1) + 1)}. Not yet: back to Box 1, and you see it again at the end. Not studied this yet: moves to the Not studied yet box until you are taught it.` : 'Practice cards stay where they are.'}</p>`
-      : `<div class="row"><button class="main" id="flip">Turn over</button>${review ? '<button id="notStudied">Not studied this yet</button>' : ''}</div><p class="small">Say your answer out loud first, then turn over.</p>`);
+      : `<div class="row"><button class="main" id="flip">Turn over</button>${review ? '<button id="notStudied">Not studied this yet</button>' : ''}</div><p class="small">Say your answer out loud first, then turn over.</p>`) + '<p class="small keys">Keys: Space turns over, 1 means right, 2 means not yet.</p>';
   $('#cardsQuit').onclick = () => { cardIntro(); drawHeader(); };
   if ($('#notStudied')) $('#notStudied').onclick = () => { S.boxes[c.id] = 0; save(); qi++; flipped = false; showCard(); drawHeader(); };
   if (!flipped) $('#flip').onclick = () => { flipped = true; showCard(); };
@@ -523,15 +602,23 @@ function mark(ok) {
   qi++; flipped = false; showCard(); drawHeader();
 }
 function startSession(cards, mode) { queue = cards; qi = 0; flipped = false; sessionMode = mode; location.hash = 'cards'; showCard(); toWork(); }
-$('#startReview').onclick = () => startSession(shuffle(D.cards.filter(due)), 'review');
-$('#addNew').onclick = () => {
-  const k = nextStep(); if (k < 0) return;
+$('#startReview').onclick = () => { todayRun = null; startSession(shuffle(D.cards.filter(due)), 'review'); };
+function addBatch() {
+  const k = nextStep(); if (k < 0) return [];
   const added = D.cards.slice(S.intro, D.plan_steps[k]);
   added.forEach(c => { S.boxes[c.id] = isNS(c.unit) ? 0 : 1; S.seen[c.id] = null; });
   S.intro = D.plan_steps[k]; S.lastAdd = today(); save(); drawHeader();
-  startSession(added.filter(c => !isNS(c.unit)), 'review');
-};
-$('#goQuiz').onclick = () => { location.hash = 'quiz'; toWork(); };
+  return added;
+}
+$('#addNew').onclick = () => { todayRun = null; const added = addBatch(); if (added.length) startSession(added.filter(c => !isNS(c.unit)), 'review'); };
+$('#goQuiz').onclick = () => { todayRun = null; location.hash = 'quiz'; quizIntro(); toWork(); };
+
+/* ---------- laptop keys: Space turns over, 1 right, 2 not yet */
+document.addEventListener('keydown', e => {
+  if ($('#v-cards').hidden || e.ctrlKey || e.metaKey || e.altKey || /INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)) return;
+  const b = e.key === ' ' ? $('#flip') : e.key === '1' ? $('#gotIt') : e.key === '2' ? $('#notYet') : null;
+  if (b) { e.preventDefault(); b.click(); }
+});
 
 /* ---------- unit pickers */
 function picker(el, withSummary) {
@@ -597,7 +684,10 @@ function choose(i) {
 function next() { qn++; answered = false; renderQ(); }
 function tick() { const c = $('#clock'); if (!c || !endAt) return; const s = Math.max(0, Math.round((endAt - Date.now()) / 1000)); c.textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
 function finish() {
-  clearInterval(timerId); endAt = 0; drawStats();
+  clearInterval(timerId); endAt = 0;
+  const wasToday = todayRun && mode === 'quiz'; todayRun = null;
+  if (results.length) { S.quizDay = today(); save(); drawHeader(); }
+  drawStats();
   const el = area(), done = results.length, pct = Math.round(100 * score / Math.max(1, done));
   const by = {}; results.forEach(r => { by[r.q.u] = by[r.q.u] || [0, 0]; by[r.q.u][1]++; if (r.ok) by[r.q.u][0]++; });
   const weak = Object.entries(by).filter(([u, [a, b]]) => a / b < 0.7).sort((x, y) => x[1][0] / x[1][1] - y[1][0] / y[1][1]).map(([u]) => u).slice(0, 3);
@@ -608,6 +698,7 @@ function finish() {
     ${done ? `<table><thead><tr><th>Unit</th><th class="num">Score</th></tr></thead><tbody>${Object.entries(by).map(([u, [a, b]]) => `<tr><td>${esc(u + ' ' + unitName[u])}</td><td class="num">${a} / ${b}</td></tr>`).join('')}</tbody></table>` : ''}
     <h3 style="margin-top:20px">Check your wrong answers</h3>
     ${results.filter(r => !r.ok).map(r => `<p><b>${esc(r.q.q)}</b><br>You chose: ${esc(r.pick)}<br>Answer: <b>${esc(r.q.a)}</b>. ${esc(r.q.e)}</p>`).join('') || '<p>None.</p>'}
+    ${wasToday && results.length ? `<p class="done" style="color:inherit;background:light-dark(#e6f4ea,#173222)"><b>That is today done for ${esc(D.subject)}.</b> Well done.</p>` : ''}
     <div class="row"><button class="main" id="again">Try another</button><button id="redo">Same type again</button></div>`;
   $('#again').onclick = () => mode === 'mock' ? mockIntro() : quizIntro();
   $('#redo').onclick = () => mode === 'mock' ? startMockRun() : startQuiz(lastSet(), 'quiz');
