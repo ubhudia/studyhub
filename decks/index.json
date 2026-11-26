@@ -150,7 +150,7 @@
      "need",
      "need"
     ],
-    "note": "OCR FSMQ 6993 confirmed in the KS4 pathways booklet. Send the enquiry tasks or class notes."
+    "note": "OCR FSMQ 6993 confirmed in the KS4 pathways booklet. Deck is a best guess (algebra and coordinate geometry first; calculus, trig, logs, binomial set as Not studied yet). Send the enquiry tasks or class notes to confirm."
    },
    {
     "student": "Jaimin",
@@ -174,7 +174,7 @@
      "need",
      "need"
     ],
-    "note": "Pearson Edexcel GCSE Business 1BS0 (confirmed). Year 10: Theme 1 Investigating Small Business."
+    "note": "Pearson Edexcel GCSE Business 1BS0 (confirmed). Topics 1.1 and 1.2 of Theme 1 from the curriculum map. Deck built. Send the class topic list or knowledge organiser."
    },
    {
     "student": "Jaimin",
@@ -1022,7 +1022,31 @@
    "subject": "Additional Maths",
    "term": "Autumn 2",
    "year": "Year 10",
-   "note": "Batch 2, built after GCSE Maths. OCR Level 3 FSMQ Additional Maths (6993), one 2 hour paper, grades A to E. Taught alongside GCSE Higher through enquiries and assessed each half term; the school decides final entry in Year 11. Pure strands with applications: algebra, coordinate geometry, trigonometry, calculus, exponentials and logarithms, numerical methods, binomial expansion."
+   "file": "decks/jaimin-y10-addmaths-aut2.json",
+   "deck_id": "jaimin-y10-addmaths-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Jaimin_Year10_Additional_Maths_Long_Flashcards.pdf",
+     "url": null,
+     "about": "16 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Jaimin_Year10_Additional_Maths_Quick_Cards.pdf",
+     "url": null,
+     "about": "38 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Jaimin_Year10_Additional_Maths_Revision_Guide.pdf",
+     "url": null,
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
   },
   {
    "student": "Jaimin",
@@ -1251,7 +1275,31 @@
    "subject": "Business Studies",
    "term": "Autumn 2",
    "year": "Year 10",
-   "note": "Batch 2. Pearson Edexcel GCSE Business 1BS0, Theme 1. Assessment Friday 4 December (50 minutes). Autumn: Enterprise and entrepreneurship; Spotting a business opportunity."
+   "file": "decks/jaimin-y10-business-aut2.json",
+   "deck_id": "jaimin-y10-business-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Jaimin_Year10_Business_Studies_Long_Flashcards.pdf",
+     "url": null,
+     "about": "17 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Jaimin_Year10_Business_Studies_Quick_Cards.pdf",
+     "url": null,
+     "about": "39 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Jaimin_Year10_Business_Studies_Revision_Guide.pdf",
+     "url": null,
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
   },
   {
    "student": "Jaimin",
