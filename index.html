@@ -149,7 +149,7 @@ nav a[aria-current=page]{background:var(--board);color:#fff}
 .chk .ck-have{border-color:var(--ok);background:light-dark(#e6f4ea,#173222)}
 .chk .ck-need{border-color:#d97706;background:light-dark(#fff4e0,#3a2a10)}
 .chk .ck-none{opacity:.6}
-@media(max-width:700px){.steps{grid-template-columns:minmax(0,1fr)}.step{flex-direction:row;flex-wrap:wrap;align-items:center}.step>div{flex:1}}
+@media(max-width:700px){nav .wrap{mask-image:linear-gradient(90deg,#000 85%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);padding-right:40px}.steps{grid-template-columns:minmax(0,1fr)}.step{flex-direction:row;flex-wrap:wrap;align-items:center}.step>div{flex:1}}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.tbl td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
@@ -191,12 +191,11 @@ nav a[aria-current=page]{background:var(--board);color:#fff}
 <section id="v-guide" hidden><div class="panel guide" id="guideArea"></div></section>
 <section id="v-print" hidden>
   <div class="panel"><h2>Print-ready files</h2>
-  <p>Open a PDF in Google Drive, then print it from there. Flashcards: print double-sided, <b>flip on the long edge</b>, at 100% (actual size), then cut along the dashed lines. Each answer lands behind its question.</p>
+  <p>Open a PDF, then print it. Flashcards: print double-sided, <b>flip on the long edge</b>, at 100% (actual size), then cut along the dashed lines. Each answer lands behind its question, and both sides carry the same number (Q1 and A1) so you can check.</p>
   <div class="dl" id="dlList"></div>
   <p class="msg small" id="dlMsg"></p></div>
 </section>
 <section id="v-checklist" hidden>
-  <div class="panel"><h2>What has been uploaded</h2><p>One row per subject. Change a box when you send a new document, so the next build uses it. <b>Have</b>: already used. <b>Need</b>: please find and send. <b>None</b>: the school does not give this for that subject.</p><div id="checkArea"></div></div>
   <div class="panel" id="ghBox" hidden>
     <h2>Sync between devices</h2>
     <div id="ghState"></div>
@@ -206,6 +205,7 @@ nav a[aria-current=page]{background:var(--board);color:#fff}
     </details>
     <p class="small" id="ghMsg" role="status"></p>
   </div>
+  <div class="panel"><h2>What has been uploaded</h2><p>One row per subject. Change a box when you send a new document, so the next build uses it. <b>Have</b>: already used. <b>Need</b>: please find and send. <b>None</b>: the school does not give this for that subject.</p><div id="checkArea"></div></div>
   <div class="panel">
     <h2>Start again</h2>
     <p class="small">Clears the card boxes, quiz scores and known words. On every synced device. This cannot be undone.</p>
@@ -220,7 +220,7 @@ nav a[aria-current=page]{background:var(--board);color:#fff}
   <div class="panel"><h2>Settings</h2>
     <div class="row"><label for="sched">How often boxes come back</label>
     <select id="sched"><option value="short">Short: test within 2 weeks (Box 1 daily, Boxes 2 to 5 every 2nd day)</option><option value="long">Long: GCSE run-up (Box 1 to 5 every 1, 2, 4, 8, 16 days)</option></select></div>
-    <p class="small">Progress is saved in this browser only, separately for each student and subject. To carry on on another phone, tablet or laptop, use Move progress at the top. Use Reset progress at the top to start again.</p>
+    <p class="small">Progress is saved on this device and, when sync is on, on every synced device. Sync and Start again are on the Checklist tab.</p>
   </div>
 </section>
 </div></main>
@@ -272,7 +272,8 @@ const GH = { key: () => (store.get('hub-gh') || {}).token, timer: null, busy: fa
 const ghOn = () => INDEX && INDEX.sync_repo && INDEX.hosting === 'pages' && !!GH.key();
 const utf8b64 = str => b64e(new TextEncoder().encode(str));
 const b64utf8 = t => new TextDecoder().decode(b64d(t.replace(/\s+/g, '')));
-function ghShow(msg) { const t = new Date(); $('#ghStatus').textContent = msg; }
+function ghShow(msg) { GH.bad = msg === 'Sync key not accepted'; $('#ghStatus').textContent = msg; if (!$('#v-checklist').hidden) ghPanel(); }
+function ghFail(e) { ghShow(e.status === 401 || e.status === 403 ? 'Sync key not accepted' : 'Offline, saved on this device'); }
 async function ghReq(method, path, body) {
   const r = await fetch('https://api.github.com/repos/' + INDEX.sync_repo + '/contents/' + path, {
     method, cache: 'no-store',
@@ -298,7 +299,7 @@ function mergeInto(local, remote) {
 async function ghPull(st) {
   if (!ghOn()) return 0;
   try { const {data} = await ghRead(st); const n = mergeInto(null, data); ghShow('Synced ' + new Date().toTimeString().slice(0, 5)); return n; }
-  catch (e) { ghShow(e.status === 401 ? 'Sync key not accepted' : 'Offline, saved on this device'); return 0; }
+  catch (e) { ghFail(e); return 0; }
 }
 async function ghPush(st) {
   if (!ghOn() || GH.busy) return;
@@ -314,7 +315,7 @@ async function ghPush(st) {
         ghShow('Synced ' + new Date().toTimeString().slice(0, 5)); break;
       } catch (e) { if (e.status !== 409 && e.status !== 422) throw e; }
     }
-  } catch (e) { ghShow(e.status === 401 ? 'Sync key not accepted' : 'Offline, saved on this device'); }
+  } catch (e) { ghFail(e); }
   GH.busy = false;
 }
 function ghQueue() { if (!ghOn() || !D) return; const st = D.student; clearTimeout(GH.timer); ghShow('Saving...'); GH.timer = setTimeout(() => ghPush(st), 4000); }
@@ -324,7 +325,9 @@ function ghPanel() {
   $('#ghBox').hidden = !show; if (!show) return;
   const on = !!GH.key();
   $('#ghLinkRow').hidden = !on; $('#ghKeyBox').hidden = on;
-  $('#ghState').innerHTML = on
+  $('#ghState').innerHTML = on && GH.bad
+    ? '<p><b>The sync key was not accepted.</b> It may have expired or been replaced. Your progress is still saved on this device. Ask for a new setup link and open it here; nothing is lost.</p>'
+    : on
     ? '<p><b>Sync is on for this device.</b> Progress saves a few seconds after each answer and loads when the hub opens, so you can carry on on any synced device.</p><p><b>To add another phone, tablet or laptop:</b> tap Copy setup link, send it to that device (for example by WhatsApp) and open it there once. Keep the link private.</p>'
     : '<p><b>Sync is off on this device.</b> To turn it on, open the setup link once on this device. Ask for it by WhatsApp. After that it works by itself.</p>';
 }
@@ -456,7 +459,7 @@ function cardIntro() {
   $('#cardArea').innerHTML = `<h2>Flashcards</h2>
     <div class="row" style="margin-top:0"><span class="seg"><button id="styleLong" class="${cardStyle === 'long' ? 'on' : ''}">Long cards</button><button id="styleQuick" class="${cardStyle === 'quick' ? 'on' : ''}">Quick cards</button>${(D.vocab || []).length ? `<button id="styleTerms" class="${cardStyle === 'terms' ? 'on' : ''}">${VL()}</button>` : ''}</span></div>
     <p>${cardStyle === 'long' ? '<b>Long cards</b> cover a whole topic. These are the cards in your boxes: use steps 1 and 2 above each day. Pick units below for extra practice.' : '<b>Quick cards</b> test one fact each. Say the answer, then turn over. Extra practice only: they do not move cards between boxes.'}</p>
-    <p class="small">Pick units for extra practice.${Object.keys(S.ns).length ? ' Topics marked not studied are greyed out.' : ''}</p>
+    ${Object.keys(S.ns).length ? '<p class="small">Topics marked not studied are greyed out.</p>' : ''}
     <div class="unitgrid" id="cardUnits"></div><button class="main" id="practiseUnits">Practise chosen units</button><p class="small" id="cardMsg"></p>`;
   picker($('#cardUnits'), cardStyle === 'long');
   $('#styleLong').onclick = () => { cardStyle = 'long'; cardIntro(); };
