@@ -179,6 +179,8 @@ body.dash header.band,body.dash nav,body.dash #work,body.dash .topbar label{disp
 .bar{height:6px;border-radius:3px;background:var(--line);margin-top:3px}
 .bar i{display:block;height:100%;border-radius:3px;background:var(--dc)}
 #homeBtn{font-weight:700}
+#ovArea{grid-template-columns:minmax(0,1fr)}
+.dcol h2 a{color:inherit;text-decoration:underline;text-underline-offset:4px}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.tbl td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head>
@@ -189,13 +191,23 @@ body.dash header.band,body.dash nav,body.dash #work,body.dash .topbar label{disp
   <label>Subject <select id="subjectSel"></select></label>
   <label>Term <select id="termSel"></select></label>
   <span class="sp"></span>
-  <a href="#checklist" class="small" id="ghStatus" style="color:inherit;opacity:.85;text-decoration:none"></a>
+  <a href="#home" class="small" id="ghStatus" style="color:inherit;opacity:.85;text-decoration:none"></a>
 </div></div>
 
 <section class="dashx band" id="dash"><div class="wrap">
   <h1 style="margin:.4em 0 0">Study Hub dashboard</h1>
   <p class="small" id="dashMsg">Progress for both students. Tap a subject to open it.</p>
   <div class="dgrid" id="dashArea"></div>
+  <div class="panel" style="margin-bottom:24px" id="ghBox" hidden>
+    <h2>Sync between devices</h2>
+    <p><b>What the setup link is:</b> the hub address with a private sync key on the end (it looks like ubhudia.github.io/studyhub/#key=github_pat_...). Opening it once saves the key in that browser, so progress saves to and loads from the family's private store. It is the only link anyone needs. There is no GitHub page to open and no sign in.</p>
+    <div id="ghState"></div>
+    <div class="row" id="ghLinkRow" hidden><button class="main" id="ghLink">Copy setup link</button><button id="ghOff">Turn off on this device</button></div>
+    <details id="ghKeyBox" style="margin-top:10px"><summary>Have the key instead of the link?</summary>
+      <div class="row" style="margin-top:8px"><input type="password" id="ghKey" placeholder="Paste the sync key" autocomplete="off" style="font:15px monospace;min-height:44px;padding:8px 12px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);width:min(100%,420px)"><button class="main" id="ghSave">Turn on sync</button></div>
+    </details>
+    <p class="small" id="ghMsg" role="status"></p>
+  </div>
 </div></section>
 
 <header class="band"><div class="wrap">
@@ -215,10 +227,11 @@ body.dash header.band,body.dash nav,body.dash #work,body.dash .topbar label{disp
 </div></header>
 
 <nav><div class="wrap">
-  <a href="#cards">Flashcards</a><a href="#quiz">Quiz</a><a href="#mock">Mock test</a><a href="#written">Written practice</a><a href="#guide">Revision guide</a><a href="#print">Print</a><a href="#progress">Progress</a><a href="#checklist">Checklist</a>
+  <a href="#overview">Overview</a><a href="#cards">Flashcards</a><a href="#quiz">Quiz</a><a href="#mock">Mock test</a><a href="#written">Written practice</a><a href="#guide">Revision guide</a><a href="#print">Print</a><a href="#progress">Progress</a><a href="#checklist">Checklist</a>
 </div></nav>
 
 <main class="band" id="work"><div class="wrap">
+<section id="v-overview" hidden><div class="dgrid" id="ovArea" style="margin-top:0"></div></section>
 <section id="v-cards"><div class="panel" id="cardArea"></div><div class="panel" id="vocabArea" hidden></div></section>
 <section id="v-quiz" hidden><div class="panel" id="quizArea"></div></section>
 <section id="v-mock" hidden><div class="panel" id="mockArea"></div></section>
@@ -235,15 +248,7 @@ body.dash header.band,body.dash nav,body.dash #work,body.dash .topbar label{disp
   <p class="msg small" id="dlMsg"></p></div>
 </section>
 <section id="v-checklist" hidden>
-  <div class="panel" id="ghBox" hidden>
-    <h2>Sync between devices</h2>
-    <div id="ghState"></div>
-    <div class="row" id="ghLinkRow" hidden><button class="main" id="ghLink">Copy setup link</button><button id="ghOff">Turn off on this device</button></div>
-    <details id="ghKeyBox" style="margin-top:10px"><summary>Have the key instead of the link?</summary>
-      <div class="row" style="margin-top:8px"><input type="password" id="ghKey" placeholder="Paste the sync key" autocomplete="off" style="font:15px monospace;min-height:44px;padding:8px 12px;border-radius:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);width:min(100%,420px)"><button class="main" id="ghSave">Turn on sync</button></div>
-    </details>
-    <p class="small" id="ghMsg" role="status"></p>
-  </div>
+  <div class="panel"><h2>Sync between devices</h2><p>Sync settings and the setup steps are on the <a href="#home">Dashboard</a>.</p></div>
   <div class="panel"><h2>What has been uploaded</h2><p>One row per subject. Change a box when you send a new document, so the next build uses it. <b>Have</b>: already used. <b>Need</b>: please find and send. <b>None</b>: the school does not give this for that subject.</p><div id="checkArea"></div></div>
   <div class="panel">
     <h2>Start again</h2>
@@ -311,7 +316,7 @@ const GH = { key: () => (store.get('hub-gh') || {}).token, timer: null, busy: fa
 const ghOn = () => INDEX && INDEX.sync_repo && INDEX.hosting === 'pages' && !!GH.key();
 const utf8b64 = str => b64e(new TextEncoder().encode(str));
 const b64utf8 = t => new TextDecoder().decode(b64d(t.replace(/\s+/g, '')));
-function ghShow(msg) { GH.bad = msg === 'Sync key not accepted'; $('#ghStatus').textContent = msg; if (!$('#v-checklist').hidden) ghPanel(); }
+function ghShow(msg) { GH.bad = msg === 'Sync key not accepted'; $('#ghStatus').textContent = msg; if (document.body.classList.contains('dash')) ghPanel(); }
 function ghFail(e) { ghShow(e.status === 401 || e.status === 403 ? 'Sync key not accepted' : 'Offline, saved on this device'); }
 async function ghReq(method, path, body) {
   const r = await fetch('https://api.github.com/repos/' + INDEX.sync_repo + '/contents/' + path, {
@@ -366,12 +371,11 @@ function ghPanel() {
   const on = !!GH.key();
   $('#ghLinkRow').hidden = !on; $('#ghKeyBox').hidden = on;
   $('#ghState').innerHTML = on && GH.bad
-    ? '<p><b>The sync key was not accepted.</b> It may have expired or been replaced. Your progress is still saved on this device. Ask for a new setup link and open it here; nothing is lost.</p>'
+    ? '<p><b>The sync key was not accepted.</b> It may have expired or been replaced, or the link was cut short when it was sent. Progress is still saved on this device. Open a new setup link here; the progress merges and nothing is lost.</p>'
     : on
-    ? '<p><b>Sync is on for this device.</b> Progress saves a few seconds after each answer and loads when the hub opens, so you can carry on on any synced device.</p><p><b>To add another phone, tablet or laptop:</b> tap Copy setup link, send it to that device (for example by WhatsApp) and open it there once. On Android, press and hold the link, then choose Open in Chrome. Nothing else is needed: no GitHub page or sign in. Keep the link private.</p>'
-    : '<p><b>Sync is off on this device.</b> To turn it on, open the setup link once on this device. Ask for it by WhatsApp, then press and hold the link and choose Open in Chrome. After that it works by itself.</p>';
+    ? '<p><b>Sync is on for this device.</b> Progress saves a few seconds after each answer and loads when the hub opens. The dashboard shows both boys\' progress from every synced device.</p><p><b>To set up another phone, tablet or laptop:</b></p>' + '<ol><li>On a device where sync is on, open the Dashboard and press <b>Copy setup link</b>. Send it by WhatsApp, text or email.</li><li>On the new device, open the link in the browser you will use for the hub. Android: press and hold the link, then choose <b>Open in Chrome</b>. School or other laptop: paste the link into the address bar.</li><li>Check the top right says <b>Synced</b> and a time. That is all: the key stays saved in that browser.</li><li>Optional on a phone: Chrome menu (three dots), then <b>Add to Home screen</b>.</li></ol><p class="small">On a shared computer, press Turn off on this device when finished. If a school laptop clears its browser at log out, open the link again next time.</p>'
+    : '<p><b>Sync is off on this device.</b> Progress is only saved here. To turn it on:</p>' + '<ol><li>On a device where sync is on, open the Dashboard and press <b>Copy setup link</b>. Send it by WhatsApp, text or email.</li><li>On the new device, open the link in the browser you will use for the hub. Android: press and hold the link, then choose <b>Open in Chrome</b>. School or other laptop: paste the link into the address bar.</li><li>Check the top right says <b>Synced</b> and a time. That is all: the key stays saved in that browser.</li><li>Optional on a phone: Chrome menu (three dots), then <b>Add to Home screen</b>.</li></ol><p class="small">On a shared computer, press Turn off on this device when finished. If a school laptop clears its browser at log out, open the link again next time.</p>';
 }
-
 
 /* ---------- checklist of uploaded source material */
 const CHK_LABEL = {have: 'Have', need: 'Need', none: 'None'};
@@ -426,7 +430,7 @@ function subjectInfo(st) {
 const urgent = st => { const info = subjectInfo(st).filter(x => x.live); return (info.filter(x => x.due).sort((a, b) => b.due - a.due)[0] || info[0] || {}).s; };
 function subjectLabel(x) {
   if (!x.live) return x.s + ' (coming soon)';
-  return x.s + (x.due ? ' · ' + x.due + ' due' : !x.started ? ' · new' : '');
+  return x.s + (x.due ? ' · ' + x.due + ' due' : '');
 }
 function subjectLabels() {
   const st = $('#studentSel').value;
@@ -877,34 +881,49 @@ function deckSummary(d) {
   return r;
 }
 const fmtDate = x => new Date(x + 'T09:00').toLocaleDateString('en-GB', {weekday: 'short', day: 'numeric', month: 'short'});
-function drawDash() {
-  const t = today(), students = [...new Set(INDEX.decks.map(d => d.student))];
-  $('#dashArea').innerHTML = students.map(st => {
-    const live = INDEX.decks.filter(d => d.student === st && d.file);
-    const subs = [...new Set(live.map(d => d.subject))].sort((a, b) => a.localeCompare(b)).map(s => {
-      const ds = live.filter(d => d.subject === s);
-      const next = ds.filter(d => d.date && d.date >= t).sort((a, b) => a.date.localeCompare(b.date))[0];
-      const cur = next || ds.find(d => store.get('leitner-' + d.deck_id)) || ds[0], x = deckSummary(cur);
-      return Object.assign({s, next, term: cur.term}, x);
-    });
-    const T = k => subs.reduce((a, x) => a + x[k], 0), pc = T('answered') ? Math.round(100 * T('right') / T('answered')) + '%' : 'none yet';
-    const tests = subs.filter(x => x.next).sort((a, b) => a.next.date.localeCompare(b.next.date)).slice(0, 5);
-    const days = x => { const n = Math.round((Date.parse(x) - Date.parse(t)) / 864e5); return n === 0 ? 'today' : n === 1 ? 'tomorrow' : 'in ' + n + ' days'; };
-    return `<div class="dcol" style="--dc:${COLS[st] || 'var(--board)'}"><h2>${esc(st)}</h2>
-      <div class="dtot"><div><b>${streakCount(st)}</b><span>day streak</span></div><div><b>${T('due')}</b><span>cards due today</span></div><div><b>${T('learnt')} / ${T('total')}</b><span>cards learnt (Box 5)</span></div><div><b>${T('right')} / ${T('answered')}</b><span>quiz answers right (${pc})</span></div></div>
-      <h3 style="margin:.6em 0 .2em">Next tests</h3>${tests.length ? `<ul class="dtests">${tests.map(x => `<li><b>${esc(x.s)}</b>: ${fmtDate(x.next.date)} (${days(x.next.date)})</li>`).join('')}</ul>` : '<p class="small">No test dates set.</p>'}
-      <table class="dtbl"><thead><tr><th>Subject</th><th>Next test</th><th class="n">Learnt</th><th class="n">Due</th><th class="n">Quiz right</th></tr></thead><tbody>${subs.map(x => `<tr class="go" data-st="${esc(st)}" data-s="${esc(x.s)}" data-t="${esc(x.term)}"><td><a href="#cards">${esc(x.s)}</a><div class="bar"><i style="width:${x.total ? Math.round(100 * x.learnt / x.total) : 0}%"></i></div></td><td>${x.next ? fmtDate(x.next.date) : ''}</td><td class="n">${x.learnt} / ${x.total}</td><td class="n">${x.due || ''}</td><td class="n">${x.answered ? Math.round(100 * x.right / x.answered) + '%' : ''}</td></tr>`).join('')}</tbody></table></div>`;
-  }).join('');
-  document.querySelectorAll('#dashArea tr.go').forEach(tr => tr.onclick = async e => {
+function studentPanel(st) {
+  const t = today();
+  const live = INDEX.decks.filter(d => d.student === st && d.file);
+  const subs = [...new Set(live.map(d => d.subject))].sort((a, b) => a.localeCompare(b)).map(s => {
+    const ds = live.filter(d => d.subject === s);
+    const next = ds.filter(d => d.date && d.date >= t).sort((a, b) => a.date.localeCompare(b.date))[0];
+    const cur = next || ds.find(d => store.get('leitner-' + d.deck_id)) || ds[0], x = deckSummary(cur);
+    return Object.assign({s, next, term: cur.term}, x);
+  });
+  const T = k => subs.reduce((a, x) => a + x[k], 0), pc = T('answered') ? Math.round(100 * T('right') / T('answered')) + '%' : 'none yet';
+  const tests = subs.filter(x => x.next).sort((a, b) => a.next.date.localeCompare(b.next.date)).slice(0, 5);
+  const days = x => { const n = Math.round((Date.parse(x) - Date.parse(t)) / 864e5); return n === 0 ? 'today' : n === 1 ? 'tomorrow' : 'in ' + n + ' days'; };
+  return `<div class="dcol" style="--dc:${COLS[st] || 'var(--board)'}"><h2><a href="#overview" class="stlink" data-st="${esc(st)}">${esc(st)}</a></h2>
+    <div class="dtot"><div><b>${streakCount(st)}</b><span>day streak</span></div><div><b>${T('due')}</b><span>cards due today</span></div><div><b>${T('learnt')} / ${T('total')}</b><span>cards learnt (Box 5)</span></div><div><b>${T('right')} / ${T('answered')}</b><span>quiz answers right (${pc})</span></div></div>
+    <h3 style="margin:.6em 0 .2em">Next tests</h3>${tests.length ? `<ul class="dtests">${tests.map(x => `<li><b>${esc(x.s)}</b>: ${fmtDate(x.next.date)} (${days(x.next.date)})</li>`).join('')}</ul>` : '<p class="small">No test dates set.</p>'}
+    <table class="dtbl"><thead><tr><th>Subject</th><th>Next test</th><th class="n">Learnt</th><th class="n">Due</th><th class="n">Quiz right</th></tr></thead><tbody>${subs.map(x => `<tr class="go" data-st="${esc(st)}" data-s="${esc(x.s)}" data-t="${esc(x.term)}"><td><a href="#cards">${esc(x.s)}</a><div class="bar"><i style="width:${x.total ? Math.round(100 * x.learnt / x.total) : 0}%"></i></div></td><td>${x.next ? fmtDate(x.next.date) : ''}</td><td class="n">${x.learnt} / ${x.total}</td><td class="n">${x.due || ''}</td><td class="n">${x.answered ? Math.round(100 * x.right / x.answered) + '%' : ''}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function bindPanels(root) {
+  root.querySelectorAll('tr.go').forEach(tr => tr.onclick = async e => {
     e.preventDefault();
     $('#studentSel').value = tr.dataset.st; fillSubjects(tr.dataset.s); fillTerms(tr.dataset.t);
     location.hash = 'cards'; await pick();
   });
+  root.querySelectorAll('a.stlink').forEach(a => a.onclick = async e => {
+    e.preventDefault();
+    if ($('#studentSel').value !== a.dataset.st) { $('#studentSel').value = a.dataset.st; fillSubjects(); fillTerms(); await pick(); }
+    location.hash = 'overview';
+  });
+}
+function drawDash() {
+  const students = [...new Set(INDEX.decks.map(d => d.student))];
+  $('#dashArea').innerHTML = students.map(studentPanel).join('');
+  bindPanels($('#dashArea'));
+}
+function drawOverview() {
+  const st = $('#studentSel').value;
+  $('#ovArea').innerHTML = studentPanel(st).replace('<h2><a href="#overview" class="stlink" data-st="' + esc(st) + '">' + esc(st) + '</a></h2>', '<h2>' + esc(st) + ': all subjects</h2>');
+  bindPanels($('#ovArea'));
 }
 async function showDash() {
   document.body.classList.add('dash'); document.body.dataset.student = '';
   if (!INDEX) return;
-  drawDash();
+  drawDash(); ghPanel();
   if (ghOn()) {
     $('#dashMsg').textContent = 'Checking for progress from other devices...';
     for (const st of [...new Set(INDEX.decks.map(d => d.student))]) await ghPull(st);
@@ -915,7 +934,7 @@ async function showDash() {
 $('#homeBtn').onclick = () => { location.hash = 'home'; };
 
 /* ---------- routing */
-const views = ['cards', 'quiz', 'mock', 'written', 'guide', 'print', 'progress', 'checklist'];
+const views = ['overview', 'cards', 'quiz', 'mock', 'written', 'guide', 'print', 'progress', 'checklist'];
 function route() {
   const h = location.hash.slice(1);
   if (h === '' || h === 'home') { showDash(); return; }
@@ -924,6 +943,7 @@ function route() {
   views.forEach(x => $('#v-' + x).hidden = x !== v);
   if (v === 'progress' && D) { drawStats(); drawPlan(); }
   if (v === 'checklist') drawChecklist();
+  if (v === 'overview' && INDEX) drawOverview();
   document.querySelectorAll('nav a').forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + v ? 'page' : 'false'));
 }
 addEventListener('hashchange', route);
