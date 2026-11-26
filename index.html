@@ -177,15 +177,18 @@ body.stu #stuCrumb,body.dash #homeBtn{background:rgba(255,255,255,.18)}
 .dtot b{display:block;font:700 22px Lexend,sans-serif}
 .dtot span{font-size:13px;color:var(--mute)}
 .dtests{margin:6px 0 10px;padding-left:18px}
-.dtbl{width:100%;border-collapse:collapse;font-size:15px}
-.dtbl th,.dtbl td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line)}
-.dtbl td.n,.dtbl th.n{text-align:right;white-space:nowrap}
-.dtbl tr.go{cursor:pointer}
-.dtbl tr.go:hover td{background:var(--bg)}
-.dtbl a{color:inherit;font-weight:700}
-@media(max-width:520px){.dtbl .nt{display:none}.dtbl{font-size:14px}.dtbl th,.dtbl td{padding:6px 4px}}
-.bar{height:6px;border-radius:3px;background:var(--line);margin-top:3px}
-.bar i{display:block;height:100%;border-radius:3px;background:var(--dc)}
+.slist{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:10px}
+.tlink{color:var(--dc);text-underline-offset:3px}
+.subj{display:flex;align-items:center;gap:10px;padding:12px 14px;border:2px solid var(--line);border-left:6px solid var(--dc);border-radius:12px;background:var(--card);color:var(--ink);text-decoration:none;cursor:pointer;transition:transform .12s,box-shadow .12s,border-color .12s}
+.subj:hover,.subj:focus-visible{border-color:var(--dc);box-shadow:0 4px 14px rgba(0,0,0,.12);transform:translateY(-1px);outline:none}
+.subj:active{transform:translateY(0)}
+.subj .sx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.subj b{font:700 17px Lexend,sans-serif}
+.subj .sm{font-size:13px;color:var(--mute)}
+.subj .sbar{height:6px;border-radius:3px;background:var(--line);display:block}
+.subj .sbar i{display:block;height:100%;border-radius:3px;background:var(--dc)}
+.subj .due{flex:none;font:700 13px Lexend,sans-serif;background:var(--acc);color:#111;border-radius:99px;padding:3px 9px}
+.subj .open{flex:none;font:700 14px Lexend,sans-serif;background:var(--dc);color:#fff;border-radius:8px;padding:8px 12px}
 #homeBtn{font-weight:700}
 #ghBox{overflow-wrap:anywhere}
 .dcol h2 a{color:inherit;text-decoration:underline;text-underline-offset:4px}
@@ -828,7 +831,7 @@ function drawGuide() {
     D.units.filter(u => u.group === g).forEach(u => { h += `<h3 id="g-${esc(u.code)}" style="color:${colourOf(u.code)};margin-top:22px">${esc(u.code + ' ' + u.name)}${isNS(u.code) ? ' <span class="small">(not studied yet)</span>' : ''}</h3>` + D.cards.filter(c => c.unit === u.code).map(gcard).join(''); });
   });
   if (D.cards.some(c => c.unit === 'SUMMARY')) h += `<h2 id="g-eq" style="margin-top:28px">Summary cards</h2>` + D.cards.filter(c => c.unit === 'SUMMARY').map(gcard).join('');
-  if (t) h += `<h2 id="g-tips" style="margin-top:28px">Exam technique</h2><p>${esc(t.timing)}</p><h4>${D.level === 'gcse' ? 'Command words and calculations' : 'Section A: multiple choice'}</h4><ul>${t.section_a.map(x => `<li>${esc(x)}</li>`).join('')}</ul><h4>${D.level === 'gcse' ? 'Longer answers' : 'Section B: written answers'}</h4><ul>${t.section_b.map(x => `<li>${esc(x)}</li>`).join('')}</ul>${t.grade9 ? `<div class="g9"><b>${D.level === 'gcse' ? 'How to reach grade 9' : 'Challenge habits'}</b><ul>${t.grade9.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>` : ''}`;
+  if (t) h += `<h2 id="g-tips" style="margin-top:28px">Exam technique</h2><p>${esc(t.timing)}</p><h4>${D.level === 'gcse' ? 'Command words and calculations' : 'Section A: multiple choice'}</h4><ul>${t.section_a.map(x => `<li>${esc(x)}</li>`).join('')}</ul><h4>${D.level === 'gcse' ? 'Longer answers' : 'Section B: written answers'}</h4><ul>${t.section_b.map(x => `<li>${esc(x)}</li>`).join('')}</ul>${t.grade9 ? `<div class="g9"><b>${D.level === 'gcse' ? 'How to reach grade 9' : 'Challenge habits'}</b><ul>${t.grade9.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>` : ''}${t.week ? `<h4>Each week</h4><ol>${t.week.map(x => `<li>${esc(x)}</li>`).join('')}</ol>` : ''}`;
   if ((D.vocab || []).length) h += `<h2 id="g-vocab" style="margin-top:28px">${VL()}</h2><table class="tbl"><thead><tr><th>Word</th><th>Meaning</th><th>Synonyms</th><th>Antonyms</th></tr></thead><tbody>${D.vocab.map(v => `<tr><td><b>${esc(v.word)}</b></td><td>${esc(v.meaning)}</td><td>${esc(v.synonyms.join(', '))}</td><td>${esc(v.antonyms.join(', '))}</td></tr>`).join('')}</tbody></table>`;
   $('#guideArea').innerHTML = h;
   $('#guideArea').querySelectorAll('[data-jump]').forEach(l => l.onclick = e => { e.preventDefault(); document.getElementById(l.dataset.jump).scrollIntoView({behavior:'smooth'}); });
@@ -861,7 +864,8 @@ function drawStats() {
     return `<tr><td><span class="tag" style="background:${colourOf(u.code)}">${esc(u.code)}</span> ${esc(u.name)}${isNS(u.code) ? ' <span class="small">(not studied)</span>' : ''}</td><td class="num">${b}</td><td class="num">${p === null ? 'not tried' : p + '%'}<span class="meter"><i style="width:${p || 0}%;background:${p === null ? 'transparent' : p >= 70 ? 'var(--ok)' : p >= 50 ? 'var(--acc)' : 'var(--bad)'}"></i></span></td></tr>`; }).join('')}</tbody></table>`;
 }
 function drawPlan() {
-  $('#plan').innerHTML = `<table class="tbl"><thead><tr><th>Day</th><th>New cards (Step 2)</th><th>Boxes due (Step 1)</th><th>Quiz (Step 3)</th></tr></thead><tbody>${(D.leitner_plan || []).map(r => `<tr class="${r.date === today() ? 'today' : ''}"><td>${esc(r.day)}${r.date === today() ? ' <b>(today)</b>' : ''}</td><td>${esc(r.new)}</td><td>${esc(r.boxes)}</td><td>${esc(r.quiz)}</td></tr>`).join('')}</tbody></table>`;
+  const wk = (D.exam_tips && D.exam_tips.week) || [];
+  $('#plan').innerHTML = (wk.length ? `<h3>Each week</h3><ol>${wk.map(x => `<li>${esc(x)}</li>`).join('')}</ol><h3>Day by day</h3>` : '') + `<table class="tbl"><thead><tr><th>Day</th><th>New cards (Step 2)</th><th>Boxes due (Step 1)</th><th>Quiz (Step 3)</th></tr></thead><tbody>${(D.leitner_plan || []).map(r => `<tr class="${r.date === today() ? 'today' : ''}"><td>${esc(r.day)}${r.date === today() ? ' <b>(today)</b>' : ''}</td><td>${esc(r.new)}</td><td>${esc(r.boxes)}</td><td>${esc(r.quiz)}</td></tr>`).join('')}</tbody></table>`;
   $('#sched').value = S.sched;
 }
 $('#sched').onchange = e => { S.sched = e.target.value; save(); drawHeader(); };
@@ -907,11 +911,14 @@ function studentPanel(st) {
   const days = x => { const n = Math.round((Date.parse(x) - Date.parse(t)) / 864e5); return n === 0 ? 'today' : n === 1 ? 'tomorrow' : 'in ' + n + ' days'; };
   return `<div class="dcol" style="--dc:${COLS[st] || 'var(--board)'}"><h2><a href="#student" class="stlink" data-st="${esc(st)}">${esc(st)}</a></h2>
     <div class="dtot"><div><b>${streakCount(st)}</b><span>day streak</span></div><div><b>${T('due')}</b><span>cards due today</span></div><div><b>${T('learnt')} / ${T('total')}</b><span>cards learnt (Box 5)</span></div><div><b>${T('right')} / ${T('answered')}</b><span>quiz answers right (${pc})</span></div></div>
-    <h3 style="margin:.6em 0 .2em">Next tests</h3>${tests.length ? `<ul class="dtests">${tests.map(x => `<li><b>${esc(x.s)}</b>: ${fmtDate(x.next.date)} (${days(x.next.date)})</li>`).join('')}</ul>` : '<p class="small">No test dates set.</p>'}
-    <table class="dtbl"><thead><tr><th>Subject</th><th class="nt">Next test</th><th class="n">Learnt</th><th class="n">Due</th><th class="n">Quiz right</th></tr></thead><tbody>${subs.map(x => `<tr class="go" data-st="${esc(st)}" data-s="${esc(x.s)}" data-t="${esc(x.term)}"><td><a href="#cards">${esc(x.s)}</a><div class="bar"><i style="width:${x.total ? Math.round(100 * x.learnt / x.total) : 0}%"></i></div></td><td class="nt">${x.next ? fmtDate(x.next.date) : ''}</td><td class="n">${x.learnt} / ${x.total}</td><td class="n">${x.due || ''}</td><td class="n">${x.answered ? Math.round(100 * x.right / x.answered) + '%' : ''}</td></tr>`).join('')}</tbody></table></div>`;
+    <h3 style="margin:.6em 0 .2em">Next tests</h3>${tests.length ? `<ul class="dtests">${tests.map(x => `<li><a href="#cards" class="go tlink" data-st="${esc(st)}" data-s="${esc(x.s)}" data-t="${esc(x.term)}"><b>${esc(x.s)}</b></a>: ${fmtDate(x.next.date)} (${days(x.next.date)})</li>`).join('')}</ul>` : '<p class="small">No test dates set.</p>'}
+    <h3 style="margin:.8em 0 .1em">Subjects</h3><p class="small" style="margin:0 0 8px">Tap a subject to open its cards, quiz and mock test.</p>
+    <div class="slist">${subs.map(x => { const pcx = x.total ? Math.round(100 * x.learnt / x.total) : 0;
+      const meta = [x.next ? 'Test ' + fmtDate(x.next.date) : '', x.learnt + ' of ' + x.total + ' learnt', x.answered ? 'quiz ' + Math.round(100 * x.right / x.answered) + '%' : ''].filter(Boolean).join(' · ');
+      return `<a href="#cards" class="go subj" data-st="${esc(st)}" data-s="${esc(x.s)}" data-t="${esc(x.term)}"><span class="sx"><b>${esc(x.s)}</b><span class="sm">${esc(meta)}</span><span class="sbar"><i style="width:${pcx}%"></i></span></span>${x.due ? `<span class="due">${x.due} due</span>` : ''}<span class="open" aria-hidden="true">Open ›</span></a>`; }).join('')}</div></div>`;
 }
 function bindPanels(root) {
-  root.querySelectorAll('tr.go').forEach(tr => tr.onclick = async e => {
+  root.querySelectorAll('.go').forEach(tr => tr.onclick = async e => {
     e.preventDefault();
     $('#studentSel').value = tr.dataset.st; fillSubjects(tr.dataset.s); fillTerms(tr.dataset.t);
     location.hash = 'cards'; await pick();
