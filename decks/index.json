@@ -234,7 +234,7 @@
      "need",
      "need"
     ],
-    "note": "Edexcel 1MA1 Higher."
+    "note": "Edexcel 1MA1 Higher. Assessment units 01H to 08H from the curriculum map and timetable (online Mon 30 Nov, paper Tue 1 Dec). Deck built. Send the topic list or knowledge organiser if the school gives one."
    },
    {
     "student": "Jaimin",
@@ -258,7 +258,7 @@
      "need",
      "need"
     ],
-    "note": "AQA. Islam and Theme D (peace and conflict)."
+    "note": "AQA. Islam beliefs and Theme D (peace and justice, reasons for war, just war), from the curriculum map. Deck built. Send the knowledge organiser or revision list."
    },
    {
     "student": "Jaimin",
@@ -270,7 +270,7 @@
      "need",
      "need"
     ],
-    "note": "Edexcel."
+    "note": "Edexcel. Media and technology and My personal world, from the curriculum map and timetable. Deck built. Send the vocabulary list or knowledge organiser for these topics."
    },
    {
     "student": "Jaimin",
@@ -977,7 +977,31 @@
    "subject": "Maths",
    "term": "Autumn 2",
    "year": "Year 10",
-   "note": "Batch 2. Assessment Monday 30 November (online) and Tuesday 1 December (paper). Edexcel 1MA1 Higher Autumn: 01H Number, 02H Algebraic expressions, 03H Surds, 04H Equations and inequalities, 05H Percentages, 06H Ratio, 07H Proportion, 08H Sequences. Higher tier confirmed."
+   "file": "decks/jaimin-y10-maths-aut2.json",
+   "deck_id": "jaimin-y10-maths-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Jaimin_Year10_Maths_Long_Flashcards.pdf",
+     "url": null,
+     "about": "25 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Jaimin_Year10_Maths_Quick_Cards.pdf",
+     "url": null,
+     "about": "67 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Jaimin_Year10_Maths_Revision_Guide.pdf",
+     "url": null,
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
   },
   {
    "student": "Jaimin",
@@ -1005,7 +1029,31 @@
    "subject": "Religious Studies",
    "term": "Autumn 2",
    "year": "Year 10",
-   "note": "Batch 2. Assessment Monday 30 November or Tuesday 1 December, depending on class. Autumn: Islam beliefs (Sunni and Shia, nature of Allah, prophets, angels, holy books, life after death, predestination); Theme D Peace and conflict (reasons for war, just war)."
+   "file": "decks/jaimin-y10-re-aut2.json",
+   "deck_id": "jaimin-y10-re-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Jaimin_Year10_Religious_Studies_Long_Flashcards.pdf",
+     "url": null,
+     "about": "22 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Jaimin_Year10_Religious_Studies_Quick_Cards.pdf",
+     "url": null,
+     "about": "52 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Jaimin_Year10_Religious_Studies_Revision_Guide.pdf",
+     "url": null,
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
   },
   {
    "student": "Jaimin",
@@ -1040,7 +1088,31 @@
    "subject": "Spanish",
    "term": "Autumn 2",
    "year": "Year 10",
-   "note": "Batch 2. Assessment Monday 30 November (Chromebook) and Wednesday 2 December (reading and writing). Autumn 1: Media and technology. Autumn 2: My personal world."
+   "file": "decks/jaimin-y10-spanish-aut2.json",
+   "deck_id": "jaimin-y10-spanish-aut2",
+   "pdfs": [
+    {
+     "label": "Long flashcards",
+     "key": "flashcards",
+     "path": "files/Jaimin_Year10_Spanish_Long_Flashcards.pdf",
+     "url": null,
+     "about": "21 topic cards, 4 per A4 sheet: key points, worked examples, watch outs, grade 9 tips. Pages 1 and 2 are instructions and the plan. Print pages 3 onwards double-sided, flip on the long edge."
+    },
+    {
+     "label": "Quick cards",
+     "key": "quick",
+     "path": "files/Jaimin_Year10_Spanish_Quick_Cards.pdf",
+     "url": null,
+     "about": "54 one-fact cards, 8 per A4 sheet: question on the front, answer and reason on the back, then key term cards. Print double-sided, flip on the long edge."
+    },
+    {
+     "label": "Revision guide",
+     "key": "guide",
+     "path": "files/Jaimin_Year10_Spanish_Revision_Guide.pdf",
+     "url": null,
+     "about": "Every topic in full, summary cards, exam technique, key terms table, written questions with space to answer, mark schemes at the back."
+    }
+   ]
   },
   {
    "student": "Jaimin",
